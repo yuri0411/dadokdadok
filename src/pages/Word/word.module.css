@@ -1,7 +1,56 @@
 .time {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background: #F7F7F7;
     height: 36px;
 }
-.wordCard {
 
+.bookmark {
+    position: absolute;
+    top: 0;
+    left: 16px;
+}
+.wordCard {
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(134, 134, 134, 0.2);
+}
+
+.content {
+    padding: 10px 0 60px;
+}
+.word {
+    margin: 80px 0 50px;
+}
+.toggleButton {
+    button {
+        width: 100px;
+        padding: 8px 0;
+        border-radius: 50px;
+        background: #F8F8F8;
+    }
+}
+.active {
+    border: 1px solid #FF9533;
+    background: white;
+    color: #FF9533;
+}
+
+.action {
+    height: 84px;
+    border-top: 1px solid #F0F0F0;
+    button {
+        &:first-child {
+            border-right: 1px solid #F0F0F0;
+        }
+        height: 100%;
+        box-sizing: border-box;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
 }

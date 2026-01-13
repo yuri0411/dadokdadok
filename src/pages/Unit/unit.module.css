@@ -1,0 +1,8 @@
+.wrapper {
+    padding: 28px 24px;
+}
+.unitCard {
+    flex: 0 0 calc(50% - 6px);
+    box-shadow: 0 2px 5px rgba(134, 134, 134, 0.2);
+    border-radius: 8px;
+}

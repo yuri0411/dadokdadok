@@ -4,6 +4,7 @@
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
 
+    --font-size-h3: 24px ;
     --font-size-h4: 20px ;
     --font-size-h5: 17px;
     --font-size-h6: 15px;
@@ -12,6 +13,10 @@
     --font-size-overline: 13px;
 }
 
+.typography-h3 {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-h3);
+}
 .typography-h4 {
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-h4);

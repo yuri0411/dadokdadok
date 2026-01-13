@@ -1,6 +1,7 @@
 import { Stack, Typography } from "@/components";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "@/routes/paths.ts";
+import styles from "./home.module.css";
 
 const LEVELS = [5, 4, 3, 2, 1];
 
@@ -11,44 +12,56 @@ const HomePage = () => {
     navigate(`${PATHS.UNIT}/${level}`);
   };
   return (
-    <main>
+    <Stack as="main" gap={24} className={styles.wrapper}>
       <section>
-        <Typography as="h3">누적 {} 학습중!</Typography>
-        <Typography as="h3">꾸준함이 힘이에요.</Typography>
-        <div>
-          <Typography as="h5">이전 학습 위치에서 계속할까요?</Typography>
-          <Typography as="p">N5 DAY 1</Typography>
+        <Typography as="h2" variant="h2">
+          누적&nbsp;
+          <Typography as="span" variant="h2">
+            1시간 20분
+          </Typography>
+          &nbsp; 학습중!
+          <br />
+          꾸준함이 힘이에요.
+        </Typography>
+        <div className={styles.continue}>
+          <Typography as="h6" variant="h6">
+            이전 학습 위치에서 계속할까요?
+          </Typography>
+          <Typography as="p" variant="body" color="secondary">
+            N5 DAY 1
+          </Typography>
         </div>
       </section>
-      <section>
-        <h3>JLPT</h3>
+      <Stack as="section" gap={8}>
+        <Typography as="h4" variant="h4">
+          JLPT
+        </Typography>
         <Stack as="div" gap={10}>
           {LEVELS.map((level) => (
             <ListItem level={level} onclick={handleClick} />
           ))}
         </Stack>
-      </section>
-    </main>
+      </Stack>
+    </Stack>
   );
 };
 
 const ListItem = ({ level, onclick }: { level: number; onclick: (level: number) => void }) => {
   return (
-    <div
-      onClick={() => onclick(level)}
-      style={{
-        boxShadow: "0 2px 5px rgba(134, 134, 134, 0.2)",
-        borderRadius: 8,
-        padding: "12px 16px",
-      }}
-    >
-      <div>
+    <div className={styles.listItem} onClick={() => onclick(level)}>
+      <Stack direction="horizontal" justify="space-between">
         <div>
-          <Typography as="h4">N{level}</Typography>
-          <Typography as="p">누적 학습 시간: 1시간 23분</Typography>
+          <Typography as="h4" variant="h5">
+            N{level}
+          </Typography>
+          <Typography as="p" variant="body" color="secondary">
+            누적 학습 시간: 1시간 23분
+          </Typography>
         </div>
-        <Typography as="span">학습중</Typography>
-      </div>
+        <Typography as="span" variant="overline">
+          학습중
+        </Typography>
+      </Stack>
       <div>progress bar</div>
     </div>
   );
