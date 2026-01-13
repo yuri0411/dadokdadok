@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import ContentLayout from "@/layouts/ContentLayout.tsx";
 
 const RootLayout = () => {
   return (
@@ -10,9 +10,9 @@ const RootLayout = () => {
         justifyContent: "center",
       }}
     >
-      <div style={{ width: "43rem", padding: 20 }}></div>
-      <div style={{ width: "43rem", padding: 20 }}>
-        <Outlet />
+      <div style={{ width: "43rem", padding: 20 }}>wrapper</div>
+      <div style={{ width: "43rem", height: "100%", overflowY: "scroll" }}>
+        <ContentLayout />
       </div>
     </div>
   );

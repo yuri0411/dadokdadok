@@ -1,5 +1,5 @@
 import RootLayout from "../layouts/RootLayout.tsx";
-import { createBrowserRouter, type RouteObject } from "react-router-dom";
+import { createBrowserRouter, Navigate, type RouteObject } from "react-router-dom";
 import { PATHS } from "./paths.ts";
 import { lazy, type ReactNode, Suspense } from "react";
 
@@ -17,6 +17,10 @@ const routes: RouteObject[] = [
     children: [
       {
         path: PATHS.ROOT,
+        element: <Navigate to={PATHS.HOME} replace />,
+      },
+      {
+        path: PATHS.HOME,
         element: (
           <Lazy>
             <Home />
@@ -24,7 +28,7 @@ const routes: RouteObject[] = [
         ),
       },
       {
-        path: PATHS.UNIT,
+        path: `${PATHS.UNIT}/:level`,
         element: (
           <Lazy>
             <Unit />
@@ -32,7 +36,7 @@ const routes: RouteObject[] = [
         ),
       },
       {
-        path: PATHS.WORD,
+        path: `${PATHS.WORD}/:unit`,
         element: (
           <Lazy>
             <Word />
