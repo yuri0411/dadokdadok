@@ -1,0 +1,38 @@
+:root {
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    --font-size-h4: 20px ;
+    --font-size-h5: 17px;
+    --font-size-h6: 15px;
+    --font-size-body: 15px;
+    --font-size-caption: 13px;
+    --font-size-overline: 13px;
+}
+
+.typography-h4 {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-h4);
+}
+.typography-h5 {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-h5);
+}
+.typography-h6 {
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-h6);
+}
+.typography-body {
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body);
+}
+.typography-caption {
+     font-weight: var(--font-weight-medium);
+     font-size: var(--font-size-caption);
+ }
+.typography-overline {
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-overline);
+}
