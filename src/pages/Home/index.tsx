@@ -2,11 +2,14 @@ import { Stack, Typography } from "@/components";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "@/routes/paths.ts";
 import styles from "./home.module.css";
+import { useTimerStore } from "@/store/useTimerStore.ts";
+import { formatTime } from "@/utils";
 
 const LEVELS = [5, 4, 3, 2, 1];
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const totalSeconds = useTimerStore((state) => state.totalSeconds);
 
   const handleClick = (level: number) => {
     navigate(`${PATHS.UNIT}/${level}`);
@@ -17,7 +20,7 @@ const HomePage = () => {
         <Typography as="h2" variant="h2">
           누적&nbsp;
           <Typography as="span" variant="h2">
-            1시간 20분
+            {formatTime(totalSeconds)}
           </Typography>
           &nbsp; 학습중!
           <br />
