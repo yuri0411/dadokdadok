@@ -23,18 +23,23 @@
 .word {
     margin: 80px 0 50px;
 }
+.none {
+    visibility: hidden;
+}
+
 .toggleButton {
     button {
         width: 100px;
         padding: 8px 0;
         border-radius: 50px;
         background: #F8F8F8;
+        color: #999999;
     }
 }
 .active {
-    border: 1px solid #FF9533;
-    background: white;
-    color: #FF9533;
+    outline: 1px solid #FF9533;
+    background: white !important;
+    color: #FF9533 !important;
 }
 
 .action {
