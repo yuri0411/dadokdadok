@@ -1,0 +1,8 @@
+.tag {
+    padding: 2px 8px;
+    border-radius: 50px;
+    vertical-align: text-bottom;
+    color: white;
+    background: #FF9533;
+    font-size: 12px;
+}
