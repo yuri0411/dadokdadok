@@ -18,6 +18,8 @@ export const sizes = {
 } as const;
 
 export const typography = {
+  headline: "typography-headline",
+  h2: "typography-h2",
   h3: "typography-h3",
   h4: "typography-h4",
   h5: "typography-h5",

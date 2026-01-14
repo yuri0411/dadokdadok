@@ -4,13 +4,25 @@
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
 
-    --font-size-h3: 24px ;
+    --font-size-headline: 64px;
+    --font-size-h2: 24px ;
+    --font-size-h3: 22px ;
     --font-size-h4: 20px ;
-    --font-size-h5: 17px;
-    --font-size-h6: 15px;
-    --font-size-body: 15px;
-    --font-size-caption: 13px;
-    --font-size-overline: 13px;
+    --font-size-h5: 18px;
+    --font-size-h6: 16px;
+    --font-size-body: 14px;
+    --font-size-caption: 12px;
+    --font-size-overline: 12px;
+}
+
+.typography-headline {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-headline);
+}
+
+.typography-h2 {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-h2);
 }
 
 .typography-h3 {
