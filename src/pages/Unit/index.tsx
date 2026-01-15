@@ -7,15 +7,17 @@ import { FaAngleRight } from "react-icons/fa6";
 import { Tag } from "@components/Tag/Tag.tsx";
 import { useUnitsPerLevelQuery } from "@/services/unit/queries.ts";
 import { useMemo } from "react";
+import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
 
 const UnitPage = () => {
   const { level } = useParams();
   const navigate = useNavigate();
+  const wordProgressMap = useWordProgressStore((state) => state.wordProgressMap);
 
   const { data } = useUnitsPerLevelQuery(level!, 50);
 
   const handleClick = (unit: number) => {
-    navigate(`${PATHS.WORD}/${unit}`);
+    navigate(`${PATHS.WORD}/${unit}`, { state: { level } });
   };
 
   const units = useMemo(() => {
@@ -38,7 +40,13 @@ const UnitPage = () => {
       <main className={styles.wrapper}>
         <Stack direction="horizontal" gap={12} wrap="wrap">
           {units.map((wordCount, index) => (
-            <UnitCard key={index} wordCount={wordCount} unit={index + 1} onClick={handleClick} />
+            <UnitCard
+              key={index}
+              wordProgressMap={wordProgressMap?.[level!]?.[index + 1]?.learnedWords.length ?? 0}
+              wordCount={wordCount}
+              unit={index + 1}
+              onClick={handleClick}
+            />
           ))}
         </Stack>
       </main>
@@ -47,10 +55,12 @@ const UnitPage = () => {
 };
 
 const UnitCard = ({
+  wordProgressMap,
   wordCount,
   unit,
   onClick,
 }: {
+  wordProgressMap: number;
   wordCount: number;
   unit: number;
   onClick: (unit: number) => void;
@@ -65,7 +75,7 @@ const UnitCard = ({
       </Stack>
       <Stack direction="horizontal" justify="space-between" align="center">
         <Typography as="p" variant="body" color="secondary">
-          {0} / {wordCount}
+          {wordProgressMap} / {wordCount}
         </Typography>
         <Tag label="1 회독" />
       </Stack>

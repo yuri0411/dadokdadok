@@ -6,12 +6,14 @@ import { useTimerStore } from "@/store/useTimerStore.ts";
 import { formatTime } from "@/utils";
 import { ProgressBar } from "@components/ProgressBar/ProgressBar.tsx";
 import { useTotalByLevelQuery } from "@/services/home/queries.ts";
+import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
 
 const LEVELS = [5, 4, 3, 2, 1];
 
 const HomePage = () => {
   const navigate = useNavigate();
   const totalSeconds = useTimerStore((state) => state.totalSeconds);
+  const getLearnedWordsByLevel = useWordProgressStore((state) => state.getLearnedWordsByLevel);
 
   const { data } = useTotalByLevelQuery();
   const handleClick = (level: number) => {
@@ -55,7 +57,13 @@ const HomePage = () => {
         <Stack as="div" gap={10}>
           {data &&
             LEVELS.map((level) => (
-              <ListItem key={level} total={data[level]} level={level} onclick={handleClick} />
+              <ListItem
+                key={level}
+                current={getLearnedWordsByLevel()[level] ?? 0}
+                total={data[level]}
+                level={level}
+                onclick={handleClick}
+              />
             ))}
         </Stack>
       </Stack>
@@ -65,10 +73,12 @@ const HomePage = () => {
 
 const ListItem = ({
   level,
+  current,
   total,
   onclick,
 }: {
   level: number;
+  current: number;
   total: number;
   onclick: (level: number) => void;
 }) => {
@@ -87,7 +97,7 @@ const ListItem = ({
           학습중
         </Typography>
       </Stack>
-      <ProgressBar value={60} max={total} />
+      <ProgressBar value={current} max={total} />
     </div>
   );
 };
