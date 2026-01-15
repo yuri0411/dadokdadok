@@ -15,6 +15,8 @@ const WordPage = () => {
   const setSeconds = useTimerStore((state) => state.setSeconds);
   const { seconds, time } = useTimer();
 
+  const { data = [] } = useWordsPerUnitQuery(location.state.level, LIMIT, Number(unit));
+
   const [showModal, setShowModal] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showFurigana, setShowFurigana] = useState(false);
@@ -52,17 +54,17 @@ const WordPage = () => {
                   style={{ fontSize: 24 }}
                   className={cls({ [styles.none]: !showFurigana })}
                 >
-                  けわしい
+                  {data[currentCount]?.furigana}
                 </Typography>
                 <Typography as="p" variant="headline" style={{ marginTop: "-20px" }}>
-                  険しい
+                  {data[currentCount]?.word}
                 </Typography>
                 <Typography
                   as="p"
                   style={{ fontSize: 24 }}
                   className={cls({ [styles.none]: !showKorean })}
                 >
-                  험하다
+                  {data[currentCount]?.meaning_ko}
                 </Typography>
               </Stack>
               <Stack
