@@ -4,6 +4,14 @@ import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://jlpt-voca-server.vercel.app",
+        changeOrigin: true,
+      },
+    },
+  },
   plugins: [react()],
   optimizeDeps: {
     include: ["react", "react-dom"],
