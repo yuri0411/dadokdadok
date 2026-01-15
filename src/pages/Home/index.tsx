@@ -4,6 +4,7 @@ import { PATHS } from "@/routes/paths.ts";
 import styles from "./home.module.css";
 import { useTimerStore } from "@/store/useTimerStore.ts";
 import { formatTime } from "@/utils";
+import { ProgressBar } from "@components/ProgressBar/ProgressBar.tsx";
 
 const LEVELS = [5, 4, 3, 2, 1];
 
@@ -17,15 +18,24 @@ const HomePage = () => {
   return (
     <Stack as="main" gap={24} className={styles.wrapper}>
       <section>
-        <Typography as="h2" variant="h2">
-          누적&nbsp;
-          <Typography as="span" variant="h2">
-            {formatTime(totalSeconds)}
+        {totalSeconds === 0 ? (
+          <Typography as="h2" variant="h2">
+            아직 학습 기록이 없어요.
+            <br />
+            오늘부터 함께 쌓아가요!
           </Typography>
-          &nbsp; 학습중!
-          <br />
-          꾸준함이 힘이에요.
-        </Typography>
+        ) : (
+          <Typography as="h2" variant="h2">
+            누적&nbsp;
+            <Typography as="span" variant="h2">
+              {formatTime(totalSeconds)}
+            </Typography>
+            &nbsp; 학습중!
+            <br />
+            꾸준함이 힘이에요.
+          </Typography>
+        )}
+
         <div className={styles.continue}>
           <Typography as="h6" variant="h6">
             이전 학습 위치에서 계속할까요?
@@ -65,7 +75,7 @@ const ListItem = ({ level, onclick }: { level: number; onclick: (level: number) 
           학습중
         </Typography>
       </Stack>
-      <div>progress bar</div>
+      <ProgressBar value={60} max={100} />
     </div>
   );
 };
