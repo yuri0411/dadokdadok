@@ -5,6 +5,7 @@ import styles from "./home.module.css";
 import { useTimerStore } from "@/store/useTimerStore.ts";
 import { formatTime } from "@/utils";
 import { ProgressBar } from "@components/ProgressBar/ProgressBar.tsx";
+import { useTotalByLevelQuery } from "@/services/home/queries.ts";
 
 const LEVELS = [5, 4, 3, 2, 1];
 
@@ -12,9 +13,11 @@ const HomePage = () => {
   const navigate = useNavigate();
   const totalSeconds = useTimerStore((state) => state.totalSeconds);
 
+  const { data } = useTotalByLevelQuery();
   const handleClick = (level: number) => {
     navigate(`${PATHS.UNIT}/${level}`);
   };
+
   return (
     <Stack as="main" gap={24} className={styles.wrapper}>
       <section>
@@ -50,16 +53,25 @@ const HomePage = () => {
           JLPT
         </Typography>
         <Stack as="div" gap={10}>
-          {LEVELS.map((level) => (
-            <ListItem level={level} onclick={handleClick} />
-          ))}
+          {data &&
+            LEVELS.map((level) => (
+              <ListItem key={level} total={data[level]} level={level} onclick={handleClick} />
+            ))}
         </Stack>
       </Stack>
     </Stack>
   );
 };
 
-const ListItem = ({ level, onclick }: { level: number; onclick: (level: number) => void }) => {
+const ListItem = ({
+  level,
+  total,
+  onclick,
+}: {
+  level: number;
+  total: number;
+  onclick: (level: number) => void;
+}) => {
   return (
     <div className={styles.listItem} onClick={() => onclick(level)}>
       <Stack direction="horizontal" justify="space-between">
@@ -75,7 +87,7 @@ const ListItem = ({ level, onclick }: { level: number; onclick: (level: number) 
           학습중
         </Typography>
       </Stack>
-      <ProgressBar value={60} max={100} />
+      <ProgressBar value={60} max={total} />
     </div>
   );
 };
