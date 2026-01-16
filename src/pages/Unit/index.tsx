@@ -32,8 +32,13 @@ const UnitPage = () => {
 
   return (
     <div>
-      <header>
-        <Typography as="a" onClick={() => navigate(PATHS.ROOT)}>
+      <header style={{ padding: "16px 20px" }}>
+        <Typography
+          as="a"
+          variant="h5"
+          onClick={() => navigate(PATHS.ROOT)}
+          style={{ display: "flex", alignItems: "center", gap: "8px" }}
+        >
           <BiArrowBack /> N{level}
         </Typography>
       </header>

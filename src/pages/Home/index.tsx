@@ -21,53 +21,60 @@ const HomePage = () => {
   };
 
   return (
-    <Stack as="main" gap={24} className={styles.wrapper}>
-      <section>
-        {totalSeconds === 0 ? (
-          <Typography as="h2" variant="h2">
-            아직 학습 기록이 없어요.
-            <br />
-            오늘부터 함께 쌓아가요!
-          </Typography>
-        ) : (
-          <Typography as="h2" variant="h2">
-            누적&nbsp;
-            <Typography as="span" variant="h2">
-              {formatTime(totalSeconds)}
-            </Typography>
-            &nbsp; 학습중!
-            <br />
-            꾸준함이 힘이에요.
-          </Typography>
-        )}
-
-        <div className={styles.continue}>
-          <Typography as="h6" variant="h6">
-            이전 학습 위치에서 계속할까요?
-          </Typography>
-          <Typography as="p" variant="body" color="secondary">
-            N5 DAY 1
-          </Typography>
-        </div>
-      </section>
-      <Stack as="section" gap={8}>
-        <Typography as="h4" variant="h4">
-          JLPT
+    <div>
+      <header style={{ padding: "16px 20px" }}>
+        <Typography as="h1" variant="h5">
+          다독다독
         </Typography>
-        <Stack as="div" gap={10}>
-          {data &&
-            LEVELS.map((level) => (
-              <ListItem
-                key={level}
-                current={getLearnedWordsByLevel()[level] ?? 0}
-                total={data[level]}
-                level={level}
-                onclick={handleClick}
-              />
-            ))}
+      </header>
+      <Stack as="main" gap={24} className={styles.wrapper}>
+        <section>
+          {totalSeconds === 0 ? (
+            <Typography as="h2" variant="h2">
+              아직 학습 기록이 없어요.
+              <br />
+              오늘부터 함께 쌓아가요!
+            </Typography>
+          ) : (
+            <Typography as="h2" variant="h2">
+              누적&nbsp;
+              <Typography as="span" variant="h2">
+                {formatTime(totalSeconds)}
+              </Typography>
+              &nbsp; 학습중!
+              <br />
+              꾸준함이 힘이에요.
+            </Typography>
+          )}
+
+          <div className={styles.continue}>
+            <Typography as="h6" variant="h6">
+              이전 학습 위치에서 계속할까요?
+            </Typography>
+            <Typography as="p" variant="body" color="secondary">
+              N5 DAY 1
+            </Typography>
+          </div>
+        </section>
+        <Stack as="section" gap={8}>
+          <Typography as="h4" variant="h4">
+            JLPT
+          </Typography>
+          <Stack as="div" gap={10}>
+            {data &&
+              LEVELS.map((level) => (
+                <ListItem
+                  key={level}
+                  current={getLearnedWordsByLevel()[level] ?? 0}
+                  total={data[level]}
+                  level={level}
+                  onclick={handleClick}
+                />
+              ))}
+          </Stack>
         </Stack>
       </Stack>
-    </Stack>
+    </div>
   );
 };
 

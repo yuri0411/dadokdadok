@@ -55,9 +55,16 @@ const WordPage = () => {
 
   return (
     <div>
-      <Typography as="a" onClick={() => setShowModal(true)}>
-        <BiArrowBack />
-      </Typography>
+      <header style={{ padding: "16px 20px" }}>
+        <Typography
+          as="a"
+          variant="h5"
+          onClick={() => setModalType("stop")}
+          style={{ display: "flex", alignItems: "center", gap: "8px" }}
+        >
+          <BiArrowBack /> N{level} Unit{unit}
+        </Typography>
+      </header>
       <main>
         <section className={styles.time}>
           <Typography as="p" variant="body" align="center">
