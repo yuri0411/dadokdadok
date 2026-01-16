@@ -21,24 +21,32 @@ const WordPage = () => {
   const level = location.state?.level;
 
   const setSeconds = useTimerStore((state) => state.setSeconds);
-  const setRepeatWord = useWordProgressStore((state) => state.setRepeatWord);
-  const setLearnedWord = useWordProgressStore((state) => state.setLearnedWord);
+  const setWordProgress = useWordProgressStore((state) => state.setWordProgress);
   const setWordProgressReset = useWordProgressStore((state) => state.setWordProgressReset);
-  const setRepeatWordsReset = useWordProgressStore((state) => state.setRepeatWordsReset);
   const getWordProgressByUnit = useWordProgressStore((state) => state.getWordProgressByUnit);
 
   const { repeatWords = [], learnedWords = [] } = getWordProgressByUnit(level, unit!);
 
   const { seconds, time } = useTimer();
+  const [repeatWordIds, setRepeatWordIds] = useState<number[]>(repeatWords);
+  const [learnedWordIds, setLearnedWordIds] = useState<number[]>(learnedWords);
 
   const { data = [], refetch } = useWordsPerUnitQuery(level, LIMIT, Number(unit));
-  const { data: randomWords = [], refetch: refetchRandomWords } = useRandomWordsQuery(repeatWords);
+  const { data: randomWords = [], refetch: refetchRandomWords } =
+    useRandomWordsQuery(repeatWordIds);
 
   const words = useMemo(() => {
-    return isEmpty(randomWords)
-      ? data.filter((word) => ![...learnedWords, ...repeatWords].includes(word.id))
-      : randomWords;
-  }, [data, learnedWords, repeatWords, randomWords]);
+    if (!isEmpty(repeatWords) && repeatWords.length + learnedWords.length >= LIMIT) {
+      return randomWords;
+    } else {
+      return data.filter(
+        (word) =>
+          ![...(learnedWords.length === LIMIT ? [] : learnedWords), ...repeatWords].includes(
+            word.id
+          )
+      );
+    }
+  }, [data, learnedWords, randomWords, repeatWords]);
 
   const [currentCount, setCurrentCount] = useState(0);
   const [modalType, setModalType] = useState<"stop" | "repeat" | "complete">();
@@ -50,6 +58,7 @@ const WordPage = () => {
     setSeconds(seconds);
     navigate(-1);
     setModalType(undefined);
+    setWordProgress({ learnedWordIds, repeatWordIds, level, unit: unit! });
     // TODO 회독 수 저장
     // 마지막 단원 저장
   };
@@ -58,25 +67,28 @@ const WordPage = () => {
     refetchRandomWords().then(() => {
       setModalType(undefined);
       setCurrentCount(0);
+      setWordProgress({ learnedWordIds, repeatWordIds, level, unit: unit! });
     });
   };
   const completeStudy = () => {
     refetch();
     setCurrentCount(0);
     setWordProgressReset(level, unit!);
+    setRepeatWordIds([]);
+    setLearnedWordIds([]);
     setModalType(undefined);
   };
 
   const goNext = () => {
     setShowFurigana(false);
     setShowKorean(false);
+
     if (currentCount < words.length - 1) {
       setCurrentCount((prevCount) => prevCount + 1);
       return;
     }
-    console.log("----");
     // TODO 타이머 일시 정지
-    if (isEmpty(repeatWords)) {
+    if (repeatWordIds.length === 1) {
       setModalType("complete");
     } else {
       setModalType("repeat");
@@ -152,7 +164,8 @@ const WordPage = () => {
             <Stack direction="horizontal" align="center" className={styles.action}>
               <button
                 onClick={() => {
-                  setRepeatWord(level, unit!, words[currentCount]?.id);
+                  setRepeatWordIds((ids) => [...new Set([...ids, words[currentCount].id])]);
+                  setLearnedWordIds((ids) => ids.filter((id) => id !== words[currentCount].id));
                   goNext();
                 }}
               >
@@ -161,7 +174,8 @@ const WordPage = () => {
               </button>
               <button
                 onClick={() => {
-                  setLearnedWord(level, unit!, words[currentCount]?.id);
+                  setRepeatWordIds((ids) => ids.filter((id) => id !== words[currentCount].id));
+                  setLearnedWordIds((ids) => [...new Set([...ids, words[currentCount].id])]);
                   goNext();
                 }}
               >
