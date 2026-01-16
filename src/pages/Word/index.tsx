@@ -3,29 +3,45 @@ import { FaBookmark, FaCheck } from "react-icons/fa";
 import { FaRepeat } from "react-icons/fa6";
 import styles from "./word.module.css";
 import { useTimer } from "@/hooks/useTimer.ts";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { cls } from "@/utils";
 import { useTimerStore } from "@/store/useTimerStore.ts";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
 import { BiArrowBack } from "react-icons/bi";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Modal } from "@components/Modal/Modal.tsx";
-import { useWordsPerUnitQuery } from "@/services/word/queries.ts";
+import { useRandomWordsQuery, useWordsPerUnitQuery } from "@/services/word/queries.ts";
+import { isEmpty } from "lodash-es";
 
-const LIMIT = 50;
+const LIMIT = 10;
 const WordPage = () => {
   const { unit } = useParams();
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
+  const level = location.state?.level;
+
   const setSeconds = useTimerStore((state) => state.setSeconds);
   const setRepeatWord = useWordProgressStore((state) => state.setRepeatWord);
   const setLearnedWord = useWordProgressStore((state) => state.setLearnedWord);
+  const setWordProgressReset = useWordProgressStore((state) => state.setWordProgressReset);
+  const setRepeatWordsReset = useWordProgressStore((state) => state.setRepeatWordsReset);
+  const getWordProgressByUnit = useWordProgressStore((state) => state.getWordProgressByUnit);
+
+  const { repeatWords = [], learnedWords = [] } = getWordProgressByUnit(level, unit!);
+
   const { seconds, time } = useTimer();
 
-  const { data = [] } = useWordsPerUnitQuery(location.state.level, LIMIT, Number(unit));
+  const { data = [], refetch } = useWordsPerUnitQuery(level, LIMIT, Number(unit));
+  const { data: randomWords = [], refetch: refetchRandomWords } = useRandomWordsQuery(repeatWords);
+
+  const words = useMemo(() => {
+    return isEmpty(randomWords)
+      ? data.filter((word) => ![...learnedWords, ...repeatWords].includes(word.id))
+      : randomWords;
+  }, [data, learnedWords, repeatWords, randomWords]);
 
   const [currentCount, setCurrentCount] = useState(0);
-  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState<"stop" | "repeat" | "complete">();
   const [isFavorite, setIsFavorite] = useState(false);
   const [showFurigana, setShowFurigana] = useState(false);
   const [showKorean, setShowKorean] = useState(false);
@@ -33,24 +49,38 @@ const WordPage = () => {
   const handleConfirm = () => {
     setSeconds(seconds);
     navigate(-1);
-    setShowModal(false);
+    setModalType(undefined);
+    // TODO 회독 수 저장
+    // 마지막 단원 저장
   };
 
-  const handleSaveReviewWords = (wordId: number) => {
-    if (currentCount >= LIMIT) return;
-    setRepeatWord(location.state.level, unit!, wordId);
-    setCurrentCount((prevCount) => prevCount + 1);
-
-    setShowFurigana(false);
-    setShowKorean(false);
+  const repeatStudy = () => {
+    refetchRandomWords().then(() => {
+      setModalType(undefined);
+      setCurrentCount(0);
+    });
   };
-  const handleSaveLearnedWords = (wordId: number) => {
-    if (currentCount >= LIMIT) return;
-    setLearnedWord(location.state.level, unit!, wordId);
-    setCurrentCount((prevCount) => prevCount + 1);
+  const completeStudy = () => {
+    refetch();
+    setCurrentCount(0);
+    setWordProgressReset(level, unit!);
+    setModalType(undefined);
+  };
 
+  const goNext = () => {
     setShowFurigana(false);
     setShowKorean(false);
+    if (currentCount < words.length - 1) {
+      setCurrentCount((prevCount) => prevCount + 1);
+      return;
+    }
+    console.log("----");
+    // TODO 타이머 일시 정지
+    if (isEmpty(repeatWords)) {
+      setModalType("complete");
+    } else {
+      setModalType("repeat");
+    }
   };
 
   return (
@@ -78,7 +108,7 @@ const WordPage = () => {
             </button>
             <div className={styles.content}>
               <Typography as="p" variant="overline" color="secondary" align="center">
-                {currentCount + 1} / {LIMIT}
+                {currentCount + 1} / {words.length}
               </Typography>
               <Stack gap={16} align="center" className={styles.word}>
                 <Typography
@@ -86,17 +116,17 @@ const WordPage = () => {
                   style={{ fontSize: 24 }}
                   className={cls({ [styles.none]: !showFurigana })}
                 >
-                  {data[currentCount]?.furigana}
+                  {words[currentCount]?.furigana}
                 </Typography>
                 <Typography as="p" variant="headline" style={{ marginTop: "-20px" }}>
-                  {data[currentCount]?.word}
+                  {words[currentCount]?.word}
                 </Typography>
                 <Typography
                   as="p"
                   style={{ fontSize: 24 }}
                   className={cls({ [styles.none]: !showKorean })}
                 >
-                  {data[currentCount]?.meaning_ko}
+                  {words[currentCount]?.meaning_ko}
                 </Typography>
               </Stack>
               <Stack
@@ -120,11 +150,21 @@ const WordPage = () => {
               </Stack>
             </div>
             <Stack direction="horizontal" align="center" className={styles.action}>
-              <button onClick={() => handleSaveReviewWords(data[currentCount]?.id)}>
+              <button
+                onClick={() => {
+                  setRepeatWord(level, unit!, words[currentCount]?.id);
+                  goNext();
+                }}
+              >
                 <FaRepeat />
                 다시볼래요
               </button>
-              <button onClick={() => handleSaveLearnedWords(data[currentCount]?.id)}>
+              <button
+                onClick={() => {
+                  setLearnedWord(level, unit!, words[currentCount]?.id);
+                  goNext();
+                }}
+              >
                 <FaCheck />
                 외웠어요
               </button>
@@ -132,14 +172,50 @@ const WordPage = () => {
           </div>
         </section>
       </main>
-      {showModal && (
+      {modalType === "stop" && (
         <Modal
           open={true}
           title="학습을 마치시겠어요?"
-          onClose={() => setShowModal(false)}
+          onClose={() => setModalType(undefined)}
           onConfirm={handleConfirm}
         >
           진행중인 학습 내용은 모두 저장됩니다.
+        </Modal>
+      )}
+      {modalType === "repeat" && (
+        <Modal
+          open={true}
+          title="다시 볼 단어들을 무작위 순서로 모아봤어요."
+          closeText="마무리하기"
+          onClose={handleConfirm}
+          onConfirm={repeatStudy}
+          confirmText="복습 시작"
+        >
+          하나씩 다시 외워볼까요?
+        </Modal>
+      )}
+      {modalType === "complete" && (
+        <Modal
+          open={true}
+          title="학습을 모두 마쳤어요!"
+          closeText="마무리하기"
+          onClose={handleConfirm}
+          onConfirm={completeStudy}
+          confirmText="한번 더 보기"
+        >
+          <Stack gap={12}>
+            <dl style={{ padding: "20px 36px", background: "#F8F8F8", borderRadius: 8 }}>
+              <dt>레벨</dt>
+              <dd>JLPT N{location.state.level}</dd>
+              <dt>회독 수</dt>
+              <dd>{} 회</dd>
+              <dt>학습 시간</dt>
+              <dd></dd>
+            </dl>
+            <Typography as="p">
+              기억이 더 오래 남도록 이번 장을 한 번 더 돌아보는 건 어떨까요?
+            </Typography>
+          </Stack>
         </Modal>
       )}
     </div>
