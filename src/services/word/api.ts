@@ -7,3 +7,6 @@ export const getWordsPerUnit = (level: string, limit: number, page: number) =>
     items: Word[];
     meta: UnitMeta;
   }>(`/jlpt-voca/search?level=${level}&limit=${limit}&page=${page}&onlyMeta=false`);
+
+export const getRandomWords = (ids: number[]) =>
+  api.get<Word[]>(`/jlpt-voca/random/ids?ids=${ids}`);
