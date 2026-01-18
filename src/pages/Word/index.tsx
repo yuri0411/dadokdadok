@@ -27,7 +27,7 @@ const WordPage = () => {
 
   const { repeatWords = [], learnedWords = [] } = getWordProgressByUnit(level, unit!);
 
-  const { seconds, time } = useTimer();
+  const { seconds, time, pause, resume } = useTimer();
   const [repeatWordIds, setRepeatWordIds] = useState<number[]>(repeatWords);
   const [learnedWordIds, setLearnedWordIds] = useState<number[]>(learnedWords);
 
@@ -68,6 +68,7 @@ const WordPage = () => {
       setModalType(undefined);
       setCurrentCount(0);
       setWordProgress({ learnedWordIds, repeatWordIds, level, unit: unit! });
+      resume();
     });
   };
   const completeStudy = () => {
@@ -77,6 +78,7 @@ const WordPage = () => {
     setRepeatWordIds([]);
     setLearnedWordIds([]);
     setModalType(undefined);
+    resume();
   };
 
   const goNext = () => {
@@ -87,8 +89,8 @@ const WordPage = () => {
       setCurrentCount((prevCount) => prevCount + 1);
       return;
     }
-    // TODO 타이머 일시 정지
-    if (repeatWordIds.length === 1) {
+    pause();
+    if (repeatWordIds.length <= 1) {
       setModalType("complete");
     } else {
       setModalType("repeat");
@@ -101,7 +103,10 @@ const WordPage = () => {
         <Typography
           as="a"
           variant="h5"
-          onClick={() => setModalType("stop")}
+          onClick={() => {
+            setModalType("stop");
+            pause();
+          }}
           style={{ display: "flex", alignItems: "center", gap: "8px" }}
         >
           <BiArrowBack /> N{level} Unit{unit}
@@ -190,7 +195,10 @@ const WordPage = () => {
         <Modal
           open={true}
           title="학습을 마치시겠어요?"
-          onClose={() => setModalType(undefined)}
+          onClose={() => {
+            setModalType(undefined);
+            resume();
+          }}
           onConfirm={handleConfirm}
         >
           진행중인 학습 내용은 모두 저장됩니다.
