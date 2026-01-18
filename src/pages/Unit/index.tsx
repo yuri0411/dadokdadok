@@ -87,7 +87,7 @@ const UnitCard = ({
             UNIT {unit}
           </Typography>
           {isLastStudy && (
-            <Typography as="span" variant="overline">
+            <Typography as="span" variant="overline" color="primary">
               마지막 학습
             </Typography>
           )}
@@ -95,7 +95,7 @@ const UnitCard = ({
         <FaAngleRight />
       </Stack>
       <Stack direction="horizontal" justify="space-between" align="center">
-        <Typography as="p" variant="body" color="secondary">
+        <Typography as="p" variant="body" color="tertiary">
           {wordProgressMap} / {wordCount}
         </Typography>
         {reviewCount > 0 && <Tag label={`${reviewCount} 회독`} />}

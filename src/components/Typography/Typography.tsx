@@ -2,22 +2,22 @@ import type { ComponentPropsWithRef, CSSProperties, ElementType, PropsWithChildr
 import { colors, typography } from "@/styles/theme";
 import { cls } from "@/utils";
 
-interface TypographyOwnProps<Element extends ElementType = "p"> {
+interface TypographyOwnProps<Element extends ElementType> {
   as?: Element;
   variant?: keyof typeof typography;
   align?: CSSProperties["textAlign"];
-  color?: "primary" | "secondary" | "tertiary";
+  color?: keyof typeof colors.text | string;
 }
 
 type TypographyProps<Element extends ElementType = "p"> = PropsWithChildren<
-  TypographyOwnProps<ElementType>
+  TypographyOwnProps<Element>
 > &
-  Omit<ComponentPropsWithRef<Element>, keyof TypographyOwnProps>;
+  Omit<ComponentPropsWithRef<Element>, keyof TypographyOwnProps<Element>>;
 
 export const Typography = <Element extends ElementType = "p">({
   as,
   variant = "body",
-  color = "primary",
+  color = "default",
   align = "left",
   style,
   className,
@@ -26,11 +26,18 @@ export const Typography = <Element extends ElementType = "p">({
 }: TypographyProps<Element>) => {
   const Component = as ?? "p";
   const mergedClass = cls(typography[variant], className);
+  const isTextColorKey = (color: string): color is keyof typeof colors.text => {
+    return color in colors.text;
+  };
 
   return (
     <Component
       className={mergedClass}
-      style={{ textAlign: align, color: colors.text[color], ...style }}
+      style={{
+        textAlign: align,
+        color: isTextColorKey(color) ? colors.text[color] : color,
+        ...style,
+      }}
       {...typographyProps}
     >
       {children}

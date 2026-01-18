@@ -1,10 +1,12 @@
 export const colors = {
   primary: "#00B894",
+  secondary: "#FF9533",
   white: "#ffffff",
   border: "#dee2e6",
   text: {
-    primary: "#333333",
-    secondary: "#666666",
+    default: "#333333",
+    primary: "#00B894",
+    secondary: "#FF9533",
     tertiary: "#868e96",
     disabled: "#999999",
   },

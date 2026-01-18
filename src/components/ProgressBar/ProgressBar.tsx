@@ -28,7 +28,7 @@ export const ProgressBar = ({ value, max }: ProgressBarProps) => {
           }}
         />
       </div>
-      <Typography as="span" variant="overline" color="secondary">
+      <Typography as="span" variant="overline" color="tertiary">
         {value} / {max}
       </Typography>
     </div>

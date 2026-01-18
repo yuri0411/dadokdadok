@@ -133,7 +133,7 @@ const WordPage = () => {
               <FaBookmark size={20} fill={isFavorite ? "#FF9533" : "#d0d0d0"} />
             </button>
             <div className={styles.content}>
-              <Typography as="p" variant="overline" color="secondary" align="center">
+              <Typography as="p" variant="overline" color="tertiary" align="center">
                 [ {words[currentCount]?.id} ]
               </Typography>
               <Stack gap={16} align="center" className={styles.word}>
@@ -144,7 +144,12 @@ const WordPage = () => {
                 >
                   {words[currentCount]?.furigana}
                 </Typography>
-                <Typography as="p" variant="headline" style={{ marginTop: "-20px" }}>
+                <Typography
+                  as="p"
+                  variant="headline"
+                  color="primary"
+                  style={{ marginTop: "-20px" }}
+                >
                   {words[currentCount]?.word}
                 </Typography>
                 <Typography

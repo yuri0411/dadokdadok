@@ -19,7 +19,7 @@ const HomePage = () => {
   const totalSecondsByLevel = useTimerStore((state) => state.totalSecondsByLevel);
   const lastStudy = useStudyStore((state) => state.lastStudy);
 
-  const [level, unit] = Object.entries(lastStudy)[0];
+  const [level, unit] = Object.entries(lastStudy)?.[0] ?? [];
 
   const { data } = useTotalByLevelQuery();
   const handleClick = (level: number) => {
@@ -29,7 +29,7 @@ const HomePage = () => {
   return (
     <div>
       <header style={{ padding: "16px 20px" }}>
-        <Typography as="h1" variant="h5">
+        <Typography as="h1" variant="h5" color="white">
           다독다독
         </Typography>
       </header>
@@ -44,7 +44,7 @@ const HomePage = () => {
           ) : (
             <Typography as="h2" variant="h2">
               누적&nbsp;
-              <Typography as="span" variant="h2">
+              <Typography as="span" variant="h2" color="secondary">
                 {formatTime(totalSeconds)}
               </Typography>
               &nbsp; 학습중!
@@ -61,7 +61,7 @@ const HomePage = () => {
               <Typography as="h6" variant="h6">
                 이전 학습 위치에서 계속할까요?
               </Typography>
-              <Typography as="p" variant="body" color="secondary">
+              <Typography as="p" variant="body" color="tertiary">
                 N{level} Unit {unit}
               </Typography>
             </button>
@@ -106,7 +106,7 @@ const ListItem = ({
   const getLearningStatus = () => {
     if (current === total) {
       return (
-        <Typography as="span" variant="overline" color="primary">
+        <Typography as="span" variant="overline">
           힉습완료
         </Typography>
       );
@@ -133,7 +133,7 @@ const ListItem = ({
             N{level}
           </Typography>
           {learningTime > 0 && (
-            <Typography as="p" variant="body" color="secondary">
+            <Typography as="p" variant="body" color="tertiary">
               누적 학습 시간: {formatTime(learningTime)}
             </Typography>
           )}
