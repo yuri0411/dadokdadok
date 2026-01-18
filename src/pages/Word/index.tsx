@@ -4,7 +4,7 @@ import { FaRepeat } from "react-icons/fa6";
 import styles from "./word.module.css";
 import { useTimer } from "@/hooks/useTimer.ts";
 import { useMemo, useState } from "react";
-import { cls } from "@/utils";
+import { cls, formatTime } from "@/utils";
 import { useTimerStore } from "@/store/useTimerStore.ts";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
 import { BiArrowBack } from "react-icons/bi";
@@ -12,6 +12,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Modal } from "@components/Modal/Modal.tsx";
 import { useRandomWordsQuery, useWordsPerUnitQuery } from "@/services/word/queries.ts";
 import { isEmpty } from "lodash-es";
+import { useStudyStore } from "@/store/useStudyStore.ts";
 
 const LIMIT = 10;
 const WordPage = () => {
@@ -24,6 +25,8 @@ const WordPage = () => {
   const setWordProgress = useWordProgressStore((state) => state.setWordProgress);
   const setWordProgressReset = useWordProgressStore((state) => state.setWordProgressReset);
   const getWordProgressByUnit = useWordProgressStore((state) => state.getWordProgressByUnit);
+  const setLastStudy = useStudyStore((state) => state.setLastStudy);
+  const setReviewCount = useStudyStore((state) => state.setReviewCount);
 
   const { repeatWords = [], learnedWords = [] } = getWordProgressByUnit(level, unit!);
 
@@ -36,6 +39,7 @@ const WordPage = () => {
     useRandomWordsQuery(repeatWordIds);
 
   const words = useMemo(() => {
+    // TODO 저장되지 않은 id 포함 해야함.
     if (!isEmpty(repeatWords) && repeatWords.length + learnedWords.length >= LIMIT) {
       return randomWords;
     } else {
@@ -55,12 +59,16 @@ const WordPage = () => {
   const [showKorean, setShowKorean] = useState(false);
 
   const handleConfirm = () => {
-    setSeconds(seconds);
+    setSeconds({
+      level,
+      unit: unit!,
+      seconds,
+    });
     navigate(-1);
     setModalType(undefined);
     setWordProgress({ learnedWordIds, repeatWordIds, level, unit: unit! });
     // TODO 회독 수 저장
-    // 마지막 단원 저장
+    setLastStudy(level, unit!);
   };
 
   const repeatStudy = () => {
@@ -92,6 +100,7 @@ const WordPage = () => {
     pause();
     if (repeatWordIds.length <= 1) {
       setModalType("complete");
+      setReviewCount(level, unit!);
     } else {
       setModalType("repeat");
     }
@@ -125,7 +134,7 @@ const WordPage = () => {
             </button>
             <div className={styles.content}>
               <Typography as="p" variant="overline" color="secondary" align="center">
-                {currentCount + 1} / {words.length}
+                [ {words[currentCount]?.id} ]
               </Typography>
               <Stack gap={16} align="center" className={styles.word}>
                 <Typography
@@ -232,7 +241,7 @@ const WordPage = () => {
               <dt>회독 수</dt>
               <dd>{} 회</dd>
               <dt>학습 시간</dt>
-              <dd></dd>
+              <dd>{formatTime(seconds)}</dd>
             </dl>
             <Typography as="p">
               기억이 더 오래 남도록 이번 장을 한 번 더 돌아보는 건 어떨까요?

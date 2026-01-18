@@ -8,11 +8,14 @@ import { Tag } from "@components/Tag/Tag.tsx";
 import { useUnitsPerLevelQuery } from "@/services/unit/queries.ts";
 import { useMemo } from "react";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
+import { useStudyStore } from "@/store/useStudyStore.ts";
 
 const UnitPage = () => {
   const { level } = useParams();
   const navigate = useNavigate();
   const wordProgressMap = useWordProgressStore((state) => state.wordProgressMap);
+  const lastStudy = useStudyStore((state) => state.lastStudy);
+  const reviewCountMap = useStudyStore((state) => state.reviewCountMap);
 
   const { data } = useUnitsPerLevelQuery(level!, 50);
 
@@ -48,6 +51,8 @@ const UnitPage = () => {
             <UnitCard
               key={index}
               wordProgressMap={wordProgressMap?.[level!]?.[index + 1]?.learnedWords.length ?? 0}
+              isLastStudy={Number(lastStudy?.[level!]) === index + 1}
+              reviewCount={reviewCountMap?.[level!]?.[index + 1] ?? 0}
               wordCount={wordCount}
               unit={index + 1}
               onClick={handleClick}
@@ -62,27 +67,38 @@ const UnitPage = () => {
 const UnitCard = ({
   wordProgressMap,
   wordCount,
+  reviewCount,
   unit,
+  isLastStudy,
   onClick,
 }: {
   wordProgressMap: number;
   wordCount: number;
+  reviewCount: number;
   unit: number;
+  isLastStudy: boolean;
   onClick: (unit: number) => void;
 }) => (
   <div className={styles.unitCard} onClick={() => onClick(unit)}>
     <Stack gap={50} style={{ padding: "12px 16px" }}>
-      <Stack direction="horizontal" justify="space-between" align="center">
-        <Typography as="h5" variant="h5">
-          UNIT {unit}
-        </Typography>
+      <Stack direction="horizontal" justify="space-between">
+        <Stack>
+          <Typography as="h5" variant="h5">
+            UNIT {unit}
+          </Typography>
+          {isLastStudy && (
+            <Typography as="span" variant="overline">
+              마지막 학습
+            </Typography>
+          )}
+        </Stack>
         <FaAngleRight />
       </Stack>
       <Stack direction="horizontal" justify="space-between" align="center">
         <Typography as="p" variant="body" color="secondary">
           {wordProgressMap} / {wordCount}
         </Typography>
-        <Tag label="1 회독" />
+        {reviewCount > 0 && <Tag label={`${reviewCount} 회독`} />}
       </Stack>
     </Stack>
   </div>

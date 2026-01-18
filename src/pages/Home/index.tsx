@@ -7,6 +7,8 @@ import { formatTime } from "@/utils";
 import { ProgressBar } from "@components/ProgressBar/ProgressBar.tsx";
 import { useTotalByLevelQuery } from "@/services/home/queries.ts";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
+import { isEmpty } from "lodash-es";
+import { useStudyStore } from "@/store/useStudyStore.ts";
 
 const LEVELS = [5, 4, 3, 2, 1];
 
@@ -14,6 +16,10 @@ const HomePage = () => {
   const navigate = useNavigate();
   const totalSeconds = useTimerStore((state) => state.totalSeconds);
   const getLearnedWordsByLevel = useWordProgressStore((state) => state.getLearnedWordsByLevel);
+  const totalSecondsByLevel = useTimerStore((state) => state.totalSecondsByLevel);
+  const lastStudy = useStudyStore((state) => state.lastStudy);
+
+  const [level, unit] = Object.entries(lastStudy)[0];
 
   const { data } = useTotalByLevelQuery();
   const handleClick = (level: number) => {
@@ -47,14 +53,19 @@ const HomePage = () => {
             </Typography>
           )}
 
-          <div className={styles.continue}>
-            <Typography as="h6" variant="h6">
-              이전 학습 위치에서 계속할까요?
-            </Typography>
-            <Typography as="p" variant="body" color="secondary">
-              N5 DAY 1
-            </Typography>
-          </div>
+          {!isEmpty(lastStudy) && (
+            <button
+              className={styles.continue}
+              onClick={() => navigate(`${PATHS.WORD}/${unit}`, { state: { level } })}
+            >
+              <Typography as="h6" variant="h6">
+                이전 학습 위치에서 계속할까요?
+              </Typography>
+              <Typography as="p" variant="body" color="secondary">
+                N{level} Unit {unit}
+              </Typography>
+            </button>
+          )}
         </section>
         <Stack as="section" gap={8}>
           <Typography as="h4" variant="h4">
@@ -67,6 +78,7 @@ const HomePage = () => {
                   key={level}
                   current={getLearnedWordsByLevel()[level] ?? 0}
                   total={data[level]}
+                  learningTime={totalSecondsByLevel?.[level] ?? 0}
                   level={level}
                   onclick={handleClick}
                 />
@@ -82,13 +94,37 @@ const ListItem = ({
   level,
   current,
   total,
+  learningTime,
   onclick,
 }: {
   level: number;
   current: number;
   total: number;
+  learningTime: number;
   onclick: (level: number) => void;
 }) => {
+  const getLearningStatus = () => {
+    if (current === total) {
+      return (
+        <Typography as="span" variant="overline" color="primary">
+          힉습완료
+        </Typography>
+      );
+    }
+    if (learningTime > 0) {
+      return (
+        <Typography as="span" variant="overline" color="primary">
+          학습중
+        </Typography>
+      );
+    } else {
+      return (
+        <Typography as="span" variant="overline" color="tertiary">
+          미학습
+        </Typography>
+      );
+    }
+  };
   return (
     <div className={styles.listItem} onClick={() => onclick(level)}>
       <Stack direction="horizontal" justify="space-between">
@@ -96,16 +132,17 @@ const ListItem = ({
           <Typography as="h4" variant="h5">
             N{level}
           </Typography>
-          <Typography as="p" variant="body" color="secondary">
-            누적 학습 시간: 1시간 23분
-          </Typography>
+          {learningTime > 0 && (
+            <Typography as="p" variant="body" color="secondary">
+              누적 학습 시간: {formatTime(learningTime)}
+            </Typography>
+          )}
         </div>
-        <Typography as="span" variant="overline">
-          학습중
-        </Typography>
+        {getLearningStatus()}
       </Stack>
       <ProgressBar value={current} max={total} />
     </div>
   );
 };
+
 export default HomePage;
