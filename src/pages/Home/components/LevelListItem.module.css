@@ -1,14 +1,4 @@
-.wrapper {
-    padding: 0 24px 24px;
 
-}
-.continue {
-    width: 100%;
-    margin-top: 28px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(134, 134, 134, 0.2);
-}
 
 .listItem {
     cursor: pointer;
