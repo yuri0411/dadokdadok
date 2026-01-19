@@ -1,73 +1,118 @@
-# React + TypeScript + Vite
+## 프로젝트 소개
+다독다독은 JLPT 시험을 준비하면서 단어를 효율적으로 반복 학습(회독) 할 수 있도록 만든 개인 프로젝트입니다.  
+서비스명인 다독다독은 **“많이 읽고, 여러 번 다시 본다”**는 학습 방향성을 담고 있습니다.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🔗 [개발 과정 자세히 보기](#)  
+🚀 [다독다독 바로가기](#)
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠 기술 스택
 
-## Expanding the ESLint configuration
+| 구분 | 기술 |
+|---|---|
+| Framework | React |
+| Language | TypeScript |
+| Data Fetching | React Query |
+| State Management | Zustand |
+| Styling | CSS Module |
+| Build Tool | Vite |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📂 폴더 구조
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+src
+├── components        # 공통 UI 컴포넌트
+├── pages             # 페이지 단위 컴포넌트
+├── services          # API, react-query 관련 로직
+├── store             # zustand 상태 관리
+├── hooks             # 커스텀 훅
+├── layouts           # 공통 레이아웃
+├── routes            # 라우터 설정 및 경로 관리
+├── utils             # 공통 유틸 함수
+├── styles            # 전역 스타일
+└── assets            # 이미지, 아이콘 리소스
+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⭐ 주요 기능
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 1️⃣ JLPT 레벨별 단어 제공
+- JLPT **N5 ~ N1** 전 레벨 지원
+- 레벨별 → 단원별(50개 단위) 구성으로 체계적인 학습 가능
+
+### 2️⃣ 회독 기반 단어 학습
+- 단어를 보고 알면 👉 **외웠어요**
+- 헷갈리면 👉 **다시 볼래요**
+- 단원 종료 후 **헷갈린 단어만 랜덤 순서로 복습**
+- 학습 흐름이 끊기지 않도록 자연스러운 회독 동선 제공
+
+### 3️⃣ 누적 학습 데이터 관리
+- 누적 학습 시간 자동 저장
+- 회독 수 기록
+- 레벨·단원별 학습 현황 관리
+- 학습 흐름을 한눈에 확인 가능
+
+### 4️⃣ 학습 동기부여 기능
+- 학습 완료 시 부드러운 응원 문구 제공
+- 꾸준한 학습을 돕는 긍정적인 피드백 경험
+
+---
+
+## 📚 학습 흐름은 이렇게 진행돼요
+
+1. 학습하고 싶은 **JLPT 레벨 선택 (N5 ~ N1)**
+2. **50개 단위로 구성된 단원 선택**
+3. 단어 카드를 간단히 분류
+    - 👉 알고 있는 단어: **오른쪽 (외웠어요)**
+    - 👉 헷갈리는 단어: **왼쪽 (다시 볼래요)**
+4. 단원 종료 후 **헷갈렸던 단어만 랜덤 복습**
+5. 모든 단어를 완료하면  
+   총 학습 시간, 회독 수, 단원 상태를 모달로 안내
+6. 학습 종료 시에도  
+   누적 기록과 응원 문구가 담긴 모달 제공
+
+> **전체 과정은 단순하지만 집중이 잘되는 회독 흐름**으로 구성되어 있습니다.
+
+---
+
+## 🎯 이런 학습 효과를 기대할 수 있어요
+
+✅ **반복 회독 기반의 확실한 암기**
+
+한번 보면 잊어버리기 쉬운 단어들을 반복 회독 구조로 자연스럽게 익히도록 도와줍니다.
+
+✅ **헷갈리는 단어 중심의 집중 복습**
+
+다독다독의 핵심은 오답 중심 복습 알고리즘입니다. 사용자가 헷갈렸던 단어들만 모아 다시 보여주기 때문에 짧은 시간에도 집중적으로 단어 실력을 올릴 수 있어요.
+
+✅ **누적 기록이 주는 꾸준함의 동기부여**
+
+학습 시간이 눈에 보이고, 각 단원에 진도가 누적되기 때문에 사용자가 스스로 성장하는 느낌을 경험할 수 있어요.
+
+✅ **실전 JLPT 시험 대비에 직접적인 도움**
+
+회독 기반 학습은 실제 시험에서 단어가 떠오르는 속도와 안정감을 높여 독해/문법/청해 전반의 점수 향상에 직접적인 도움이 됩니다.
+
+---
+
+## 🚧 곧 이런 기능이 추가될 예정이에요
+
+- [ ] 단어 랜덤 예문 제공
+- [ ] 단어 및 예문 사운드 지원
+- [ ] 단원 진행율 프로그레스바 제공
+- [ ] 북마크 지원
+
+---
+
+## 🙋‍♂️ 만든 사람
+
+- 개인 프로젝트
+- 기획 · 디자인 · 개발 전 과정 단독 진행
+
