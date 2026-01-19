@@ -10,7 +10,6 @@
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@utils/*": ["src/utils/*"],
-//      "@apis": ["src/apis/*"],
       "@styles": ["src/styles/*"],
     },
     "types": ["vitest", "node"]
