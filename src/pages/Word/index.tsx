@@ -122,7 +122,7 @@ const WordPage = () => {
           </Typography>
         </section>
         <section style={{ padding: 20 }}>
-          {words && (
+          {!isEmpty(words) && (
             <WordCard
               word={words[currentCount]}
               onRepeatClick={(wordId: number) => {
@@ -142,7 +142,7 @@ const WordPage = () => {
       <StudyModals
         modalType={modalType}
         level={level}
-        reviewCount={reviewCountMap[level][unit!]}
+        reviewCount={reviewCountMap?.[level]?.[unit!]}
         seconds={seconds}
         onCloseStop={closeModal}
         onExit={exitStudy}
