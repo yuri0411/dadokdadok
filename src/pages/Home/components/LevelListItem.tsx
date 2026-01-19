@@ -40,7 +40,6 @@ const LevelListItem = ({ level, current, total, learningTime, onClick }: LevelLi
     <div
       className={styles.listItem}
       onClick={() => {
-        console.log("---");
         onClick(level);
       }}
     >

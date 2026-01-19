@@ -1,0 +1,20 @@
+.learningInfo {
+    display: flex;
+    flex-wrap: wrap;
+    background: #F8F8F8;
+    border-radius: 8px;
+    padding: 20px 36px;
+}
+.learningInfo dt {
+    padding: 4px 0;
+    text-align: left;
+    font-weight: var(--font-weight-semibold);
+
+}
+.learningInfo dd {
+    padding: 4px 0;
+    text-align: right;
+}
+.learningInfo dt, .learningInfo dd {
+    width: 50%;
+}

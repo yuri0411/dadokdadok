@@ -29,7 +29,6 @@ const HomePage = () => {
     (level: number) => navigate(`${PATHS.UNIT}/${level}`),
     [navigate]
   );
-  console.log(lastStudy);
 
   return (
     <div>
