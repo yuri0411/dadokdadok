@@ -1,6 +1,8 @@
-import { Typography } from "@/components";
-import styles from "./ProgressBar.module.css";
 import { useEffect, useState } from "react";
+
+import { Typography } from "@/components";
+
+import styles from "./ProgressBar.module.css";
 
 interface ProgressBarProps {
   value: number;

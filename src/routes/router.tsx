@@ -1,8 +1,12 @@
-import RootLayout from "../layouts/RootLayout.tsx";
-import { createBrowserRouter, Navigate, type RouteObject } from "react-router-dom";
-import { PATHS } from "./paths.ts";
 import { lazy } from "react";
+
+import { createBrowserRouter, Navigate, type RouteObject } from "react-router-dom";
+
 import { Lazy } from "@/components";
+
+import RootLayout from "../layouts/RootLayout.tsx";
+
+import { PATHS } from "./paths.ts";
 
 const Home = lazy(() => import("../pages/Home"));
 const Unit = lazy(() => import("../pages/Unit"));

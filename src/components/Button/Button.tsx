@@ -4,9 +4,11 @@ import {
   type PropsWithChildren,
   type ReactNode,
 } from "react";
-import styles from "./Button.module.css";
+
+import { Typography } from "@/components";
 import { cls } from "@/utils";
-import { Typography } from "../Typography/Typography.tsx";
+
+import styles from "./Button.module.css";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   PropsWithChildren<{

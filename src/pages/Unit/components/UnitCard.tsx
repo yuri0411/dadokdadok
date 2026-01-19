@@ -1,6 +1,8 @@
-import { Stack, Typography, Tag } from "@/components";
-import styles from "./UnitCard.module.css";
 import { FaAngleRight } from "react-icons/fa6";
+
+import { Stack, Typography, Tag } from "@/components";
+
+import styles from "./UnitCard.module.css";
 
 interface UnitCardProps {
   learnedCount: number;

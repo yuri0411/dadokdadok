@@ -1,11 +1,14 @@
+import { useMemo, useCallback } from "react";
+
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
+
 import { Stack, Typography } from "@/components";
 import { PATHS } from "@/routes/paths.ts";
 import { useUnitsPerLevelQuery } from "@/services/unit/queries.ts";
-import { useMemo, useCallback } from "react";
-import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
 import { useStudyStore } from "@/store/useStudyStore.ts";
+import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
+
 import UnitCard from "./components/UnitCard.tsx";
 
 const UnitPage = () => {

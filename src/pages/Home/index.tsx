@@ -1,16 +1,19 @@
-import { Stack, Typography } from "@/components";
-import { useNavigate } from "react-router-dom";
-import { PATHS } from "@/routes/paths.ts";
-import styles from "./index.module.css";
-import { useTimerStore } from "@/store/useTimerStore.ts";
-import { formatTime } from "@/utils";
-import { useTotalByLevelQuery } from "@/services/home/queries.ts";
-import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
-import { isEmpty } from "lodash-es";
-import { useStudyStore } from "@/store/useStudyStore.ts";
-import { AiOutlinePushpin } from "react-icons/ai";
-import LevelListItem from "@/pages/Home/components/LevelListItem.tsx";
 import { useCallback } from "react";
+
+import { isEmpty } from "lodash-es";
+import { AiOutlinePushpin } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+
+import { Stack, Typography } from "@/components";
+import LevelListItem from "@/pages/Home/components/LevelListItem.tsx";
+import { PATHS } from "@/routes/paths.ts";
+import { useTotalByLevelQuery } from "@/services/home/queries.ts";
+import { useStudyStore } from "@/store/useStudyStore.ts";
+import { useTimerStore } from "@/store/useTimerStore.ts";
+import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
+import { formatTime } from "@/utils";
+
+import styles from "./index.module.css";
 
 const LEVELS = [5, 4, 3, 2, 1];
 

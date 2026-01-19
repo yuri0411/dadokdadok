@@ -1,4 +1,5 @@
 import { type ReactNode, Suspense } from "react";
+
 import { Stack } from "@/components";
 
 export const Lazy = ({ children }: { children: ReactNode }) => (

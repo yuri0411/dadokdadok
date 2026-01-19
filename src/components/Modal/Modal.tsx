@@ -1,7 +1,10 @@
-import { createPortal } from "react-dom";
 import type { HTMLAttributes, PropsWithChildren } from "react";
-import styles from "./Modal.module.css";
+
+import { createPortal } from "react-dom";
+
 import { Button, Typography } from "@/components";
+
+import styles from "./Modal.module.css";
 
 type ModalProps = HTMLAttributes<HTMLDivElement> &
   PropsWithChildren<{

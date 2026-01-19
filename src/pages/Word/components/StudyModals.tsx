@@ -1,5 +1,6 @@
 import { Stack, Typography, Modal } from "@/components";
 import { formatTime } from "@/utils";
+
 import styles from "./StudyModals.module.css";
 
 type ModalType = "stop" | "repeat" | "complete" | undefined;

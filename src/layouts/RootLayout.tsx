@@ -1,7 +1,8 @@
-import { Outlet } from "react-router-dom";
-import { Stack, Typography } from "@/components";
 import { FaGithub } from "react-icons/fa";
 import { LuExternalLink } from "react-icons/lu";
+import { Outlet } from "react-router-dom";
+
+import { Stack, Typography } from "@/components";
 
 const RootLayout = () => {
   return (

@@ -1,16 +1,19 @@
-import { Typography } from "@/components";
-import styles from "./index.module.css";
-import { useTimer } from "@/hooks/useTimer.ts";
 import { useMemo, useState } from "react";
-import { useTimerStore } from "@/store/useTimerStore.ts";
-import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
+
+import { isEmpty } from "lodash-es";
 import { BiArrowBack } from "react-icons/bi";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useRandomWordsQuery, useWordsPerUnitQuery } from "@/services/word/queries.ts";
-import { isEmpty } from "lodash-es";
-import WordCard from "./components/WordCard.tsx";
-import { useStudyStore } from "@/store/useStudyStore.ts";
+
+import { Typography } from "@/components";
+import { useTimer } from "@/hooks/useTimer.ts";
 import { StudyModals } from "@/pages/Word/components/StudyModals.tsx";
+import { useRandomWordsQuery, useWordsPerUnitQuery } from "@/services/word/queries.ts";
+import { useStudyStore } from "@/store/useStudyStore.ts";
+import { useTimerStore } from "@/store/useTimerStore.ts";
+import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
+
+import WordCard from "./components/WordCard.tsx";
+import styles from "./index.module.css";
 
 const LIMIT = 10;
 const WordPage = () => {

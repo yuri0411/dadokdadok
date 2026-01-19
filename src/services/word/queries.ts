@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { getRandomWords, getWordsPerUnit } from "@/services/word/api.ts";
 
 export const useWordsPerUnitQuery = (level: string, limit: number, page: number) =>

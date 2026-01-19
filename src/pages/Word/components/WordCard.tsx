@@ -1,10 +1,13 @@
-import { Stack, Typography } from "@/components";
+import { useState } from "react";
+
 import { FaCheck } from "react-icons/fa";
 import { FaRepeat } from "react-icons/fa6";
-import styles from "./WordCard.module.css";
-import { cls } from "@/utils";
+
+import { Stack, Typography } from "@/components";
 import type { Word } from "@/services/word/types.ts";
-import { useState } from "react";
+import { cls } from "@/utils";
+
+import styles from "./WordCard.module.css";
 
 interface WordCardProps {
   word: Word;

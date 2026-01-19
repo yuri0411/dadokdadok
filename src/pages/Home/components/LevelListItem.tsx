@@ -1,6 +1,7 @@
 import { Stack, Typography, ProgressBar } from "@/components";
-import styles from "./LevelListItem.module.css";
 import { formatTime } from "@/utils";
+
+import styles from "./LevelListItem.module.css";
 
 interface LevelListItemProps {
   level: number;

@@ -1,4 +1,5 @@
 import type { HTMLAttributes } from "react";
+
 import styles from "./Tag.module.css";
 
 export interface TagProps extends HTMLAttributes<HTMLSpanElement> {

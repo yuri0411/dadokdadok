@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { getTotalByLevel } from "@/services/home/api.ts";
 
 export const useTotalByLevelQuery = () =>
