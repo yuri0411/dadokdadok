@@ -1,5 +1,4 @@
-import { Stack, Typography } from "@/components";
-import { ProgressBar } from "@components/ProgressBar/ProgressBar.tsx";
+import { Stack, Typography, ProgressBar } from "@/components";
 import styles from "./LevelListItem.module.css";
 import { formatTime } from "@/utils";
 

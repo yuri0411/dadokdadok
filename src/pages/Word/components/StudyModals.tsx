@@ -1,5 +1,4 @@
-import { Modal } from "@components/Modal/Modal.tsx";
-import { Stack, Typography } from "@/components";
+import { Stack, Typography, Modal } from "@/components";
 import { formatTime } from "@/utils";
 import styles from "./StudyModals.module.css";
 
