@@ -27,6 +27,7 @@ export const typography = {
   h5: "typography-h5",
   h6: "typography-h6",
   body: "typography-body",
+  body2: "typography-body2",
   caption: "typography-caption",
   overline: "typography-overline",
 };

@@ -45,6 +45,10 @@
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body);
 }
+.typography-body2 {
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-h6);
+}
 .typography-caption {
      font-weight: var(--font-weight-medium);
      font-size: var(--font-size-caption);
