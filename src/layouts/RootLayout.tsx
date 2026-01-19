@@ -14,7 +14,7 @@ const RootLayout = () => {
         backgroundColor: "#00B894",
       }}
     >
-      <Stack justify="center" gap={30} style={{ width: "30rem", padding: 20, color: "white" }}>
+      <Stack justify="center" gap={30} style={{ width: "36rem", padding: 20, color: "white" }}>
         <Stack>
           <Typography as="h1" variant="h2" color="inherit">
             다독다독
@@ -24,12 +24,12 @@ const RootLayout = () => {
           </Typography>
         </Stack>
         <Stack>
-          <Typography as="p" variant="body" color="inherit">
+          <Typography as="p" variant="body2" color="inherit" style={{ wordBreak: "keep-all" }}>
             한 번 보면 금방 잊어버리던 단어들, 다독다독은 반복 회독을 통해 단어가 스며들듯
             익혀지도록 도와주는 JLPT 단어 학습 서비스입니다.
           </Typography>
           <br />
-          <Typography as="p" variant="body" color="inherit">
+          <Typography as="p" variant="body2" color="inherit" style={{ wordBreak: "keep-all" }}>
             헷갈리는 단어만 모아주는 효율적인 복습 구조와 누적 기록으로 확인할 수 있는 성장 흐름이
             당신의 꾸준함을 가볍지만 오래도록 이어줍니다.
           </Typography>
@@ -71,7 +71,15 @@ const RootLayout = () => {
           </Typography>
         </Stack>
       </Stack>
-      <div style={{ width: "30rem", height: "100%", overflowY: "scroll", background: "white" }}>
+      <div
+        style={{
+          width: "30rem",
+          height: "100%",
+          overflowY: "scroll",
+          background: "white",
+          boxShadow: "0 0 18px rgba(0,0,0,0.3)",
+        }}
+      >
         <div id="content-root" style={{ position: "relative", height: "100%" }}>
           <Outlet />
         </div>
