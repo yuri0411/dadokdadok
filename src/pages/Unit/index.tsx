@@ -2,13 +2,11 @@ import { BiArrowBack } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
 import { Stack, Typography } from "@/components";
 import { PATHS } from "@/routes/paths.ts";
-import styles from "./unit.module.css";
-import { FaAngleRight } from "react-icons/fa6";
-import { Tag } from "@components/Tag/Tag.tsx";
 import { useUnitsPerLevelQuery } from "@/services/unit/queries.ts";
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
 import { useStudyStore } from "@/store/useStudyStore.ts";
+import UnitCard from "./components/UnitCard.tsx";
 
 const UnitPage = () => {
   const { level } = useParams();
@@ -19,9 +17,12 @@ const UnitPage = () => {
 
   const { data } = useUnitsPerLevelQuery(level!, 50);
 
-  const handleClick = (unit: number) => {
-    navigate(`${PATHS.WORD}/${unit}`, { state: { level } });
-  };
+  const handleUnitNavigate = useCallback(
+    (unit: number) => {
+      navigate(`${PATHS.WORD}/${unit}`, { state: { level } });
+    },
+    [navigate, level]
+  );
 
   const units = useMemo(() => {
     if (!data) return [];
@@ -45,62 +46,28 @@ const UnitPage = () => {
           <BiArrowBack /> N{level}
         </Typography>
       </header>
-      <main className={styles.wrapper}>
+      <main style={{ padding: "0 24px 24px" }}>
         <Stack direction="horizontal" gap={12} wrap="wrap">
-          {units.map((wordCount, index) => (
-            <UnitCard
-              key={index}
-              wordProgressMap={wordProgressMap?.[level!]?.[index + 1]?.learnedWords.length ?? 0}
-              isLastStudy={Number(lastStudy?.[level!]) === index + 1}
-              reviewCount={reviewCountMap?.[level!]?.[index + 1] ?? 0}
-              wordCount={wordCount}
-              unit={index + 1}
-              onClick={handleClick}
-            />
-          ))}
+          {units.map((wordCount, index) => {
+            const unitNumber = index + 1;
+            const learnedCount = wordProgressMap?.[level!]?.[unitNumber]?.learnedWords.length ?? 0;
+
+            return (
+              <UnitCard
+                key={unitNumber}
+                learnedCount={learnedCount}
+                isLastStudy={Number(lastStudy?.[level!]) === unitNumber}
+                reviewCount={reviewCountMap?.[level!]?.[unitNumber] ?? 0}
+                wordCount={wordCount}
+                unit={unitNumber}
+                onClick={handleUnitNavigate}
+              />
+            );
+          })}
         </Stack>
       </main>
     </div>
   );
 };
 
-const UnitCard = ({
-  wordProgressMap,
-  wordCount,
-  reviewCount,
-  unit,
-  isLastStudy,
-  onClick,
-}: {
-  wordProgressMap: number;
-  wordCount: number;
-  reviewCount: number;
-  unit: number;
-  isLastStudy: boolean;
-  onClick: (unit: number) => void;
-}) => (
-  <div className={styles.unitCard} onClick={() => onClick(unit)}>
-    <Stack gap={50} style={{ padding: "12px 16px" }}>
-      <Stack direction="horizontal" justify="space-between">
-        <Stack>
-          <Typography as="h5" variant="h5">
-            UNIT {unit}
-          </Typography>
-          {isLastStudy && (
-            <Typography as="span" variant="overline" color="primary">
-              마지막 학습
-            </Typography>
-          )}
-        </Stack>
-        <FaAngleRight />
-      </Stack>
-      <Stack direction="horizontal" justify="space-between" align="center">
-        <Typography as="p" variant="body" color="tertiary">
-          {wordProgressMap} / {wordCount}
-        </Typography>
-        {reviewCount > 0 && <Tag label={`${reviewCount} 회독`} />}
-      </Stack>
-    </Stack>
-  </div>
-);
 export default UnitPage;
