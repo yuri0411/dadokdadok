@@ -1,6 +1,7 @@
 export { Button } from "./Button/Button";
 export { Lazy } from "./Lazy/Lazy";
 export { Modal } from "./Modal/Modal";
+export { FeedbackModal } from "./Modal/FeedbackModal";
 export { ProgressBar } from "./ProgressBar/ProgressBar";
 export { Stack } from "./Stack/Stack";
 export { Tag } from "./Tag/Tag";
