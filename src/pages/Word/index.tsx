@@ -58,7 +58,6 @@ const WordPage = () => {
   const openGlobalModal = useModalStore((s) => s.openModal);
 
   const words = useMemo(() => {
-    // TODO 저장되지 않은 id 포함 해야함.
     if (!isEmpty(repeatWords) && repeatWords.length + learnedWords.length >= LIMIT) {
       return randomWords;
     } else {

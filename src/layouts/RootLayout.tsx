@@ -101,7 +101,7 @@ export const RootLayout = () => {
                 <dt>레벨</dt>
                 <dd>JLPT N{payload?.level}</dd>
                 <dt>회독 수</dt>
-                <dd>{payload?.reviewCount}회</dd>
+                <dd>{payload?.reviewCount || 0}회</dd>
                 <dt>학습 시간</dt>
                 <dd>{formatTime(payload?.seconds ?? 0)}</dd>
               </dl>
