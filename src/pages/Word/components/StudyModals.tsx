@@ -66,7 +66,7 @@ export const StudyModals = ({
           <dt>학습 시간</dt>
           <dd>{formatTime(seconds)}</dd>
         </dl>
-        <Typography as="p">
+        <Typography as="p" align="center">
           기억이 더 오래 남도록 이번 장을 한 번 더 돌아보는 건 어떨까요?
         </Typography>
       </Stack>

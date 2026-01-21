@@ -8,6 +8,7 @@ import { Typography } from "@/components";
 import { useTimer } from "@/hooks/useTimer.ts";
 import { StudyModals } from "@/pages/Word/components/StudyModals.tsx";
 import { useRandomWordsQuery, useWordsPerUnitQuery } from "@/services/word/queries.ts";
+import { useModalStore } from "@/store/useModalStore.ts";
 import { useStudyStore } from "@/store/useStudyStore.ts";
 import { useTimerStore } from "@/store/useTimerStore.ts";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
@@ -19,6 +20,7 @@ const LIMIT = 10;
 const WordPage = () => {
   const { unit } = useParams();
   const navigate = useNavigate();
+
   const location = useLocation();
   const level = location.state?.level;
 
@@ -44,6 +46,8 @@ const WordPage = () => {
   const [currentCount, setCurrentCount] = useState(0);
   const [modalType, setModalType] = useState<"stop" | "repeat" | "complete">();
 
+  const openGlobalModal = useModalStore((s) => s.openModal);
+
   const words = useMemo(() => {
     // TODO 저장되지 않은 id 포함 해야함.
     if (!isEmpty(repeatWords) && repeatWords.length + learnedWords.length >= LIMIT) {
@@ -64,6 +68,9 @@ const WordPage = () => {
     setModalType(undefined);
     setWordProgress({ learnedWordIds, repeatWordIds, level, unit: unit! });
     setLastStudy(level, unit!);
+    if (modalType !== "complete") {
+      openGlobalModal({ level, reviewCount: reviewCountMap?.[level]?.[unit!], seconds });
+    }
   };
 
   const closeModal = () => {

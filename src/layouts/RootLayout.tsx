@@ -1,10 +1,16 @@
 import { FaGithub } from "react-icons/fa";
-import { LuExternalLink } from "react-icons/lu";
 import { Outlet } from "react-router-dom";
 
-import { Stack, Typography } from "@/components";
+import { FeedbackModal, Stack, Typography } from "@/components";
+import styles from "@/pages/Word/components/StudyModals.module.css";
+import { useModalStore } from "@/store/useModalStore.ts";
+import { formatTime } from "@/utils";
 
-const RootLayout = () => {
+export const RootLayout = () => {
+  const open = useModalStore((state) => state.open);
+  const close = useModalStore((state) => state.close);
+  const payload = useModalStore((state) => state.payload);
+
   return (
     <div
       style={{
@@ -36,6 +42,7 @@ const RootLayout = () => {
           </Typography>
         </Stack>
         <Stack direction="horizontal" gap={8}>
+          {/* TODO
           <Typography
             as="a"
             target="_blank"
@@ -52,7 +59,7 @@ const RootLayout = () => {
           >
             <LuExternalLink />
             개발 과정 자세히 보기
-          </Typography>
+          </Typography>*/}
           <Typography
             as="a"
             variant="body"
@@ -83,10 +90,25 @@ const RootLayout = () => {
       >
         <div id="content-root" style={{ position: "relative", height: "100%" }}>
           <Outlet />
+          <FeedbackModal open={open} onClose={close} title="수고했어요!">
+            <Stack gap={12}>
+              <dl className={styles.learningInfo}>
+                <dt>레벨</dt>
+                <dd>JLPT N{payload?.level}</dd>
+                <dt>회독 수</dt>
+                <dd>{payload?.reviewCount}회</dd>
+                <dt>학습 시간</dt>
+                <dd>{formatTime(payload?.seconds ?? 0)}</dd>
+              </dl>
+              <Typography as="p" align="center">
+                지금의 노력이 내일의 실력이 됩니다.
+                <br />
+                오늘 배운 단어들이 점점 익숙해질 거예요.
+              </Typography>
+            </Stack>
+          </FeedbackModal>
         </div>
       </div>
     </div>
   );
 };
-
-export default RootLayout;

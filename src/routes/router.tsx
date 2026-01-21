@@ -4,7 +4,7 @@ import { createBrowserRouter, Navigate, type RouteObject } from "react-router-do
 
 import { Lazy } from "@/components";
 
-import RootLayout from "../layouts/RootLayout.tsx";
+import { RootLayout } from "../layouts/RootLayout.tsx";
 
 import { PATHS } from "./paths.ts";
 

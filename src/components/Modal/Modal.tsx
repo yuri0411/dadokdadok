@@ -1,4 +1,4 @@
-import type { HTMLAttributes, PropsWithChildren } from "react";
+import { type HTMLAttributes, type PropsWithChildren } from "react";
 
 import { createPortal } from "react-dom";
 
