@@ -2,7 +2,7 @@
 다독다독은 JLPT 시험을 준비하면서 단어를 효율적으로 반복 학습(회독) 할 수 있도록 만든 개인 프로젝트입니다.  
 서비스명인 다독다독은 **많이 읽고, 여러 번 다시 본다**는 학습 방향성을 담고 있습니다.
 
-🔗 [개발 과정 자세히 보기](https://yuri-archive.notion.site/JlPT-2b13058aa1588089b52fe169bf0c3969)  
+🔗 [피그마 시안](https://www.figma.com/proto/L0PwHRDDplDfcGNqUDkiOK/%EB%8B%A4%EB%8F%85%EB%8B%A4%EB%8F%85-%EA%B0%80%EC%A0%9C-?node-id=1-3&t=Q5Co44dQTiI0xhkK-1&starting-point-node-id=1%3A3)  
 🚀 [다독다독 바로가기](https://dadokdadok.vercel.app/home)
 
 
