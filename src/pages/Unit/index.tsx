@@ -2,6 +2,7 @@ import { useMemo, useCallback } from "react";
 
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
+import { useShallow } from "zustand/react/shallow";
 
 import { Stack, Typography } from "@/components";
 import { PATHS } from "@/routes/paths.ts";
@@ -15,8 +16,12 @@ const UnitPage = () => {
   const { level } = useParams();
   const navigate = useNavigate();
   const wordProgressMap = useWordProgressStore((state) => state.wordProgressMap);
-  const lastStudy = useStudyStore((state) => state.lastStudy);
-  const reviewCountMap = useStudyStore((state) => state.reviewCountMap);
+  const { lastStudy, reviewCountMap } = useStudyStore(
+    useShallow((state) => ({
+      lastStudy: state.lastStudy,
+      reviewCountMap: state.reviewCountMap,
+    }))
+  );
 
   const { data } = useUnitsPerLevelQuery(level!, 50);
 

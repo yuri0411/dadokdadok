@@ -1,5 +1,6 @@
 import { FaGithub } from "react-icons/fa";
 import { Outlet } from "react-router-dom";
+import { useShallow } from "zustand/react/shallow";
 
 import { FeedbackModal, Stack, Typography } from "@/components";
 import styles from "@/pages/Word/components/StudyModals.module.css";
@@ -7,9 +8,13 @@ import { useModalStore } from "@/store/useModalStore.ts";
 import { formatTime } from "@/utils";
 
 export const RootLayout = () => {
-  const open = useModalStore((state) => state.open);
-  const close = useModalStore((state) => state.close);
-  const payload = useModalStore((state) => state.payload);
+  const { open, close, payload } = useModalStore(
+    useShallow((state) => ({
+      open: state.open,
+      close: state.close,
+      payload: state.payload,
+    }))
+  );
 
   return (
     <div

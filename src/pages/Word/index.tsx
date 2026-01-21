@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { isEmpty } from "lodash-es";
 import { BiArrowBack } from "react-icons/bi";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useShallow } from "zustand/react/shallow";
 
 import { Typography } from "@/components";
 import { useTimer } from "@/hooks/useTimer.ts";
@@ -25,12 +26,20 @@ const WordPage = () => {
   const level = location.state?.level;
 
   const setSeconds = useTimerStore((state) => state.setSeconds);
-  const setWordProgress = useWordProgressStore((state) => state.setWordProgress);
-  const setWordProgressReset = useWordProgressStore((state) => state.setWordProgressReset);
-  const getWordProgressByUnit = useWordProgressStore((state) => state.getWordProgressByUnit);
-  const setLastStudy = useStudyStore((state) => state.setLastStudy);
-  const setReviewCount = useStudyStore((state) => state.setReviewCount);
-  const reviewCountMap = useStudyStore((state) => state.reviewCountMap);
+  const { setWordProgress, setWordProgressReset, getWordProgressByUnit } = useWordProgressStore(
+    useShallow((state) => ({
+      setWordProgress: state.setWordProgress,
+      setWordProgressReset: state.setWordProgressReset,
+      getWordProgressByUnit: state.getWordProgressByUnit,
+    }))
+  );
+  const { setLastStudy, setReviewCount, reviewCountMap } = useStudyStore(
+    useShallow((state) => ({
+      setLastStudy: state.setLastStudy,
+      setReviewCount: state.setReviewCount,
+      reviewCountMap: state.reviewCountMap,
+    }))
+  );
 
   const { repeatWords = [], learnedWords = [] } = getWordProgressByUnit(level, unit!);
 

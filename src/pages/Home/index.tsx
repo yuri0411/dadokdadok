@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { isEmpty } from "lodash-es";
 import { AiOutlinePushpin } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { useShallow } from "zustand/react/shallow";
 
 import { Stack, Typography } from "@/components";
 import LevelListItem from "@/pages/Home/components/LevelListItem.tsx";
@@ -19,9 +20,14 @@ const LEVELS = [5, 4, 3, 2, 1];
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const totalSeconds = useTimerStore((state) => state.totalSeconds);
+  const { totalSeconds, totalSecondsByLevel } = useTimerStore(
+    useShallow((state) => ({
+      totalSeconds: state.totalSeconds,
+      totalSecondsByLevel: state.totalSecondsByLevel,
+    }))
+  );
+
   const getLearnedWordsByLevel = useWordProgressStore((state) => state.getLearnedWordsByLevel);
-  const totalSecondsByLevel = useTimerStore((state) => state.totalSecondsByLevel);
   const lastStudy = useStudyStore((state) => state.lastStudy);
 
   const [level, unit] = Object.entries(lastStudy ?? {})[0] ?? [];
