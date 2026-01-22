@@ -4,7 +4,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
-import { Stack, Typography } from "@/components";
+import { CircularLoader, Stack, Typography } from "@/components";
 import { LIMIT } from "@/constants";
 import { PATHS } from "@/routes/paths.ts";
 import { useUnitsPerLevelQuery } from "@/services/unit/queries.ts";
@@ -24,7 +24,7 @@ const UnitPage = () => {
     }))
   );
 
-  const { data } = useUnitsPerLevelQuery(level!, LIMIT);
+  const { data, isPending } = useUnitsPerLevelQuery(level!, LIMIT);
 
   const handleUnitNavigate = useCallback(
     (unit: number) => {
@@ -56,6 +56,7 @@ const UnitPage = () => {
         </Typography>
       </header>
       <main style={{ padding: "0 24px 24px" }}>
+        {isPending && <CircularLoader />}
         <Stack direction="horizontal" gap={12} wrap="wrap">
           {units.map((wordCount, index) => {
             const unitNumber = index + 1;

@@ -13,6 +13,7 @@ import { useStudyStore } from "@/store/useStudyStore.ts";
 import { useTimerStore } from "@/store/useTimerStore.ts";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
 import { formatTime } from "@/utils";
+import { CircularLoader } from "@components/CircularLoader/CircularLoader.tsx";
 
 import styles from "./index.module.css";
 
@@ -46,6 +47,7 @@ const HomePage = () => {
           다독다독
         </Typography>
       </header>
+
       <Stack as="main" gap={24} className={styles.wrapper}>
         <section>
           {totalSeconds === 0 && (
@@ -89,7 +91,7 @@ const HomePage = () => {
             JLPT
           </Typography>
           <Stack as="div" gap={10}>
-            {totalByLevel &&
+            {totalByLevel ? (
               LEVELS.map((level) => (
                 <LevelListItem
                   key={level}
@@ -99,7 +101,10 @@ const HomePage = () => {
                   level={level}
                   onClick={handleLevelNavigate}
                 />
-              ))}
+              ))
+            ) : (
+              <CircularLoader />
+            )}
           </Stack>
         </Stack>
       </Stack>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { FaRepeat } from "react-icons/fa6";
 
-import { Stack, Typography } from "@/components";
+import { CircularLoader, Stack, Typography } from "@/components";
 import type { Word } from "@/services/word/types.ts";
 import { cls } from "@/utils";
 
@@ -11,11 +11,12 @@ import styles from "./WordCard.module.css";
 
 interface WordCardProps {
   word: Word;
+  isLoading: boolean;
   onRepeatClick: (wordId: number) => void;
   onLearnedClick: (wordId: number) => void;
 }
 
-const WordCard = ({ word, onRepeatClick, onLearnedClick }: WordCardProps) => {
+const WordCard = ({ word, isLoading, onRepeatClick, onLearnedClick }: WordCardProps) => {
   const [showFurigana, setShowFurigana] = useState(false);
   const [showKorean, setShowKorean] = useState(false);
 
@@ -23,6 +24,8 @@ const WordCard = ({ word, onRepeatClick, onLearnedClick }: WordCardProps) => {
     setShowFurigana(false);
     setShowKorean(false);
   };
+
+  if (isLoading) return <CircularLoader />;
   return (
     <div className={styles.wordCard}>
       {/* TODO 기능 구체화 후 구현 예정
@@ -52,6 +55,7 @@ const WordCard = ({ word, onRepeatClick, onLearnedClick }: WordCardProps) => {
             {word?.meaning_ko}
           </Typography>
         </Stack>
+
         <Stack gap={8} direction="horizontal" justify="center" className={styles.toggleButton}>
           <button
             onClick={() => setShowFurigana((prevState) => !prevState)}

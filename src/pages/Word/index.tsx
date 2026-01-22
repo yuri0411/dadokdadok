@@ -49,9 +49,12 @@ const WordPage = () => {
   const [repeatWordIds, setRepeatWordIds] = useState<number[]>(repeatWords);
   const [learnedWordIds, setLearnedWordIds] = useState<number[]>(learnedWords);
 
-  const { data = [], refetch } = useWordsPerUnitQuery(level, LIMIT, Number(unit));
-  const { data: randomWords = [], refetch: refetchRandomWords } =
-    useRandomWordsQuery(repeatWordIds);
+  const { data = [], isPending, refetch } = useWordsPerUnitQuery(level, LIMIT, Number(unit));
+  const {
+    data: randomWords = [],
+    isPending: isPendingRandomWords,
+    refetch: refetchRandomWords,
+  } = useRandomWordsQuery(repeatWordIds);
 
   const [currentCount, setCurrentCount] = useState(0);
   const [modalType, setModalType] = useState<"stop" | "repeat" | "complete">();
@@ -119,6 +122,7 @@ const WordPage = () => {
     }
   };
 
+  console.log(words); // TODO TEMP 디버깅용
   return (
     <div>
       <header style={{ padding: "16px 20px" }}>
@@ -141,21 +145,20 @@ const WordPage = () => {
           </Typography>
         </section>
         <section style={{ padding: 20 }}>
-          {!isEmpty(words) && (
-            <WordCard
-              word={words[currentCount]}
-              onRepeatClick={(wordId: number) => {
-                setRepeatWordIds((ids) => [...new Set([...ids, wordId])]);
-                setLearnedWordIds((ids) => ids.filter((id) => id !== wordId));
-                goNext();
-              }}
-              onLearnedClick={(wordId: number) => {
-                setRepeatWordIds((ids) => ids.filter((id) => id !== wordId));
-                setLearnedWordIds((ids) => [...new Set([...ids, wordId])]);
-                goNext();
-              }}
-            />
-          )}
+          <WordCard
+            word={words[currentCount]}
+            isLoading={isPending || isPendingRandomWords}
+            onRepeatClick={(wordId: number) => {
+              setRepeatWordIds((ids) => [...new Set([...ids, wordId])]);
+              setLearnedWordIds((ids) => ids.filter((id) => id !== wordId));
+              goNext();
+            }}
+            onLearnedClick={(wordId: number) => {
+              setRepeatWordIds((ids) => ids.filter((id) => id !== wordId));
+              setLearnedWordIds((ids) => [...new Set([...ids, wordId])]);
+              goNext();
+            }}
+          />
         </section>
       </main>
       <StudyModals
