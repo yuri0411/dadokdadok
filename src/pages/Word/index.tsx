@@ -6,6 +6,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
 import { Typography } from "@/components";
+import { LIMIT } from "@/constants";
 import { useTimer } from "@/hooks/useTimer.ts";
 import { StudyModals } from "@/pages/Word/components/StudyModals.tsx";
 import { useRandomWordsQuery, useWordsPerUnitQuery } from "@/services/word/queries.ts";
@@ -16,8 +17,6 @@ import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
 
 import WordCard from "./components/WordCard.tsx";
 import styles from "./index.module.css";
-
-import { LIMIT } from "@/constants";
 
 const WordPage = () => {
   const { unit } = useParams();
