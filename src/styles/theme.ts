@@ -10,7 +10,7 @@ export const colors = {
     tertiary: "#868e96",
     disabled: "#999999",
   },
-};
+} as const;
 
 export const sizes = {
   sm: "31px",
