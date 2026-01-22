@@ -17,7 +17,8 @@ import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
 import WordCard from "./components/WordCard.tsx";
 import styles from "./index.module.css";
 
-const LIMIT = 10;
+import { LIMIT } from "@/constants";
+
 const WordPage = () => {
   const { unit } = useParams();
   const navigate = useNavigate();

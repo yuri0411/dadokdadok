@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
 import { Stack, Typography } from "@/components";
+import { LIMIT } from "@/constants";
 import { PATHS } from "@/routes/paths.ts";
 import { useUnitsPerLevelQuery } from "@/services/unit/queries.ts";
 import { useStudyStore } from "@/store/useStudyStore.ts";
@@ -23,7 +24,7 @@ const UnitPage = () => {
     }))
   );
 
-  const { data } = useUnitsPerLevelQuery(level!, 50);
+  const { data } = useUnitsPerLevelQuery(level!, LIMIT);
 
   const handleUnitNavigate = useCallback(
     (unit: number) => {
