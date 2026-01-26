@@ -33,7 +33,7 @@ const HomePage = () => {
 
   const [level, unit] = Object.entries(lastStudy ?? {})[0] ?? [];
 
-  const { data: totalByLevel } = useTotalByLevelQuery();
+  const { data: totalByLevel = {}, isLoading } = useTotalByLevelQuery();
 
   const handleLevelNavigate = useCallback(
     (level: number) => navigate(`${PATHS.UNIT}/${level}`),
@@ -91,7 +91,7 @@ const HomePage = () => {
             JLPT
           </Typography>
           <Stack as="div" gap={10}>
-            {totalByLevel ? (
+            {!isLoading ? (
               LEVELS.map((level) => (
                 <LevelListItem
                   key={level}

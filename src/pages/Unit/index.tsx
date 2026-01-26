@@ -29,7 +29,7 @@ const UnitPageInner = ({ level }: { level: string }) => {
     }))
   );
 
-  const { data, isPending } = useUnitsPerLevelQuery(level, LIMIT);
+  const { data, isLoading } = useUnitsPerLevelQuery(level, LIMIT);
 
   const handleUnitNavigate = useCallback(
     (unit: number) => {
@@ -61,7 +61,7 @@ const UnitPageInner = ({ level }: { level: string }) => {
         </Typography>
       </header>
       <main style={{ padding: "0 24px 24px" }}>
-        {isPending && <CircularLoader />}
+        {isLoading && <CircularLoader />}
         <Stack direction="horizontal" gap={12} wrap="wrap">
           {units.map((wordCount, index) => {
             const unitNumber = index + 1;
