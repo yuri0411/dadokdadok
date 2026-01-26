@@ -145,6 +145,7 @@ const WordPage = () => {
         </section>
         <section style={{ padding: 20 }}>
           <WordCard
+            level={level}
             word={words[currentCount]}
             isLoading={isPending || isPendingRandomWords}
             onRepeatClick={(wordId: number) => {
