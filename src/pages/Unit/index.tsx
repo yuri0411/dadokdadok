@@ -1,7 +1,7 @@
 import { useMemo, useCallback } from "react";
 
 import { BiArrowBack } from "react-icons/bi";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
 import { CircularLoader, Stack, Typography } from "@/components";
@@ -15,6 +15,11 @@ import UnitCard from "./components/UnitCard.tsx";
 
 const UnitPage = () => {
   const { level } = useParams();
+
+  if (!level) return <Navigate to="/" replace />;
+  return <UnitPageInner level={level} />;
+};
+const UnitPageInner = ({ level }: { level: string }) => {
   const navigate = useNavigate();
   const wordProgressMap = useWordProgressStore((state) => state.wordProgressMap);
   const { lastStudy, reviewCountMap } = useStudyStore(
@@ -24,7 +29,7 @@ const UnitPage = () => {
     }))
   );
 
-  const { data, isPending } = useUnitsPerLevelQuery(level!, LIMIT);
+  const { data, isPending } = useUnitsPerLevelQuery(level, LIMIT);
 
   const handleUnitNavigate = useCallback(
     (unit: number) => {
@@ -60,14 +65,14 @@ const UnitPage = () => {
         <Stack direction="horizontal" gap={12} wrap="wrap">
           {units.map((wordCount, index) => {
             const unitNumber = index + 1;
-            const learnedCount = wordProgressMap?.[level!]?.[unitNumber]?.learnedWords.length ?? 0;
+            const learnedCount = wordProgressMap?.[level]?.[unitNumber]?.learnedWords.length ?? 0;
 
             return (
               <UnitCard
                 key={unitNumber}
                 learnedCount={learnedCount}
-                isLastStudy={Number(lastStudy?.[level!]) === unitNumber}
-                reviewCount={reviewCountMap?.[level!]?.[unitNumber] ?? 0}
+                isLastStudy={Number(lastStudy?.[level]) === unitNumber}
+                reviewCount={reviewCountMap?.[level]?.[unitNumber] ?? 0}
                 wordCount={wordCount}
                 unit={unitNumber}
                 onClick={handleUnitNavigate}

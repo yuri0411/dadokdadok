@@ -29,12 +29,20 @@ const routes: RouteObject[] = [
         ),
       },
       {
+        path: PATHS.UNIT,
+        element: <Navigate to={PATHS.ROOT} replace />,
+      },
+      {
         path: `${PATHS.UNIT}/:level`,
         element: (
           <Lazy>
             <Unit />
           </Lazy>
         ),
+      },
+      {
+        path: PATHS.WORD,
+        element: <Navigate to={PATHS.ROOT} replace />,
       },
       {
         path: `${PATHS.WORD}/:unit`,

@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 
 import { isEmpty } from "lodash-es";
 import { BiArrowBack } from "react-icons/bi";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
 import { Typography } from "@/components";
@@ -20,10 +20,16 @@ import styles from "./index.module.css";
 
 const WordPage = () => {
   const { unit } = useParams();
-  const navigate = useNavigate();
 
   const location = useLocation();
   const level = location.state?.level;
+
+  if (!unit || level == null) return <Navigate to="/" replace />;
+
+  return <WordPageInner unit={unit} level={level} />;
+};
+const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
+  const navigate = useNavigate();
 
   const setSeconds = useTimerStore((state) => state.setSeconds);
   const { setWordProgress, setWordProgressReset, getWordProgressByUnit } = useWordProgressStore(
@@ -41,7 +47,7 @@ const WordPage = () => {
     }))
   );
 
-  const { repeatWords = [], learnedWords = [] } = getWordProgressByUnit(level, unit!);
+  const { repeatWords = [], learnedWords = [] } = getWordProgressByUnit(level, unit);
 
   const { seconds, time, pause: pauseTimer, resume: resumeTimer } = useTimer();
 
@@ -74,13 +80,13 @@ const WordPage = () => {
   }, [data, learnedWords, randomWords, repeatWords]);
 
   const exitStudy = () => {
-    setSeconds({ level, unit: unit!, seconds });
+    setSeconds({ level, unit, seconds });
     navigate(-1);
     setModalType(undefined);
-    setWordProgress({ learnedWordIds, repeatWordIds, level, unit: unit! });
-    setLastStudy(level, unit!);
+    setWordProgress({ learnedWordIds, repeatWordIds, level, unit });
+    setLastStudy(level, unit);
     if (modalType !== "complete") {
-      openGlobalModal({ level, reviewCount: reviewCountMap?.[level]?.[unit!], seconds });
+      openGlobalModal({ level, reviewCount: reviewCountMap?.[level]?.[unit], seconds });
     }
   };
 
@@ -92,7 +98,7 @@ const WordPage = () => {
   const repeatStudy = () => {
     refetchRandomWords().then(() => {
       setCurrentCount(0);
-      setWordProgress({ learnedWordIds, repeatWordIds, level, unit: unit! });
+      setWordProgress({ learnedWordIds, repeatWordIds, level, unit });
       closeModal();
     });
   };
@@ -100,7 +106,7 @@ const WordPage = () => {
   const completeStudy = () => {
     refetch().then(() => {
       setCurrentCount(0);
-      setWordProgressReset(level, unit!);
+      setWordProgressReset(level, unit);
       setRepeatWordIds([]);
       setLearnedWordIds([]);
       closeModal();
@@ -115,7 +121,7 @@ const WordPage = () => {
     pauseTimer();
     if (repeatWordIds.length <= 1) {
       setModalType("complete");
-      setReviewCount(level, unit!);
+      setReviewCount(level, unit);
     } else {
       setModalType("repeat");
     }
@@ -164,7 +170,7 @@ const WordPage = () => {
       <StudyModals
         modalType={modalType}
         level={level}
-        reviewCount={reviewCountMap?.[level]?.[unit!]}
+        reviewCount={reviewCountMap?.[level]?.[unit]}
         seconds={seconds}
         onCloseStop={closeModal}
         onExit={exitStudy}

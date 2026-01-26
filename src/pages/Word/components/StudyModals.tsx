@@ -6,7 +6,7 @@ import styles from "./StudyModals.module.css";
 type ModalType = "stop" | "repeat" | "complete" | undefined;
 interface StudyModalsProps {
   modalType: ModalType;
-  level: number;
+  level: string;
   reviewCount: number;
   seconds: number;
   onCloseStop: () => void;
