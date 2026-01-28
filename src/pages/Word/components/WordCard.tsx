@@ -10,14 +10,20 @@ import { cls } from "@/utils";
 import styles from "./WordCard.module.css";
 
 interface WordCardProps {
-  level: string;
+  // level: string;
   word: Word;
   isLoading: boolean;
   onRepeatClick: (wordId: number) => void;
   onLearnedClick: (wordId: number) => void;
 }
 
-const WordCard = ({ level, word, isLoading, onRepeatClick, onLearnedClick }: WordCardProps) => {
+const WordCard = ({
+  // level,
+  word,
+  isLoading,
+  onRepeatClick,
+  onLearnedClick,
+}: WordCardProps) => {
   // TODO 기획 구체화되면 구현
   // const toggleBookmark = useWordBookmarkStore(useShallow((state) => state.toggleBookmark));
   // const isBookmarked = useWordBookmarkStore((state) => state.isBookmarked(level, word?.id));
