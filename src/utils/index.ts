@@ -1,14 +1,14 @@
-export function cls(...args: any[]) {
+export function cls(...args: Array<string | undefined | false | null | Record<string, boolean>>) {
   return args
-    .flatMap((arg) =>
-      typeof arg === "string"
-        ? arg
-        : typeof arg === "object" && arg !== null
-          ? Object.entries(arg)
-              .filter(([_, value]) => Boolean(value))
-              .map(([key]) => key)
-          : []
-    )
+    .flatMap((arg) => {
+      if (typeof arg === "string") return arg;
+      if (arg !== null && typeof arg === "object") {
+        return Object.entries(arg)
+          .filter(([, value]) => Boolean(value))
+          .map(([key]) => key);
+      }
+      return [];
+    })
     .join(" ");
 }
 
