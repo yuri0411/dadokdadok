@@ -1,24 +1,34 @@
 import { type HTMLAttributes } from "react";
 
 import { cls } from "@/utils";
-import { colors } from "@styles/theme.ts";
+import { colors } from "@styles/theme";
 
 import styles from "./CircularLoader.module.css";
 
+import type { Color, Size } from "@styles/type";
+
+const circularLoaderSizes: { [key in Size]: number } = {
+  sm: 30,
+  md: 40,
+  lg: 50,
+  xl: 60,
+};
+
 export type CircularLoaderProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
-  color?: Extract<keyof typeof colors, "primary" | "secondary">;
-  size?: number;
+  color?: Extract<Color, "primary" | "secondary">;
+  size?: Size;
   strokeWidth?: number;
 };
 
 export const CircularLoader = ({
   color = "primary",
-  size = 40,
+  size = "md",
   strokeWidth = 4,
   className,
   ...circularLoaderProps
 }: CircularLoaderProps) => {
-  const radius = (size - strokeWidth) / 2;
+  const loaderSize = circularLoaderSizes[size];
+  const radius = (loaderSize - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
 
   return (
@@ -26,24 +36,24 @@ export const CircularLoader = ({
       <div
         className={cls(styles.container, className)}
         style={{
-          width: `${size}px`,
-          height: `${size}px`,
+          width: `${loaderSize}px`,
+          height: `${loaderSize}px`,
         }}
         role="status"
         {...circularLoaderProps}
       >
         <svg
           className={styles.svg}
-          width={size}
-          height={size}
-          viewBox={`0 0 ${size} ${size}`}
+          width={loaderSize}
+          height={loaderSize}
+          viewBox={`0 0 ${loaderSize} ${loaderSize}`}
           aria-hidden="true"
           color={colors[color]}
         >
           <circle
             className={styles.circle}
-            cx={size / 2}
-            cy={size / 2}
+            cx={loaderSize / 2}
+            cy={loaderSize / 2}
             r={radius}
             strokeWidth={strokeWidth}
             strokeDasharray={circumference}

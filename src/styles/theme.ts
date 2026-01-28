@@ -1,3 +1,5 @@
+import type { Size, Typography } from "@styles/type.ts";
+
 export const colors = {
   primary: "#00B894",
   secondary: "#FF9533",
@@ -12,14 +14,14 @@ export const colors = {
   },
 } as const;
 
-export const sizes = {
+export const sizes: { [key in Size]: string } = {
   sm: "31px",
   md: "34px",
   lg: "48px",
   xl: "52px",
-} as const;
+};
 
-export const typography = {
+export const typography: { [key in Typography]: string } = {
   headline: "typography-headline",
   h2: "typography-h2",
   h3: "typography-h3",

@@ -10,11 +10,13 @@ import { cls } from "@/utils";
 
 import styles from "./Button.module.css";
 
+import type { Color, Size, Variant } from "@styles/type";
+
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   PropsWithChildren<{
-    variant?: "filled" | "outlined" | "ghost";
-    color?: "primary" | "secondary" | "tertiary";
-    size?: "sm" | "md" | "lg" | "xl";
+    variant?: Variant;
+    color?: Color;
+    size?: Size;
     icon?: ReactNode;
     width?: number | string;
   }>;
@@ -37,7 +39,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const mergedClassName = cls(
-      styles.button,
+      styles.root,
       styles[variant],
       styles[size],
       styles[color],

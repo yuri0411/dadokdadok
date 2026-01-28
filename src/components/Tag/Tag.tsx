@@ -2,9 +2,11 @@ import type { HTMLAttributes } from "react";
 
 import styles from "./Tag.module.css";
 
+import type { Color, Size } from "@styles/type.ts";
+
 export interface TagProps extends HTMLAttributes<HTMLSpanElement> {
-  color?: "primary" | "secondary" | "tertiary";
-  size?: "sm" | "md" | "lg" | "xl";
+  color?: Color;
+  size?: Size;
   label: string;
 }
 

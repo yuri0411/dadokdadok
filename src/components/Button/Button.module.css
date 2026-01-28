@@ -1,4 +1,4 @@
-.button {
+.root {
     border-radius: var(--radius-md);
     font-size: var(--font-size-body);
     font-weight: var(--font-weight-semibold);

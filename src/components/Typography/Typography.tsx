@@ -3,11 +3,13 @@ import type { ComponentPropsWithRef, CSSProperties, ElementType, PropsWithChildr
 import { colors, typography } from "@/styles/theme";
 import { cls } from "@/utils";
 
+import type { Color, Typography as TypoVariant } from "@styles/type";
+
 interface TypographyOwnProps<Element extends ElementType> {
   as?: Element;
-  variant?: keyof typeof typography;
+  variant?: TypoVariant;
   align?: CSSProperties["textAlign"];
-  color?: keyof typeof colors.text | string;
+  color?: Color | string;
 }
 
 type TypographyProps<Element extends ElementType = "p"> = PropsWithChildren<
