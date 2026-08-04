@@ -1,4 +1,4 @@
-import { type HTMLAttributes, type PropsWithChildren, useEffect, useRef } from "react";
+import { type HTMLAttributes, type PropsWithChildren, useEffect, useId, useRef } from "react";
 
 import { createPortal } from "react-dom";
 
@@ -6,7 +6,7 @@ import { Typography } from "@/components";
 
 import styles from "./Modal.module.css";
 
-type FeedbackModal = HTMLAttributes<HTMLDivElement> &
+export type FeedbackModalProps = HTMLAttributes<HTMLDivElement> &
   PropsWithChildren<{
     open: boolean;
     title?: string;
@@ -23,9 +23,10 @@ export const FeedbackModal = ({
   closeOnBackdrop = true,
   children,
   ...modalProps
-}: FeedbackModal) => {
+}: FeedbackModalProps) => {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const portalRoot = document.getElementById("content-root");
+  const titleId = useId();
 
   useEffect(() => {
     if (!open) return;
@@ -49,15 +50,19 @@ export const FeedbackModal = ({
       className={styles.backdrop}
       onClick={closeOnBackdrop ? onClose : undefined}
     >
-      <div className={styles.modal}>
+      <div
+        className={styles.modal}
+        role="status"
+        aria-live="polite"
+        aria-labelledby={title ? titleId : undefined}
+        onClick={(event) => event.stopPropagation()}
+      >
         {title && (
-          <Typography as="h3" variant="h3" align="center">
+          <Typography id={titleId} as="h3" variant="h3" align="center">
             {title}
           </Typography>
         )}
-        <div className={styles.content} onClick={(e) => e.stopPropagation()}>
-          {children}
-        </div>
+        <div className={styles.content}>{children}</div>
       </div>
     </div>,
     portalRoot

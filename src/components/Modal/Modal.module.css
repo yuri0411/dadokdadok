@@ -1,35 +1,35 @@
 .backdrop {
-    z-index: var(--z-index-modal);
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    background-color: var(--color-background-overlay);
+  z-index: var(--z-index-modal);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-background-overlay);
 }
 
 .modal {
-    position: relative;
-    width: 320px;
-    padding: var(--spacing-6) var(--spacing-6) var(--spacing-4);
-    background-color: var(--color-surface-default);
-    border-radius: var(--radius-md);
+  position: relative;
+  width: 320px;
+  padding: var(--spacing-6) var(--spacing-6) var(--spacing-4);
+  background-color: var(--color-surface-default);
+  border-radius: var(--radius-md);
 }
 
 .content {
-    text-align: center;
-    margin: var(--spacing-4) 0;
+  text-align: center;
+  margin: var(--spacing-4) 0;
 }
 
 .actionWrapper {
-    display: flex;
-    flex-direction: row;
-    gap: var(--spacing-2);
-    margin-top: var(--spacing-10);
-    button {
-        flex: 1;
-    }
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-10);
+  button {
+    flex: 1;
+  }
 }

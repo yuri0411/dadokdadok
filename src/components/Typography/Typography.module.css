@@ -1,0 +1,23 @@
+.default {
+  color: var(--color-text-primary);
+}
+
+.primary {
+  color: var(--color-action-primary);
+}
+
+.secondary {
+  color: var(--color-action-secondary);
+}
+
+.tertiary {
+  color: var(--color-gray-500);
+}
+
+.disabled {
+  color: var(--color-text-muted);
+}
+
+.inherit {
+  color: inherit;
+}

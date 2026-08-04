@@ -1,9 +1,15 @@
 export { Button } from "./Button/Button";
+export type { ButtonProps } from "./Button/Button";
 export { CircularLoader } from "./CircularLoader/CircularLoader";
+export type { CircularLoaderProps } from "./CircularLoader/CircularLoader";
 export { Lazy } from "./Lazy/Lazy";
 export { Modal } from "./Modal/Modal";
+export type { ModalProps } from "./Modal/Modal";
 export { FeedbackModal } from "./Modal/FeedbackModal";
+export type { FeedbackModalProps } from "./Modal/FeedbackModal";
 export { ProgressBar } from "./ProgressBar/ProgressBar";
+export type { ProgressBarProps } from "./ProgressBar/ProgressBar";
 export { Stack } from "./Stack/Stack";
 export { Tag } from "./Tag/Tag";
+export type { TagProps } from "./Tag/Tag";
 export { Typography } from "./Typography/Typography";

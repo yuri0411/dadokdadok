@@ -1,19 +1,5 @@
 import type { Size, Typography } from "@styles/type.ts";
 
-export const colors = {
-  primary: "#00B894",
-  secondary: "#FF9533",
-  white: "#ffffff",
-  border: "#dee2e6",
-  text: {
-    default: "#333333",
-    primary: "#00B894",
-    secondary: "#FF9533",
-    tertiary: "#868e96",
-    disabled: "#999999",
-  },
-} as const;
-
 export const sizes: { [key in Size]: string } = {
   sm: "31px",
   md: "34px",

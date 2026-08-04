@@ -1,82 +1,112 @@
 .root {
-    border-radius: var(--radius-md);
-    font-size: var(--font-size-body);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-normal);
-    letter-spacing: normal;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+  letter-spacing: normal;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .iconButton {
-    display: flex;
-    align-items: center;
+  gap: var(--spacing-2);
 }
 
-.icon {
-    margin-right: calc(var(--spacing-2) * -1);
+.content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.startIcon,
+.endIcon {
+  display: inline-flex;
+  flex: none;
+}
+
+.spinner {
+  width: var(--spacing-4);
+  height: var(--spacing-4);
+  flex: none;
+  border: var(--border-width-medium) solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--radius-full);
+  animation: button-spin var(--duration-loader-rotation) linear infinite;
+}
+
+@keyframes button-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .primary {
-    background-color: var(--color-action-primary);
-    color: var(--color-text-on-primary);
+  background-color: var(--color-action-primary);
+  color: var(--color-text-on-primary);
 }
 .primary.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.root:focus-visible {
+  outline: var(--border-width-medium) solid var(--color-border-focus);
+  outline-offset: var(--spacing-1);
 }
 
 .secondary {
-    background-color: var(--color-action-secondary);
-    color: var(--color-text-secondary);
+  background-color: var(--color-action-secondary);
+  color: var(--color-text-secondary);
 }
 .secondary:hover {
-    background-color: var(--color-action-secondary-hover);
+  background-color: var(--color-action-secondary-hover);
 }
 
 .tertiary {
-    background-color: var(--color-surface-default);
-    color: var(--color-text-primary);
+  background-color: var(--color-surface-default);
+  color: var(--color-text-primary);
 }
 
-
 .outlined {
-    border: var(--border-width-thin) solid var(--color-border-default);
+  border: var(--border-width-thin) solid var(--color-border-default);
 }
 
 .ghost {
-    background: transparent;
+  background: transparent;
 }
 .ghost:hover {
-    background: transparent;
-    opacity: 0.9;
+  background: transparent;
+  opacity: 0.9;
 }
 
 .ghost.primary {
-    color: var(--color-text-primary);
+  color: var(--color-text-primary);
 }
 .ghost.secondary {
-    color: var(--color-text-secondary);
+  color: var(--color-text-secondary);
 }
 
 .sm {
-    height: 31px;
-    padding: var(--spacing-2) var(--spacing-4);
-    font-size: var(--typography-button-sm-size);
+  height: 31px;
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--typography-button-sm-size);
 }
 
 .md {
-    height: 34px;
-    padding: var(--spacing-2) var(--spacing-4);
+  height: 34px;
+  padding: var(--spacing-2) var(--spacing-4);
 }
 .lg {
-    height: 48px;
-    padding: 15px var(--spacing-3);
+  height: 48px;
+  padding: 15px var(--spacing-3);
 }
 .xl {
-    height: 52px;
-    padding: var(--spacing-4);
-    font-size: var(--typography-button-xl-size);
-    font-weight: var(--font-weight-bold);
+  height: 52px;
+  padding: var(--spacing-4);
+  font-size: var(--typography-button-xl-size);
+  font-weight: var(--font-weight-bold);
 }

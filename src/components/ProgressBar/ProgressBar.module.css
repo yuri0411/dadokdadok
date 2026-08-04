@@ -1,27 +1,25 @@
 .progressbarWrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .progressbar {
-    overflow: hidden;
-    position: relative;
-    width: 78%;
-    height: 6px;
-    background: var(--color-surface-subtle);
-    border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+  width: 78%;
+  height: 6px;
+  background: var(--color-surface-subtle);
+  border-radius: var(--radius-full);
 }
 .linear {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 6px;
-    transform-origin: left center;
-    transform: scaleX(0);                 /* ⭐ 초기값 */
-    transition: transform var(--duration-progress) var(--easing-standard);
-    will-change: transform;
-    background: var(--color-action-primary);
-
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 6px;
+  transform-origin: left center;
+  transform: scaleX(0); /* ⭐ 초기값 */
+  transition: transform var(--duration-progress) var(--easing-standard);
+  will-change: transform;
+  background: var(--color-action-primary);
 }
-

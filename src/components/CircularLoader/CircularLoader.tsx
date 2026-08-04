@@ -1,7 +1,6 @@
 import { type HTMLAttributes } from "react";
 
 import { cls } from "@/utils";
-import { colors } from "@styles/theme";
 
 import styles from "./CircularLoader.module.css";
 
@@ -25,6 +24,7 @@ export const CircularLoader = ({
   size = "md",
   strokeWidth = 4,
   className,
+  "aria-label": ariaLabel = "로딩 중",
   ...circularLoaderProps
 }: CircularLoaderProps) => {
   const loaderSize = circularLoaderSizes[size];
@@ -34,12 +34,13 @@ export const CircularLoader = ({
   return (
     <div className={styles.root}>
       <div
-        className={cls(styles.container, className)}
+        className={cls(styles.container, styles[color], className)}
         style={{
           width: `${loaderSize}px`,
           height: `${loaderSize}px`,
         }}
         role="status"
+        aria-label={ariaLabel}
         {...circularLoaderProps}
       >
         <svg
@@ -48,7 +49,6 @@ export const CircularLoader = ({
           height={loaderSize}
           viewBox={`0 0 ${loaderSize} ${loaderSize}`}
           aria-hidden="true"
-          color={colors[color]}
         >
           <circle
             className={styles.circle}
