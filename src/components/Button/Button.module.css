@@ -11,6 +11,11 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard),
+    opacity var(--duration-fast) var(--easing-standard);
 }
 
 .iconButton {
@@ -48,6 +53,18 @@
   background-color: var(--color-action-primary);
   color: var(--color-text-on-primary);
 }
+
+.filled {
+  border: var(--border-width-none) solid transparent;
+}
+
+.filled.primary:hover:not(:disabled) {
+  background-color: var(--color-action-primary-hover);
+}
+
+.filled.primary:active:not(:disabled) {
+  background-color: var(--color-action-primary-active);
+}
 .primary.disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -62,8 +79,12 @@
   background-color: var(--color-action-secondary);
   color: var(--color-text-secondary);
 }
-.secondary:hover {
+.filled.secondary:hover:not(:disabled) {
   background-color: var(--color-action-secondary-hover);
+}
+
+.filled.secondary:active:not(:disabled) {
+  background-color: var(--color-action-secondary-active);
 }
 
 .tertiary {
@@ -75,12 +96,25 @@
   border: var(--border-width-thin) solid var(--color-border-default);
 }
 
+.outlined:hover:not(:disabled) {
+  background-color: var(--color-background-subtle);
+  border-color: var(--color-border-strong);
+}
+
+.outlined:active:not(:disabled) {
+  background-color: var(--color-background-muted);
+}
+
 .ghost {
   background: transparent;
 }
-.ghost:hover {
+.ghost:hover:not(:disabled) {
   background: transparent;
   opacity: 0.9;
+}
+
+.ghost:active:not(:disabled) {
+  opacity: 0.75;
 }
 
 .ghost.primary {

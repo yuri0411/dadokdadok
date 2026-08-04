@@ -9,14 +9,14 @@ export const useTimer = () => {
 
   const start = useCallback(() => {
     if (intervalRef.current !== null) return;
-    intervalRef.current = setInterval(() => {
+    intervalRef.current = window.setInterval(() => {
       setSeconds((prev) => prev + 1);
     }, 1000);
   }, []);
 
   const pause = useCallback(() => {
     if (intervalRef.current === null) return;
-    clearInterval(intervalRef.current);
+    window.clearInterval(intervalRef.current);
     intervalRef.current = null;
     setIsRunning(false);
   }, []);
@@ -31,7 +31,7 @@ export const useTimer = () => {
 
     return () => {
       if (intervalRef.current !== null) {
-        clearInterval(intervalRef.current);
+        window.clearInterval(intervalRef.current);
       }
       intervalRef.current = null;
     };

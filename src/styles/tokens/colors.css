@@ -62,6 +62,7 @@
   --color-action-primary-active: var(--color-green-700);
   --color-action-secondary: var(--color-orange-500);
   --color-action-secondary-hover: var(--color-gray-200);
+  --color-action-secondary-active: var(--color-orange-600);
   --color-action-disabled: var(--color-gray-200);
 
   /* Semantic: status */
@@ -71,5 +72,4 @@
   --color-status-warning-background: var(--color-yellow-50);
   --color-status-error: var(--color-red-500);
   --color-status-error-background: var(--color-red-50);
-
 }
