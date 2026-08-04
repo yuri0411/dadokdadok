@@ -2,6 +2,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: #F7F7F7;
+    background: var(--color-surface-muted);
     height: 36px;
 }

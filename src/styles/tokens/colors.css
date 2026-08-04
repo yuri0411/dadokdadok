@@ -1,0 +1,75 @@
+:root {
+  /* Primitive */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-green-50: #effaf3;
+  --color-green-500: #00b894;
+  --color-green-600: #009f80;
+  --color-green-700: #00866d;
+
+  --color-orange-50: #fff7ed;
+  --color-orange-500: #ff9533;
+  --color-orange-600: #e97c16;
+
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f1f3f5;
+  --color-gray-200: #e9ecef;
+  --color-gray-300: #dee2e6;
+  --color-gray-400: #bcc4cc;
+  --color-gray-500: #868e96;
+  --color-gray-600: #656d75;
+  --color-gray-700: #495057;
+  --color-gray-800: #343a40;
+  --color-gray-900: #212529;
+
+  --color-red-50: #fff2f2;
+  --color-red-500: #e5484d;
+  --color-red-600: #d13438;
+
+  --color-yellow-50: #fff9e8;
+  --color-yellow-500: #f5a623;
+  --color-yellow-600: #d99112;
+
+  /* Semantic: background */
+  --color-background-default: var(--color-gray-50);
+  --color-background-subtle: var(--color-gray-100);
+  --color-background-muted: var(--color-gray-200);
+  --color-background-overlay: rgb(0 0 0 / 45%);
+  --color-surface-default: var(--color-white);
+  --color-surface-subtle: #f8f8f8;
+  --color-surface-muted: #f7f7f7;
+
+  /* Semantic: text */
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-tertiary: var(--color-gray-900);
+  --color-text-disabled: var(--color-gray-400);
+  --color-text-muted: #999999;
+  --color-text-inverse: var(--color-white);
+  --color-text-on-primary: var(--color-white);
+
+  /* Semantic: border */
+  --color-border-default: var(--color-gray-300);
+  --color-border-strong: var(--color-gray-400);
+  --color-border-focus: var(--color-green-500);
+  --color-border-error: var(--color-red-500);
+  --color-border-subtle: #f0f0f0;
+
+  /* Semantic: action */
+  --color-action-primary: var(--color-green-500);
+  --color-action-primary-hover: var(--color-green-600);
+  --color-action-primary-active: var(--color-green-700);
+  --color-action-secondary: var(--color-orange-500);
+  --color-action-secondary-hover: var(--color-gray-200);
+  --color-action-disabled: var(--color-gray-200);
+
+  /* Semantic: status */
+  --color-status-success: var(--color-green-500);
+  --color-status-success-background: var(--color-green-50);
+  --color-status-warning: var(--color-yellow-600);
+  --color-status-warning-background: var(--color-yellow-50);
+  --color-status-error: var(--color-red-500);
+  --color-status-error-background: var(--color-red-50);
+
+}

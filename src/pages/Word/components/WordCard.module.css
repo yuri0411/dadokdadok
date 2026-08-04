@@ -2,12 +2,12 @@
 .bookmark {
     position: absolute;
     top: 0;
-    left: 16px;
+    left: var(--spacing-4);
 }
 .wordCard {
     position: relative;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(134, 134, 134, 0.2);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
 }
 
 .content {
@@ -26,24 +26,24 @@
 .toggleButton {
     button {
         width: 100px;
-        padding: 8px 0;
-        border-radius: 50px;
-        background: #F8F8F8;
-        color: #999999;
+        padding: var(--spacing-2) 0;
+        border-radius: var(--radius-full);
+        background: var(--color-surface-subtle);
+        color: var(--color-text-muted);
     }
 }
 .active {
-    outline: 1px solid #FF9533;
-    background: white !important;
-    color: #FF9533 !important;
+    outline: var(--border-width-thin) solid var(--color-action-secondary);
+    background: var(--color-surface-default) !important;
+    color: var(--color-action-secondary) !important;
 }
 
 .action {
     height: 84px;
-    border-top: 1px solid #F0F0F0;
+    border-top: var(--border-width-thin) solid var(--color-border-subtle);
     button {
         &:first-child {
-            border-right: 1px solid #F0F0F0;
+            border-right: var(--border-width-thin) solid var(--color-border-subtle);
         }
         height: 100%;
         box-sizing: border-box;
@@ -52,6 +52,6 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 8px;
+        gap: var(--spacing-2);
     }
 }

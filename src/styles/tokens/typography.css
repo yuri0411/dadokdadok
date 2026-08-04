@@ -1,0 +1,44 @@
+:root {
+  --font-family-sans: system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 32px;
+  --font-size-display: 64px;
+
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.7;
+
+  --typography-body-size: var(--font-size-sm);
+  --typography-body-weight: var(--font-weight-regular);
+  --typography-body-line-height: var(--line-height-normal);
+  --typography-label-size: var(--font-size-sm);
+  --typography-label-weight: var(--font-weight-medium);
+  --typography-label-line-height: var(--line-height-normal);
+  --typography-heading-size: var(--font-size-2xl);
+  --typography-heading-weight: var(--font-weight-bold);
+  --typography-heading-line-height: var(--line-height-tight);
+  --typography-button-sm-size: 13px;
+  --typography-button-xl-size: 17px;
+
+  /* Legacy aliases */
+  --font-size-headline: var(--font-size-display);
+  --font-size-h2: var(--font-size-2xl);
+  --font-size-h3: 22px;
+  --font-size-h4: var(--font-size-xl);
+  --font-size-h5: var(--font-size-lg);
+  --font-size-h6: var(--font-size-md);
+  --font-size-body: var(--font-size-sm);
+  --font-size-caption: var(--font-size-xs);
+  --font-size-overline: var(--font-size-xs);
+}

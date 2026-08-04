@@ -9,8 +9,8 @@
     position: relative;
     width: 78%;
     height: 6px;
-    background: #F8F8F8;
-    border-radius: 50px;
+    background: var(--color-surface-subtle);
+    border-radius: var(--radius-full);
 }
 .linear {
     position: absolute;
@@ -19,10 +19,9 @@
     height: 6px;
     transform-origin: left center;
     transform: scaleX(0);                 /* ⭐ 초기값 */
-    transition: transform 0.5s ease-out;  /* ⭐ 여기로 애니메이션 */
+    transition: transform var(--duration-progress) var(--easing-standard);
     will-change: transform;
-    background: #00B894;
+    background: var(--color-action-primary);
 
 }
-
 

@@ -1,0 +1,21 @@
+:root {
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --duration-progress: 500ms;
+  --duration-loader-rotation: 1s;
+  --duration-loader-dash: 1.5s;
+  --easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --easing-emphasized: cubic-bezier(0.2, 0, 0, 1.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+    --duration-slow: 0ms;
+    --duration-progress: 0ms;
+    --duration-loader-rotation: 0ms;
+    --duration-loader-dash: 0ms;
+  }
+}
