@@ -3,6 +3,7 @@ import { lazy } from "react";
 import { createBrowserRouter, Navigate, type RouteObject } from "react-router-dom";
 
 import { Lazy } from "@/components";
+import { NotfoundPage } from "@/pages/Notfound";
 
 import { RootLayout } from "../layouts/RootLayout.tsx";
 
@@ -51,6 +52,10 @@ const routes: RouteObject[] = [
             <Word />
           </Lazy>
         ),
+      },
+      {
+        path: "/*",
+        element: <NotfoundPage />,
       },
     ],
   },
