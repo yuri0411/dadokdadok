@@ -1,0 +1,41 @@
+---
+description: UI component and design system rules
+globs: "src/components/**/*.{ts,tsx,css},src/pages/**/*.{ts,tsx,css},src/styles/**/*.{ts,css},docs/design-system/**/*.md"
+alwaysApply: false
+---
+
+# Component Rules
+
+UI 관련 파일을 수정할 때는 아래를 먼저 확인한다.
+
+1. `src/components`에 재사용 가능한 컴포넌트가 있는지 검색한다.
+2. `docs/ai/component-guidelines.md`와 관련 `docs/design-system/components/*.md`를 읽는다.
+3. 해당 컴포넌트의 Storybook story를 확인한다.
+4. 스타일은 `src/styles/tokens/`의 디자인 토큰을 사용한다.
+
+## 규칙
+
+- 공통 UI는 `@/components`에서 import한다.
+- props 이름은 기존 컨벤션과 Figma mapping을 따른다.
+  - `variant`: `filled` | `outlined` | `ghost`
+  - `color`: `default` | `primary` | `secondary` | `tertiary` | `disabled`
+  - `size`: `sm` | `md` | `lg` | `xl`
+- 새 variant는 타입 → 토큰 기반 스타일 → Storybook → 사용 규칙 문서 순으로 추가한다.
+- 버튼 내부 로딩은 `Button`의 `loading`을 쓰고, 영역 로딩은 `CircularLoader`를 쓴다.
+- 확인/취소는 `Modal`, 자동 닫힘 피드백은 `FeedbackModal`을 쓴다.
+
+## 금지
+
+```css
+/* ❌ */
+color: #526fff;
+padding: 13px;
+border-radius: 7px;
+```
+
+```css
+/* ✅ */
+color: var(--color-action-primary);
+padding: var(--spacing-3);
+border-radius: var(--radius-md);
+```
