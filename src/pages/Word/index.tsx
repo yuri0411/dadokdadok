@@ -80,7 +80,7 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
   }, [data, learnedWords, randomWords, repeatWords]);
 
   const exitStudy = () => {
-    setSeconds({ level, unit, seconds });
+    setSeconds({ level, seconds });
     navigate(-1);
     setModalType(undefined);
     setWordProgress({ learnedWordIds, repeatWordIds, level, unit });
@@ -127,7 +127,6 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
     }
   };
 
-  console.log(words); // TODO TEMP 디버깅용
   return (
     <div>
       <header style={{ padding: "16px 20px" }}>
@@ -151,7 +150,6 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
         </section>
         <section style={{ padding: 20 }}>
           <WordCard
-            // level={level}
             word={words[currentCount]}
             isLoading={isPending || isPendingRandomWords}
             onRepeatClick={(wordId: number) => {

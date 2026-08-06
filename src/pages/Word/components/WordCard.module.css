@@ -1,9 +1,3 @@
-
-.bookmark {
-    position: absolute;
-    top: 0;
-    left: var(--spacing-4);
-}
 .wordCard {
     position: relative;
     border-radius: var(--radius-md);

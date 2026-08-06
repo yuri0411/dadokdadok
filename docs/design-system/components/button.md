@@ -21,7 +21,6 @@
 | `loadingText` | `string` | `"처리 중"` | loading 시 표시 텍스트 |
 | `width` | `number` \| `string` | - | 고정 너비 또는 `100%` |
 | `disabled` | `boolean` | `false` | 비활성 상태 |
-| `icon` | `ReactNode` | - | deprecated. `endIcon` 사용 |
 
 기본 HTML button 속성(`type`, `onClick`, `aria-*` 등)도 전달할 수 있다.
 
@@ -74,7 +73,7 @@ primary보다 우선순위가 낮은 보조 액션에 사용한다.
 
 - 링크 이동이 목적이고 버튼 스타일이 필요 없으면 `Button` 대신 라우터 `Link`/`NavLink`를 사용한다.
 - 비동기 요청 중에는 `loading`을 사용한다. `disabled`만 켜서 로딩을 표현하지 않는다.
-- 아이콘은 `startIcon` / `endIcon`으로 전달한다. `icon` prop은 더 이상 쓰지 않는다.
+- 아이콘은 `startIcon` / `endIcon`으로 전달한다.
 - 직접 `<button>`을 작성하지 않고 공통 `Button`을 사용한다.
 - 긴 라벨이 필요하면 `width`로 영역을 제한하고 Storybook의 LongText 상태를 참고한다.
 - 모바일 full-width CTA는 `width="100%"`를 사용한다.

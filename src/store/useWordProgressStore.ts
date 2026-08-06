@@ -10,8 +10,6 @@ interface WordProgressState {
     unit: string
   ) => { repeatWords: number[]; learnedWords: number[] };
   getLearnedWordsByLevel: () => { [key: string]: number };
-  setRepeatWord: (level: string, unit: string, wordId: number) => void;
-  setLearnedWord: (level: string, unit: string, wordId: number) => void;
   setWordProgressReset: (level: string, unit: string) => void;
   setWordProgress: ({
     level,
@@ -46,47 +44,6 @@ export const useWordProgressStore = create<WordProgressState>()(
         }
 
         return result;
-      },
-      setRepeatWord: (level, unit, wordId) => {
-        const { wordProgressMap } = getState();
-        const repeatWords = [
-          ...new Set([...(wordProgressMap?.[level]?.[unit]?.repeatWords ?? []), wordId]),
-        ];
-        const learnedWords = wordProgressMap?.[level]?.[unit]?.learnedWords?.filter(
-          (id) => id !== wordId
-        );
-        setState({
-          wordProgressMap: {
-            ...wordProgressMap,
-            [level]: {
-              [unit]: {
-                repeatWords,
-                learnedWords,
-              },
-            },
-          },
-        });
-      },
-      setLearnedWord: (level, unit, wordId) => {
-        const { wordProgressMap } = getState();
-        const repeatWords = wordProgressMap?.[level]?.[unit]?.repeatWords?.filter(
-          (id) => id !== wordId
-        );
-        const learnedWords = [
-          ...new Set([...(wordProgressMap?.[level]?.[unit]?.learnedWords ?? []), wordId]),
-        ];
-        setState({
-          wordProgressMap: {
-            ...wordProgressMap,
-            [level]: {
-              ...wordProgressMap[level],
-              [unit]: {
-                repeatWords,
-                learnedWords,
-              },
-            },
-          },
-        });
       },
       setWordProgressReset: (level: string, unit: string) => {
         const { wordProgressMap } = getState();

@@ -4,7 +4,6 @@ import { formatTime } from "@/utils";
 
 export const useTimer = () => {
   const [seconds, setSeconds] = useState(0);
-  const [isRunning, setIsRunning] = useState(true);
   const intervalRef = useRef<number | null>(null);
 
   const start = useCallback(() => {
@@ -18,12 +17,10 @@ export const useTimer = () => {
     if (intervalRef.current === null) return;
     window.clearInterval(intervalRef.current);
     intervalRef.current = null;
-    setIsRunning(false);
   }, []);
 
   const resume = useCallback(() => {
     start();
-    setIsRunning(true);
   }, [start]);
 
   useEffect(() => {
@@ -40,7 +37,6 @@ export const useTimer = () => {
   return {
     seconds,
     time: formatTime(seconds),
-    isRunning,
     pause,
     resume,
   };

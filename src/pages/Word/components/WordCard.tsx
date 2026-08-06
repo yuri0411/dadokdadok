@@ -10,24 +10,13 @@ import { cls } from "@/utils";
 import styles from "./WordCard.module.css";
 
 interface WordCardProps {
-  // level: string;
   word: Word;
   isLoading: boolean;
   onRepeatClick: (wordId: number) => void;
   onLearnedClick: (wordId: number) => void;
 }
 
-const WordCard = ({
-  // level,
-  word,
-  isLoading,
-  onRepeatClick,
-  onLearnedClick,
-}: WordCardProps) => {
-  // TODO 기획 구체화되면 구현
-  // const toggleBookmark = useWordBookmarkStore(useShallow((state) => state.toggleBookmark));
-  // const isBookmarked = useWordBookmarkStore((state) => state.isBookmarked(level, word?.id));
-
+const WordCard = ({ word, isLoading, onRepeatClick, onLearnedClick }: WordCardProps) => {
   const [showFurigana, setShowFurigana] = useState(false);
   const [showKorean, setShowKorean] = useState(false);
 
@@ -39,10 +28,6 @@ const WordCard = ({
   if (isLoading) return <CircularLoader />;
   return (
     <div className={styles.wordCard}>
-      {/* TODO 기획 구체화되면 구현
-      <button className={styles.bookmark} onClick={() => toggleBookmark(level, word?.id)}>*/}
-      {/*  <FaBookmark size={20} fill={isBookmarked ? "#FF9533" : "#d0d0d0"} />*/}
-      {/*</button>*/}
       <div className={styles.content}>
         <Typography as="p" variant="overline" color="tertiary" align="center">
           [ {word?.id} ]

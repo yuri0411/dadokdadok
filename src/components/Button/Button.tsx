@@ -10,8 +10,6 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   color?: Color;
   size?: Size;
-  /** @deprecated `endIcon`을 사용한다. */
-  icon?: ReactNode;
   startIcon?: ReactNode;
   endIcon?: ReactNode;
   loading?: boolean;
@@ -27,7 +25,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       size = "md",
       type = "button",
       disabled = false,
-      icon,
       startIcon,
       endIcon,
       loading = false,
@@ -40,9 +37,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const resolvedEndIcon = endIcon ?? icon;
     const isDisabled = disabled || loading;
-    const hasIcon = Boolean(startIcon || resolvedEndIcon);
+    const hasIcon = Boolean(startIcon || endIcon);
     const mergedClassName = cls(
       styles.root,
       styles[variant],
@@ -75,9 +71,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           </span>
         )}
         <span className={styles.content}>{loading ? loadingText : children}</span>
-        {resolvedEndIcon && !loading && (
+        {endIcon && !loading && (
           <span className={styles.endIcon} aria-hidden="true">
-            {resolvedEndIcon}
+            {endIcon}
           </span>
         )}
       </button>

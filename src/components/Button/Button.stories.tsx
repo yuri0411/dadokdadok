@@ -26,7 +26,6 @@ const meta = {
     size: { control: "select", options: ["sm", "md", "lg", "xl"] },
     startIcon: { control: false },
     endIcon: { control: false },
-    icon: { control: false, table: { disable: true } },
   },
 } satisfies Meta<typeof Button>;
 

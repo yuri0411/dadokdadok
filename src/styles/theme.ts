@@ -1,11 +1,4 @@
-import type { Size, Typography } from "@styles/type.ts";
-
-export const sizes: { [key in Size]: string } = {
-  sm: "31px",
-  md: "34px",
-  lg: "48px",
-  xl: "52px",
-};
+import type { Typography } from "@styles/type.ts";
 
 export const typography: { [key in Typography]: string } = {
   headline: "typography-headline",

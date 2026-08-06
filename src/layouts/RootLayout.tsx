@@ -47,24 +47,6 @@ export const RootLayout = () => {
           </Typography>
         </Stack>
         <Stack direction="horizontal" gap={8}>
-          {/* TODO
-          <Typography
-            as="a"
-            target="_blank"
-            href="https://yuri-archive.notion.site/2b13058aa1588089b52fe169bf0c3969"
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: "4px",
-              background: "white",
-              padding: "12px 16px",
-              borderRadius: "50px",
-            }}
-          >
-            <LuExternalLink />
-            개발 과정 자세히 보기
-          </Typography>*/}
           <Typography
             as="a"
             variant="body"
