@@ -5,15 +5,15 @@ import { AiOutlinePushpin } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
-import { Stack, Typography } from "@/components";
+import { ErrorFallback, Stack, Typography } from "@/components";
 import LevelListItem from "@/pages/Home/components/LevelListItem.tsx";
+import { LevelListSkeleton } from "@/pages/Home/components/LevelListSkeleton.tsx";
 import { PATHS } from "@/routes/paths.ts";
 import { useTotalByLevelQuery } from "@/services/home/queries.ts";
 import { useStudyStore } from "@/store/useStudyStore.ts";
 import { useTimerStore } from "@/store/useTimerStore.ts";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
 import { formatTime } from "@/utils";
-import { CircularLoader } from "@components/CircularLoader/CircularLoader.tsx";
 
 import styles from "./index.module.css";
 
@@ -33,12 +33,38 @@ const HomePage = () => {
 
   const [level, unit] = Object.entries(lastStudy ?? {})[0] ?? [];
 
-  const { data: totalByLevel = {}, isLoading } = useTotalByLevelQuery();
+  const { data: totalByLevel = {}, isPending, isError, refetch } = useTotalByLevelQuery();
 
   const handleLevelNavigate = useCallback(
     (level: number) => navigate(`${PATHS.UNIT}/${level}`),
     [navigate]
   );
+
+  const renderLevelList = () => {
+    if (isPending) return <LevelListSkeleton />;
+    if (isError) {
+      return (
+        <ErrorFallback
+          title="레벨 정보를 불러오지 못했어요"
+          description="네트워크 상태를 확인한 뒤 다시 시도해 주세요."
+          onRetry={() => {
+            void refetch();
+          }}
+        />
+      );
+    }
+
+    return LEVELS.map((level) => (
+      <LevelListItem
+        key={level}
+        current={getLearnedWordsByLevel()[level] ?? 0}
+        total={totalByLevel[level] ?? 0}
+        learningTime={totalSecondsByLevel?.[level] ?? 0}
+        level={level}
+        onClick={handleLevelNavigate}
+      />
+    ));
+  };
 
   return (
     <div>
@@ -91,20 +117,7 @@ const HomePage = () => {
             JLPT
           </Typography>
           <Stack as="div" gap={10}>
-            {!isLoading ? (
-              LEVELS.map((level) => (
-                <LevelListItem
-                  key={level}
-                  current={getLearnedWordsByLevel()[level] ?? 0}
-                  total={totalByLevel[level]}
-                  learningTime={totalSecondsByLevel?.[level] ?? 0}
-                  level={level}
-                  onClick={handleLevelNavigate}
-                />
-              ))
-            ) : (
-              <CircularLoader />
-            )}
+            {renderLevelList()}
           </Stack>
         </Stack>
       </Stack>

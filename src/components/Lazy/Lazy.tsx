@@ -1,6 +1,7 @@
 import { type ReactNode, Suspense } from "react";
 
-import { Stack } from "@/components";
+import { CircularLoader } from "@/components/CircularLoader/CircularLoader";
+import { Stack } from "@/components/Stack/Stack";
 
 export const Lazy = ({ children }: { children: ReactNode }) => (
   <Suspense
@@ -11,9 +12,10 @@ export const Lazy = ({ children }: { children: ReactNode }) => (
         style={{
           width: "100%",
           height: "100%",
+          minHeight: 240,
         }}
       >
-        Loading...
+        <CircularLoader aria-label="페이지 불러오는 중" />
       </Stack>
     }
   >

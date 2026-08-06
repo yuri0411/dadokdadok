@@ -1,0 +1,31 @@
+.wordCard {
+  position: relative;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  background-color: var(--color-surface-default);
+  overflow: hidden;
+}
+
+.content {
+  padding: 10px 0 60px;
+}
+
+.word {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 260px;
+}
+
+.toggleButton {
+  min-height: 36px;
+}
+
+.action {
+  height: 84px;
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+
+  > * {
+    flex: 1;
+  }
+}

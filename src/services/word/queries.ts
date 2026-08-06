@@ -11,7 +11,8 @@ export const useWordsPerUnitQuery = (level: string, limit: number, page: number)
 
 export const useRandomWordsQuery = (ids: number[]) =>
   useQuery({
-    queryKey: ["randomWords"],
+    queryKey: ["randomWords", ids],
     queryFn: () => getRandomWords(ids),
     select: ({ data }) => data,
+    enabled: ids.length > 0,
   });

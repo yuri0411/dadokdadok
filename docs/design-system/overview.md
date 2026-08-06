@@ -44,6 +44,8 @@ docs/design-system/
 | ProgressBar | `src/components/ProgressBar` | Components/ProgressBar | [progress-bar.md](./components/progress-bar.md) |
 | Stack | `src/components/Stack` | Components/Stack | [stack.md](./components/stack.md) |
 | CircularLoader | `src/components/CircularLoader` | Components/CircularLoader | [circular-loader.md](./components/circular-loader.md) |
+| Skeleton | `src/components/Skeleton` | Components/Skeleton | [skeleton.md](./components/skeleton.md) |
+| ErrorFallback | `src/components/ErrorFallback` | Components/ErrorFallback | [error-fallback.md](./components/error-fallback.md) |
 
 `Lazy`는 라우트 코드 스플리팅용 유틸이므로 디자인 시스템 사용 규칙 대상에서 제외한다.
 

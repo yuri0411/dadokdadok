@@ -5,7 +5,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
-import { Typography } from "@/components";
+import { ErrorFallback, Typography } from "@/components";
 import { LIMIT } from "@/constants";
 import { useTimer } from "@/hooks/useTimer.ts";
 import { StudyModals } from "@/pages/Word/components/StudyModals.tsx";
@@ -16,6 +16,7 @@ import { useTimerStore } from "@/store/useTimerStore.ts";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
 
 import WordCard from "./components/WordCard.tsx";
+import { WordCardSkeleton } from "./components/WordCardSkeleton.tsx";
 import styles from "./index.module.css";
 
 const WordPage = () => {
@@ -54,12 +55,16 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
   const [repeatWordIds, setRepeatWordIds] = useState<number[]>(repeatWords);
   const [learnedWordIds, setLearnedWordIds] = useState<number[]>(learnedWords);
 
-  const { data = [], isPending, refetch } = useWordsPerUnitQuery(level, LIMIT, Number(unit));
+  const usesRandomWords =
+    !isEmpty(repeatWords) && repeatWords.length + learnedWords.length >= LIMIT;
+
+  const { data = [], isPending, isError, refetch } = useWordsPerUnitQuery(level, LIMIT, Number(unit));
   const {
     data: randomWords = [],
     isPending: isPendingRandomWords,
+    isError: isErrorRandomWords,
     refetch: refetchRandomWords,
-  } = useRandomWordsQuery(repeatWordIds);
+  } = useRandomWordsQuery(usesRandomWords ? repeatWordIds : []);
 
   const [currentCount, setCurrentCount] = useState(0);
   const [modalType, setModalType] = useState<"stop" | "repeat" | "complete">();
@@ -67,17 +72,19 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
   const openGlobalModal = useModalStore((s) => s.openModal);
 
   const words = useMemo(() => {
-    if (!isEmpty(repeatWords) && repeatWords.length + learnedWords.length >= LIMIT) {
+    if (usesRandomWords) {
       return randomWords;
-    } else {
-      return data.filter(
-        (word) =>
-          ![...(learnedWords.length === LIMIT ? [] : learnedWords), ...repeatWords].includes(
-            word.id
-          )
-      );
     }
-  }, [data, learnedWords, randomWords, repeatWords]);
+
+    return data.filter(
+      (word) =>
+        ![...(learnedWords.length === LIMIT ? [] : learnedWords), ...repeatWords].includes(word.id)
+    );
+  }, [data, learnedWords, randomWords, repeatWords, usesRandomWords]);
+
+  const isLoading = usesRandomWords ? isPendingRandomWords : isPending;
+  const isQueryError = usesRandomWords ? isErrorRandomWords : isError;
+  const currentWord = words[currentCount];
 
   const exitStudy = () => {
     setSeconds({ level, seconds });
@@ -127,6 +134,53 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
     }
   };
 
+  const retryWords = () => {
+    if (usesRandomWords) {
+      void refetchRandomWords();
+      return;
+    }
+    void refetch();
+  };
+
+  const renderWordContent = () => {
+    if (isLoading) return <WordCardSkeleton />;
+    if (isQueryError) {
+      return (
+        <ErrorFallback
+          title="단어를 불러오지 못했어요"
+          description="학습을 이어가려면 다시 시도해 주세요."
+          onRetry={retryWords}
+        />
+      );
+    }
+    if (!currentWord) {
+      return (
+        <ErrorFallback
+          title="표시할 단어가 없어요"
+          description="이전 화면으로 돌아가 단원을 다시 선택해 주세요."
+          onRetry={() => navigate(-1)}
+          retryLabel="돌아가기"
+        />
+      );
+    }
+
+    return (
+      <WordCard
+        word={currentWord}
+        onRepeatClick={(wordId: number) => {
+          setRepeatWordIds((ids) => [...new Set([...ids, wordId])]);
+          setLearnedWordIds((ids) => ids.filter((id) => id !== wordId));
+          goNext();
+        }}
+        onLearnedClick={(wordId: number) => {
+          setRepeatWordIds((ids) => ids.filter((id) => id !== wordId));
+          setLearnedWordIds((ids) => [...new Set([...ids, wordId])]);
+          goNext();
+        }}
+      />
+    );
+  };
+
   return (
     <div>
       <header style={{ padding: "16px 20px" }}>
@@ -148,22 +202,7 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
             현재 학습 중: {time}
           </Typography>
         </section>
-        <section style={{ padding: 20 }}>
-          <WordCard
-            word={words[currentCount]}
-            isLoading={isPending || isPendingRandomWords}
-            onRepeatClick={(wordId: number) => {
-              setRepeatWordIds((ids) => [...new Set([...ids, wordId])]);
-              setLearnedWordIds((ids) => ids.filter((id) => id !== wordId));
-              goNext();
-            }}
-            onLearnedClick={(wordId: number) => {
-              setRepeatWordIds((ids) => ids.filter((id) => id !== wordId));
-              setLearnedWordIds((ids) => [...new Set([...ids, wordId])]);
-              goNext();
-            }}
-          />
-        </section>
+        <section style={{ padding: 20 }}>{renderWordContent()}</section>
       </main>
       <StudyModals
         modalType={modalType}

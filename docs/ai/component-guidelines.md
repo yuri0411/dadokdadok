@@ -29,8 +29,9 @@
 | 텍스트 계층 | `Typography` |
 | 진행률 | `ProgressBar` |
 | 정렬/간격 | `Stack` |
-| 영역 로딩 | `CircularLoader` |
+| 영역 로딩 | `CircularLoader` 또는 `Skeleton` |
 | 버튼 내부 로딩 | `Button`의 `loading` |
+| API 실패 안내 | `ErrorFallback` |
 
 없는 컴포넌트가 필요하면 페이지에 임시 구현하기 전에 공통 컴포넌트 추가 여부를 먼저 제안한다.
 

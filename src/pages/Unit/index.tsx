@@ -4,7 +4,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
-import { CircularLoader, Stack, Typography } from "@/components";
+import { ErrorFallback, Stack, Typography } from "@/components";
 import { LIMIT } from "@/constants";
 import { PATHS } from "@/routes/paths.ts";
 import { useUnitsPerLevelQuery } from "@/services/unit/queries.ts";
@@ -12,6 +12,7 @@ import { useStudyStore } from "@/store/useStudyStore.ts";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
 
 import UnitCard from "./components/UnitCard.tsx";
+import { UnitListSkeleton } from "./components/UnitListSkeleton.tsx";
 
 const UnitPage = () => {
   const { level } = useParams();
@@ -29,7 +30,7 @@ const UnitPageInner = ({ level }: { level: string }) => {
     }))
   );
 
-  const { data, isLoading } = useUnitsPerLevelQuery(level, LIMIT);
+  const { data, isPending, isError, refetch } = useUnitsPerLevelQuery(level, LIMIT);
 
   const handleUnitNavigate = useCallback(
     (unit: number) => {
@@ -48,6 +49,42 @@ const UnitPageInner = ({ level }: { level: string }) => {
     return [...Array.from({ length: totalPages - 1 }, () => limit), last];
   }, [data]);
 
+  const renderUnitList = () => {
+    if (isPending) return <UnitListSkeleton />;
+    if (isError) {
+      return (
+        <ErrorFallback
+          title="단원 목록을 불러오지 못했어요"
+          description="잠시 후 다시 시도해 주세요."
+          onRetry={() => {
+            void refetch();
+          }}
+        />
+      );
+    }
+
+    return (
+      <Stack direction="horizontal" gap={12} wrap="wrap">
+        {units.map((wordCount, index) => {
+          const unitNumber = index + 1;
+          const learnedCount = wordProgressMap?.[level]?.[unitNumber]?.learnedWords.length ?? 0;
+
+          return (
+            <UnitCard
+              key={unitNumber}
+              learnedCount={learnedCount}
+              isLastStudy={Number(lastStudy?.[level]) === unitNumber}
+              reviewCount={reviewCountMap?.[level]?.[unitNumber] ?? 0}
+              wordCount={wordCount}
+              unit={unitNumber}
+              onClick={handleUnitNavigate}
+            />
+          );
+        })}
+      </Stack>
+    );
+  };
+
   return (
     <div>
       <header style={{ padding: "16px 20px" }}>
@@ -60,27 +97,7 @@ const UnitPageInner = ({ level }: { level: string }) => {
           <BiArrowBack /> N{level}
         </Typography>
       </header>
-      <main style={{ padding: "0 24px 24px" }}>
-        {isLoading && <CircularLoader />}
-        <Stack direction="horizontal" gap={12} wrap="wrap">
-          {units.map((wordCount, index) => {
-            const unitNumber = index + 1;
-            const learnedCount = wordProgressMap?.[level]?.[unitNumber]?.learnedWords.length ?? 0;
-
-            return (
-              <UnitCard
-                key={unitNumber}
-                learnedCount={learnedCount}
-                isLastStudy={Number(lastStudy?.[level]) === unitNumber}
-                reviewCount={reviewCountMap?.[level]?.[unitNumber] ?? 0}
-                wordCount={wordCount}
-                unit={unitNumber}
-                onClick={handleUnitNavigate}
-              />
-            );
-          })}
-        </Stack>
-      </main>
+      <main style={{ padding: "0 24px 24px" }}>{renderUnitList()}</main>
     </div>
   );
 };

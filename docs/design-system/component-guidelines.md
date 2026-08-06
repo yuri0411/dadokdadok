@@ -42,8 +42,9 @@ Figma property와 React props를 가능한 한 동일하게 맞춘다.
 | 제목·본문·보조 텍스트 | `Typography` |
 | 학습 진행률 | `ProgressBar` |
 | 요소 정렬·간격 | `Stack` |
-| 데이터 로딩 중 표시 | `CircularLoader` |
+| 데이터 로딩 중 표시 | `CircularLoader` 또는 `Skeleton` |
 | 버튼 내부 비동기 처리 | `Button`의 `loading` |
+| API 실패 / 빈 결과 안내 | `ErrorFallback` |
 
 없는 컴포넌트가 필요하면 임시로 페이지에 구현하지 말고, 공통 컴포넌트 추가 여부를 먼저 결정한다.
 

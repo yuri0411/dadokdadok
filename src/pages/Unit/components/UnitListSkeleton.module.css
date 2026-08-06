@@ -1,0 +1,6 @@
+.card {
+  flex: 0 0 calc(50% - 6px);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  background-color: var(--color-surface-default);
+}

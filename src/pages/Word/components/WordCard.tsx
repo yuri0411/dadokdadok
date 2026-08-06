@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { FaRepeat } from "react-icons/fa6";
 
-import { CircularLoader, Stack, Typography } from "@/components";
+import { Stack, Typography } from "@/components";
 import type { Word } from "@/services/word/types.ts";
 import { cls } from "@/utils";
 
@@ -11,12 +11,11 @@ import styles from "./WordCard.module.css";
 
 interface WordCardProps {
   word: Word;
-  isLoading: boolean;
   onRepeatClick: (wordId: number) => void;
   onLearnedClick: (wordId: number) => void;
 }
 
-const WordCard = ({ word, isLoading, onRepeatClick, onLearnedClick }: WordCardProps) => {
+const WordCard = ({ word, onRepeatClick, onLearnedClick }: WordCardProps) => {
   const [showFurigana, setShowFurigana] = useState(false);
   const [showKorean, setShowKorean] = useState(false);
 
@@ -25,12 +24,11 @@ const WordCard = ({ word, isLoading, onRepeatClick, onLearnedClick }: WordCardPr
     setShowKorean(false);
   };
 
-  if (isLoading) return <CircularLoader />;
   return (
     <div className={styles.wordCard}>
       <div className={styles.content}>
         <Typography as="p" variant="overline" color="tertiary" align="center">
-          [ {word?.id} ]
+          [ {word.id} ]
         </Typography>
         <Stack gap={16} align="center" className={styles.word}>
           <Typography
@@ -38,17 +36,17 @@ const WordCard = ({ word, isLoading, onRepeatClick, onLearnedClick }: WordCardPr
             style={{ fontSize: 24 }}
             className={cls({ [styles.none]: !showFurigana })}
           >
-            {word?.furigana}
+            {word.furigana}
           </Typography>
           <Typography as="p" variant="headline" color="primary" style={{ marginTop: "-20px" }}>
-            {word?.word}
+            {word.word}
           </Typography>
           <Typography
             as="p"
             style={{ fontSize: 24 }}
             className={cls({ [styles.none]: !showKorean })}
           >
-            {word?.meaning_ko}
+            {word.meaning_ko}
           </Typography>
         </Stack>
 
