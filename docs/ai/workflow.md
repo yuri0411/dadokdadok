@@ -71,11 +71,15 @@ Code Connect 없이 Figma 링크만 있는 경우, 아래를 텍스트로 함께
 
 ## 5. 작업 완료 전 체크
 
+UI 작업은 `docs/ai/checklists/component-review.md`를 기준으로 자체 검토한다.
+
+요약:
+
 - [ ] 기존 공통 컴포넌트를 재사용했는가?
 - [ ] 새 hard-coded 시각 값을 추가하지 않았는가?
 - [ ] props 이름이 기존 컨벤션/Figma mapping과 맞는가?
 - [ ] Storybook과 컴포넌트 문서를 갱신했는가? (공통 컴포넌트 변경 시)
-- [ ] `yarn lint`가 통과하는가?
+- [ ] `yarn lint` / `yarn build`가 통과하는가?
 - [ ] 요청 범위를 넘는 리팩터링을 하지 않았는가?
 
 ---

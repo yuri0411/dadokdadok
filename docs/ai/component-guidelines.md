@@ -50,3 +50,4 @@
 - 아키텍처: `docs/ai/architecture.md`
 - 코딩 규칙: `docs/ai/coding-guidelines.md`
 - 작업 순서: `docs/ai/workflow.md`
+- UI 검증 체크리스트: `docs/ai/checklists/component-review.md`

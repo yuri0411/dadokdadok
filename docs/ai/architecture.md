@@ -151,5 +151,6 @@ Home (레벨 선택)
 - 코딩 규칙: `docs/ai/coding-guidelines.md`
 - 작업 순서: `docs/ai/workflow.md`
 - 컴포넌트 선택/확장: `docs/ai/component-guidelines.md`
+- UI 검증 체크리스트: `docs/ai/checklists/component-review.md`
 - 디자인 토큰: `docs/design-system/tokens.md`
 - 컴포넌트별 사용 규칙: `docs/design-system/components/`

@@ -32,6 +32,8 @@
 
 ## 검증
 
+UI 작업 완료 전 반드시 `docs/ai/checklists/component-review.md`를 기준으로 자체 검토한다.
+
 ```bash
 yarn lint
 yarn build

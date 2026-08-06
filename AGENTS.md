@@ -28,6 +28,8 @@ When adding a component variant:
 
 ## Validation
 
+Before finishing UI work, self-review against `docs/ai/checklists/component-review.md`.
+
 After UI or code changes, run:
 
 ```bash
