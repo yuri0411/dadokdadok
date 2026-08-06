@@ -18,13 +18,12 @@ Before creating or changing UI:
 4. Use design tokens from `src/styles/tokens/`.
 5. Do not add hard-coded colors, spacing, or radius values.
 
-When adding a component variant:
+When creating or modifying a common component, finish all of the following in the same task:
 
-1. Update the component type.
-2. Implement token-based styles.
-3. Add or update the Storybook story.
-4. Update the component usage doc.
-5. Check accessibility states.
+1. Implement the component with token-based styles.
+2. Add or update the Storybook story.
+3. Add or update the usage doc under `docs/design-system/components/`.
+4. Check accessibility states.
 
 ## Validation
 
