@@ -4,29 +4,99 @@
   height: 100vh;
   height: 100dvh;
   justify-content: center;
-  background-color: var(--color-action-primary);
+  background:
+    radial-gradient(circle at 18% 12%, var(--color-green-50) 0%, transparent 45%),
+    radial-gradient(circle at 88% 78%, var(--color-orange-50) 0%, transparent 40%),
+    linear-gradient(
+      165deg,
+      var(--color-background-default) 0%,
+      var(--color-green-50) 52%,
+      var(--color-background-subtle) 100%
+    );
 }
 
 .intro {
   display: flex;
-  width: 36rem;
-  padding: var(--spacing-5);
-  color: var(--color-text-on-primary);
+  align-items: center;
+  width: min(36rem, 46vw);
+  padding: var(--spacing-10) var(--spacing-8);
+  color: var(--color-text-primary);
+}
+
+.introInner {
+  width: 100%;
+  max-width: 28rem;
+}
+
+.introEyebrow {
+  letter-spacing: 0.08em;
+  color: var(--color-action-primary);
+}
+
+.introBrand {
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.03em;
+  color: var(--color-action-primary);
+}
+
+.introHeadline {
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
 }
 
 .introBody {
   word-break: keep-all;
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-secondary);
+}
+
+.featureList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+}
+
+.featureMark {
+  flex: none;
+  width: var(--spacing-2);
+  height: var(--spacing-2);
+  margin-top: 0.45em;
+  border-radius: var(--radius-full);
+  background: var(--color-action-secondary);
+}
+
+.featureText {
+  word-break: keep-all;
+  color: var(--color-text-primary);
 }
 
 .githubLink {
-  display: flex;
-  flex-direction: row;
+  display: inline-flex;
   align-items: center;
-  gap: var(--spacing-1);
-  padding: var(--spacing-2) var(--spacing-4);
-  border-radius: var(--radius-full);
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-4);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-md);
   background: var(--color-surface-default);
   color: var(--color-text-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-sm);
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard);
+}
+
+.githubLink:hover {
+  background: var(--color-background-subtle);
+  border-color: var(--color-border-strong);
 }
 
 .appFrame {
@@ -45,7 +115,7 @@
 @media (max-width: 768px) {
   .layout {
     justify-content: stretch;
-    background-color: var(--color-surface-default);
+    background: var(--color-surface-default);
   }
 
   .intro {

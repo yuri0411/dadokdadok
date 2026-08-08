@@ -8,6 +8,12 @@ import studyModalStyles from "@/pages/Word/components/StudyModals.module.css";
 import { useModalStore } from "@/store/useModalStore.ts";
 import { formatTime } from "@/utils";
 
+const INTRO_FEATURES = [
+  "JLPT N5부터 N1까지 단원별 단어 학습",
+  "외웠어요 · 다시 볼래요로 이어지는 회독",
+  "복습할 단어와 학습 시간을 기기에 저장",
+] as const;
+
 export const RootLayout = () => {
   const { open, close, payload } = useModalStore(
     useShallow((state) => ({
@@ -19,40 +25,51 @@ export const RootLayout = () => {
 
   return (
     <div className={styles.layout}>
-      <div className={styles.intro}>
-        <Stack justify="center" gap={30} style={{ height: "100%" }}>
-          <Stack>
-            <Typography as="h1" variant="h2" color="inherit">
-              다독다독
-            </Typography>
-            <Typography as="h4" variant="h4" color="inherit">
-              JLPT 단어, 반복 회독으로 자연스럽게 학습하자!
-            </Typography>
-          </Stack>
-          <Stack>
-            <Typography as="p" variant="body2" color="inherit" className={styles.introBody}>
-              한 번 보면 금방 잊어버리던 단어들, 다독다독은 반복 회독을 통해 단어가 스며들듯
-              익혀지도록 도와주는 JLPT 단어 학습 서비스입니다.
-            </Typography>
-            <br />
-            <Typography as="p" variant="body2" color="inherit" className={styles.introBody}>
-              헷갈리는 단어만 모아주는 효율적인 복습 구조와 누적 기록으로 확인할 수 있는 성장
-              흐름이 당신의 꾸준함을 가볍지만 오래도록 이어줍니다.
-            </Typography>
-          </Stack>
-          <Stack direction="horizontal" gap={8}>
-            <Typography
-              as="a"
-              variant="body"
-              target="_blank"
-              href="https://github.com/yuri0411/dadokdadok"
+      <aside className={styles.intro}>
+        <div className={styles.introInner}>
+          <Stack gap="var(--spacing-8)">
+            <Stack gap="var(--spacing-3)">
+              <Typography as="p" variant="overline" className={styles.introEyebrow}>
+                JLPT Vocabulary Review
+              </Typography>
+              <Typography as="h1" variant="headline" className={styles.introBrand}>
+                다독다독
+              </Typography>
+              <Typography as="p" variant="h4" className={styles.introHeadline}>
+                일본어 단어를
+                <br />
+                반복해서 익히는 회독 앱
+              </Typography>
+              <Typography as="p" variant="body2" className={styles.introBody}>
+                한 번 보고 잊히던 단어를, 단원 학습과 복습 루프로 다시 붙잡아 줍니다. 많이 읽고
+                여러 번 다시 본다는 이름처럼, 꾸준한 회독에 맞춰져 있습니다.
+              </Typography>
+            </Stack>
+
+            <ul className={styles.featureList}>
+              {INTRO_FEATURES.map((feature) => (
+                <li key={feature} className={styles.featureItem}>
+                  <span className={styles.featureMark} aria-hidden="true" />
+                  <Typography as="span" variant="body2" className={styles.featureText}>
+                    {feature}
+                  </Typography>
+                </li>
+              ))}
+            </ul>
+
+            <a
               className={styles.githubLink}
+              href="https://github.com/yuri0411/dadokdadok"
+              target="_blank"
+              rel="noreferrer"
             >
-              <FaGithub /> github 바로가기
-            </Typography>
+              <FaGithub size={16} aria-hidden="true" />
+              GitHub에서 보기
+            </a>
           </Stack>
-        </Stack>
-      </div>
+        </div>
+      </aside>
+
       <div className={styles.appFrame}>
         <div id="content-root" className={styles.contentRoot}>
           <Outlet />
