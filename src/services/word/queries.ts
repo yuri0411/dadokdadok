@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getRandomWords, getWordsPerUnit } from "@/services/word/api.ts";
+import { getExampleSentence, getRandomWords, getWordsPerUnit } from "@/services/word/api.ts";
 
 export const useWordsPerUnitQuery = (level: string, limit: number, page: number) =>
   useQuery({
@@ -15,4 +15,12 @@ export const useRandomWordsQuery = (ids: number[]) =>
     queryFn: () => getRandomWords(ids),
     select: ({ data }) => data,
     enabled: ids.length > 0,
+  });
+
+export const useExampleSentenceQuery = (word: string, enabled = true) =>
+  useQuery({
+    queryKey: ["exampleSentence", word],
+    queryFn: () => getExampleSentence(word),
+    select: ({ data }) => data,
+    enabled: Boolean(word) && enabled,
   });

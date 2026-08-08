@@ -1,7 +1,11 @@
 import axios from "axios";
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ?? "";
+
 export const api = axios.create({
-  baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
+  // 개발: VITE_API_BASE_URL이 비어 있으면 `/api` → Vite proxy 사용
+  // 운영: VITE_API_BASE_URL + `/api`
+  baseURL: apiBaseUrl ? `${apiBaseUrl}/api` : "/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",

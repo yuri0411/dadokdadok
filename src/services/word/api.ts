@@ -1,6 +1,6 @@
 import { api } from "@/lib/api.ts";
 import type { UnitMeta } from "@/services/unit/types.ts";
-import type { Word } from "@/services/word/types.ts";
+import type { ExampleSentence, Word } from "@/services/word/types.ts";
 
 export const getWordsPerUnit = (level: string, limit: number, page: number) =>
   api.get<{
@@ -10,3 +10,6 @@ export const getWordsPerUnit = (level: string, limit: number, page: number) =>
 
 export const getRandomWords = (ids: number[]) =>
   api.get<Word[]>(`/jlpt-voca/random/ids?ids=${ids}`);
+
+export const getExampleSentence = (word: string) =>
+  api.post<ExampleSentence>(`/jlpt-voca/examples`, { word });

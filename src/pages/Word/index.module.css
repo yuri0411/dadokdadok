@@ -1,7 +1,7 @@
 .time {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background: var(--color-surface-muted);
-    height: 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--color-surface-muted);
+  height: 36px;
 }

@@ -1,11 +1,14 @@
 import { useState } from "react";
 
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaQuoteLeft } from "react-icons/fa";
 import { FaRepeat } from "react-icons/fa6";
 
-import { Stack, Typography } from "@/components";
+import { Button, Skeleton, Stack, Typography } from "@/components";
+import { useExampleSentenceQuery } from "@/services/word/queries.ts";
 import type { Word } from "@/services/word/types.ts";
 import { cls } from "@/utils";
+
+import { renderRubySentence } from "../utils/renderRubySentence";
 
 import styles from "./WordCard.module.css";
 
@@ -18,10 +21,19 @@ interface WordCardProps {
 const WordCard = ({ word, onRepeatClick, onLearnedClick }: WordCardProps) => {
   const [showFurigana, setShowFurigana] = useState(false);
   const [showKorean, setShowKorean] = useState(false);
+  const [showExample, setShowExample] = useState(false);
+
+  const {
+    data: sentence,
+    isPending: isSentencePending,
+    isError: isSentenceError,
+    refetch: refetchSentence,
+  } = useExampleSentenceQuery(word.word, showExample);
 
   const resetToggleStates = () => {
     setShowFurigana(false);
     setShowKorean(false);
+    setShowExample(false);
   };
 
   return (
@@ -52,21 +64,67 @@ const WordCard = ({ word, onRepeatClick, onLearnedClick }: WordCardProps) => {
 
         <Stack gap={8} direction="horizontal" justify="center" className={styles.toggleButton}>
           <button
+            type="button"
             onClick={() => setShowFurigana((prevState) => !prevState)}
             className={cls({ [styles.active]: showFurigana })}
+            aria-pressed={showFurigana}
           >
             ふりがな
           </button>
           <button
+            type="button"
             onClick={() => setShowKorean((prevState) => !prevState)}
             className={cls({ [styles.active]: showKorean })}
+            aria-pressed={showKorean}
           >
             韓国語
           </button>
         </Stack>
       </div>
+
+      {showExample && isSentencePending && (
+        <Stack align="center" gap="var(--spacing-2)" className={styles.sentence}>
+          <Skeleton width="80%" height={18} />
+          <Skeleton width="50%" height={16} />
+        </Stack>
+      )}
+
+      {showExample && isSentenceError && (
+        <Stack align="center" gap="var(--spacing-3)" className={styles.sentence} role="alert">
+          <Typography as="p" variant="body" color="tertiary" align="center">
+            예문을 불러오지 못했어요.
+          </Typography>
+          <Button
+            variant="outlined"
+            color="tertiary"
+            size="sm"
+            onClick={() => {
+              void refetchSentence();
+            }}
+          >
+            다시 시도
+          </Button>
+        </Stack>
+      )}
+
+      {showExample && !isSentencePending && !isSentenceError && sentence && (
+        <Stack align="center" gap="var(--spacing-2)" className={styles.sentence}>
+          <Typography as="p" variant="body2" align="center" className={styles.sentenceText}>
+            {showFurigana
+              ? renderRubySentence(sentence.sentence, sentence.furigana_positions)
+              : sentence.sentence}
+          </Typography>
+          {showKorean && (
+            <Typography as="p" variant="body" color="tertiary" align="center">
+              {sentence.korean_meaning}
+            </Typography>
+          )}
+        </Stack>
+      )}
+
       <Stack direction="horizontal" align="center" className={styles.action}>
         <button
+          type="button"
           onClick={() => {
             onRepeatClick(word.id);
             resetToggleStates();
@@ -76,6 +134,7 @@ const WordCard = ({ word, onRepeatClick, onLearnedClick }: WordCardProps) => {
           다시볼래요
         </button>
         <button
+          type="button"
           onClick={() => {
             onLearnedClick(word.id);
             resetToggleStates();
@@ -85,6 +144,16 @@ const WordCard = ({ word, onRepeatClick, onLearnedClick }: WordCardProps) => {
           외웠어요
         </button>
       </Stack>
+
+      <button
+        type="button"
+        className={cls(styles.exampleToggle, { [styles.exampleToggleActive]: showExample })}
+        onClick={() => setShowExample((prevState) => !prevState)}
+        aria-label={showExample ? "예문 숨기기" : "예문 보기"}
+        aria-pressed={showExample}
+      >
+        <FaQuoteLeft size={16} aria-hidden="true" />
+      </button>
     </div>
   );
 };
