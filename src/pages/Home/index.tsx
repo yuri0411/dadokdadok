@@ -2,6 +2,7 @@ import { useCallback } from "react";
 
 import { isEmpty } from "lodash-es";
 import { AiOutlinePushpin } from "react-icons/ai";
+import { FaBookmark } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
@@ -13,6 +14,7 @@ import { useTotalByLevelQuery } from "@/services/home/queries.ts";
 import { useStudyStore } from "@/store/useStudyStore.ts";
 import { useTimerStore } from "@/store/useTimerStore.ts";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
+import { useWordReviewStore } from "@/store/useWordReviewStore.ts";
 import { formatTime } from "@/utils";
 
 import styles from "./index.module.css";
@@ -30,6 +32,9 @@ const HomePage = () => {
 
   const getLearnedWordsByLevel = useWordProgressStore((state) => state.getLearnedWordsByLevel);
   const lastStudy = useStudyStore((state) => state.lastStudy);
+  const reviewWordCount = useWordReviewStore((state) =>
+    Object.values(state.reviewWordIds).reduce((total, ids) => total + ids.length, 0)
+  );
 
   const [level, unit] = Object.entries(lastStudy ?? {})[0] ?? [];
 
@@ -107,6 +112,20 @@ const HomePage = () => {
                 </Typography>
                 <Typography as="p" variant="body" color="tertiary">
                   N{level} Unit {unit}
+                </Typography>
+              </div>
+            </button>
+          )}
+
+          {reviewWordCount > 0 && (
+            <button className={styles.continue} onClick={() => navigate(PATHS.REVIEW_WORDS)}>
+              <FaBookmark size={18} />
+              <div>
+                <Typography as="h6" variant="h6">
+                  복습할 단어 보기
+                </Typography>
+                <Typography as="p" variant="body" color="tertiary">
+                  {reviewWordCount}개 저장됨
                 </Typography>
               </div>
             </button>

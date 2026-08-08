@@ -167,6 +167,7 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
     return (
       <WordCard
         key={currentWord.id}
+        level={level}
         word={currentWord}
         onRepeatClick={(wordId: number) => {
           setRepeatWordIds((ids) => [...new Set([...ids, wordId])]);

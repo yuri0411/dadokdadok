@@ -1,0 +1,71 @@
+.main {
+  padding: 0 var(--spacing-6) var(--spacing-6);
+}
+
+.empty {
+  padding: var(--spacing-10) var(--spacing-4);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-3);
+}
+
+.item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  padding: var(--spacing-5) var(--spacing-3) var(--spacing-4);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-default);
+  box-shadow: var(--shadow-card);
+}
+
+.itemBody {
+  width: 100%;
+  min-width: 0;
+}
+
+.word {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.furigana {
+  font-size: var(--font-size-sm);
+}
+
+.meaning {
+  font-size: var(--font-size-md);
+}
+
+.reviewToggle {
+  position: absolute;
+  top: var(--spacing-3);
+  right: var(--spacing-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  background: var(--color-surface-subtle);
+  transition:
+    color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard);
+}
+
+.reviewToggle:hover {
+  color: var(--color-action-secondary);
+}
+
+.reviewToggleActive {
+  color: var(--color-action-secondary);
+  background: var(--color-orange-50);
+  outline: var(--border-width-thin) solid var(--color-action-secondary);
+}

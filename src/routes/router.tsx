@@ -12,6 +12,7 @@ import { PATHS } from "./paths.ts";
 const Home = lazy(() => import("../pages/Home"));
 const Unit = lazy(() => import("../pages/Unit"));
 const Word = lazy(() => import("../pages/Word"));
+const ReviewWords = lazy(() => import("../pages/ReviewWords"));
 
 const routes: RouteObject[] = [
   {
@@ -26,6 +27,14 @@ const routes: RouteObject[] = [
         element: (
           <Lazy>
             <Home />
+          </Lazy>
+        ),
+      },
+      {
+        path: PATHS.REVIEW_WORDS,
+        element: (
+          <Lazy>
+            <ReviewWords />
           </Lazy>
         ),
       },

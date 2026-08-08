@@ -3,4 +3,5 @@ export const PATHS = {
   HOME: "/home",
   UNIT: "/unit",
   WORD: "/word",
+  REVIEW_WORDS: "/review-words",
 } as const;
