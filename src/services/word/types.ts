@@ -17,6 +17,7 @@ export interface FuriganaPosition {
 
 export interface ExampleSentence {
   word: string;
+  word_korean_meaning: string;
   sentence: string;
   korean_meaning: string;
   furigana_positions: FuriganaPosition[];

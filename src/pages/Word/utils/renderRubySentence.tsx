@@ -174,13 +174,15 @@ export function renderExampleSentence(
 }
 
 /**
- * 예문 한국어 뜻에서 단어 뜻(meaning_ko)에 해당하는 부분만 강조한다.
+ * 예문 한국어 뜻에서 API `word_korean_meaning`과 일치하는 부분만 강조한다.
  */
 export function renderHighlightedMeaning(
   text: string,
   meaning: string,
   highlightClassName: string
 ): ReactNode {
+  if (!text || !meaning) return text;
+
   const candidates = [meaning, meaning.replace(/(하다|되다|이다|다)$/u, "")].filter(
     (candidate, index, list) => Boolean(candidate) && list.indexOf(candidate) === index
   );

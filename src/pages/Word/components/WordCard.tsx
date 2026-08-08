@@ -127,7 +127,7 @@ const WordCard = ({ level, word, onRepeatClick, onLearnedClick }: WordCardProps)
             <Typography as="p" variant="body" color="tertiary" align="center">
               {renderHighlightedMeaning(
                 sentence.korean_meaning,
-                word.meaning_ko,
+                sentence.word_korean_meaning,
                 styles.sentenceHighlight
               )}
             </Typography>
