@@ -9,7 +9,7 @@ import type { Word } from "@/services/word/types.ts";
 import { useWordReviewStore } from "@/store/useWordReviewStore.ts";
 import { cls } from "@/utils";
 
-import { renderRubySentence } from "../utils/renderRubySentence";
+import { renderExampleSentence, renderHighlightedMeaning } from "../utils/renderRubySentence";
 
 import styles from "./WordCard.module.css";
 
@@ -117,13 +117,19 @@ const WordCard = ({ level, word, onRepeatClick, onLearnedClick }: WordCardProps)
       {showExample && !isSentencePending && !isSentenceError && sentence && (
         <Stack align="center" gap="var(--spacing-2)" className={styles.sentence}>
           <Typography as="p" variant="body2" align="center" className={styles.sentenceText}>
-            {showFurigana
-              ? renderRubySentence(sentence.sentence, sentence.furigana_positions)
-              : sentence.sentence}
+            {renderExampleSentence(sentence.sentence, sentence.furigana_positions, {
+              showFurigana,
+              highlightWord: word.word,
+              highlightClassName: styles.sentenceHighlight,
+            })}
           </Typography>
           {showKorean && (
             <Typography as="p" variant="body" color="tertiary" align="center">
-              {sentence.korean_meaning}
+              {renderHighlightedMeaning(
+                sentence.korean_meaning,
+                word.meaning_ko,
+                styles.sentenceHighlight
+              )}
             </Typography>
           )}
         </Stack>
