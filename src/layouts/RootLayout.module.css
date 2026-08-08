@@ -1,0 +1,65 @@
+.layout {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  justify-content: center;
+  background-color: var(--color-action-primary);
+}
+
+.intro {
+  display: flex;
+  width: 36rem;
+  padding: var(--spacing-5);
+  color: var(--color-text-on-primary);
+}
+
+.introBody {
+  word-break: keep-all;
+}
+
+.githubLink {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-default);
+  color: var(--color-text-primary);
+}
+
+.appFrame {
+  width: 30rem;
+  height: 100%;
+  overflow-y: auto;
+  background: var(--color-surface-default);
+  box-shadow: var(--shadow-lg);
+}
+
+.contentRoot {
+  position: relative;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    justify-content: stretch;
+    background-color: var(--color-surface-default);
+  }
+
+  .intro {
+    display: none;
+  }
+
+  .appFrame {
+    width: 100%;
+    max-width: none;
+    min-height: 100%;
+    box-shadow: none;
+  }
+
+  .contentRoot {
+    min-height: 100%;
+  }
+}
