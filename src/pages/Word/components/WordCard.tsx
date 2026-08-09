@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaBookmark, FaCheck, FaQuoteLeft, FaRegBookmark } from "react-icons/fa";
 import { FaRepeat } from "react-icons/fa6";
 
-import { Button, Skeleton, Stack, Typography } from "@/components";
+import { Button, Stack, Typography } from "@/components";
 import { useExampleSentenceQuery } from "@/services/word/queries.ts";
 import type { Word } from "@/services/word/types.ts";
 import { useWordReviewStore } from "@/store/useWordReviewStore.ts";
@@ -90,9 +90,15 @@ const WordCard = ({ level, word, onRepeatClick, onLearnedClick }: WordCardProps)
       </div>
 
       {showExample && isSentencePending && (
-        <Stack align="center" gap="var(--spacing-2)" className={styles.sentence}>
-          <Skeleton width="80%" height={18} />
-          <Skeleton width="50%" height={16} />
+        <Stack align="center" justify="center" className={styles.sentence}>
+          <Typography as="p" variant="body" color="tertiary" align="center">
+            예문을 준비중입니다
+            <span className={styles.loadingDots} aria-hidden="true">
+              <span>.</span>
+              <span>.</span>
+              <span>.</span>
+            </span>
+          </Typography>
         </Stack>
       )}
 
