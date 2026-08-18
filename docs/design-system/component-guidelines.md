@@ -36,6 +36,7 @@ Figma property와 React props를 가능한 한 동일하게 맞춘다.
 | 상황 | 사용할 컴포넌트 |
 |---|---|
 | 클릭으로 즉시 실행되는 액션 | `Button` |
+| 아이콘만으로 실행되는 액션 | `IconButton` |
 | 확인/취소가 필요한 대화 | `Modal` |
 | 짧은 안내 후 자동 닫힘 | `FeedbackModal` |
 | 상태·회독 수 등 짧은 라벨 | `Tag` |

@@ -15,6 +15,7 @@ docs/design-system/
 ├── component-guidelines.md
 └── components/
     ├── button.md
+    ├── icon-button.md
     ├── modal.md
     ├── feedback-modal.md
     ├── tag.md
@@ -37,6 +38,7 @@ docs/design-system/
 | 컴포넌트 | 경로 | Storybook | 사용 규칙 |
 |---|---|---|---|
 | Button | `src/components/Button` | Components/Button | [button.md](./components/button.md) |
+| IconButton | `src/components/IconButton` | Components/IconButton | [icon-button.md](./components/icon-button.md) |
 | Modal | `src/components/Modal` | Components/Modal | [modal.md](./components/modal.md) |
 | FeedbackModal | `src/components/Modal` | - | [feedback-modal.md](./components/feedback-modal.md) |
 | Tag | `src/components/Tag` | Components/Tag | [tag.md](./components/tag.md) |

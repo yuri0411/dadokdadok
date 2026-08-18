@@ -1,0 +1,83 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  border-radius: var(--radius-full);
+  transition:
+    color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard),
+    outline-color var(--duration-fast) var(--easing-standard),
+    opacity var(--duration-fast) var(--easing-standard);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.root:focus-visible {
+  outline: var(--border-width-medium) solid var(--color-border-focus);
+  outline-offset: var(--spacing-1);
+}
+
+.sm {
+  width: 32px;
+  height: 32px;
+}
+
+.md {
+  width: 36px;
+  height: 36px;
+}
+
+.lg {
+  width: 40px;
+  height: 40px;
+}
+
+.soft {
+  background: var(--color-surface-subtle);
+}
+
+.ghost {
+  background: transparent;
+}
+
+.tertiary {
+  color: var(--color-text-muted);
+}
+
+.primary {
+  color: var(--color-action-primary);
+}
+
+.secondary {
+  color: var(--color-action-secondary);
+}
+
+.soft.tertiary:hover:not(:disabled),
+.ghost.tertiary:hover:not(:disabled) {
+  color: var(--color-action-secondary);
+}
+
+.soft.primary:hover:not(:disabled) {
+  background: var(--color-green-50);
+}
+
+.soft.secondary:hover:not(:disabled),
+.ghost.secondary:hover:not(:disabled) {
+  color: var(--color-action-secondary-active);
+}
+
+.active {
+  color: var(--color-action-secondary);
+  background: var(--color-orange-50);
+  outline: var(--border-width-thin) solid var(--color-action-secondary);
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

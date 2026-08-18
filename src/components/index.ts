@@ -4,6 +4,8 @@ export { CircularLoader } from "./CircularLoader/CircularLoader";
 export type { CircularLoaderProps } from "./CircularLoader/CircularLoader";
 export { ErrorFallback } from "./ErrorFallback/ErrorFallback";
 export type { ErrorFallbackProps } from "./ErrorFallback/ErrorFallback";
+export { IconButton } from "./IconButton/IconButton";
+export type { IconButtonProps } from "./IconButton/IconButton";
 export { Lazy } from "./Lazy/Lazy";
 export { Modal } from "./Modal/Modal";
 export type { ModalProps } from "./Modal/Modal";

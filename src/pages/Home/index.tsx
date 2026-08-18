@@ -7,7 +7,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
-import { ErrorFallback, Stack, Typography } from "@/components";
+import { ErrorFallback, IconButton, Stack, Typography } from "@/components";
 import LevelListItem from "@/pages/Home/components/LevelListItem.tsx";
 import { LevelListSkeleton } from "@/pages/Home/components/LevelListSkeleton.tsx";
 import { SettingsModal } from "@/pages/Home/components/SettingsModal.tsx";
@@ -82,14 +82,13 @@ const HomePage = () => {
         <Typography as="h1" variant="h2">
           다독다독
         </Typography>
-        <button
-          type="button"
-          className={styles.settingsButton}
-          onClick={() => setSettingsOpen(true)}
+        <IconButton
           aria-label="설정"
+          size="lg"
+          onClick={() => setSettingsOpen(true)}
         >
-          <IoSettingsOutline size={22} aria-hidden="true" />
-        </button>
+          <IoSettingsOutline size={22} />
+        </IconButton>
       </header>
 
       <Stack as="main" gap={24} className={styles.wrapper}>

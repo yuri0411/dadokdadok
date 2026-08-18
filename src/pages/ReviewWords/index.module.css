@@ -47,25 +47,4 @@
   position: absolute;
   top: var(--spacing-3);
   right: var(--spacing-3);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-full);
-  color: var(--color-text-muted);
-  background: var(--color-surface-subtle);
-  transition:
-    color var(--duration-fast) var(--easing-standard),
-    background-color var(--duration-fast) var(--easing-standard);
-}
-
-.reviewToggle:hover {
-  color: var(--color-action-secondary);
-}
-
-.reviewToggleActive {
-  color: var(--color-action-secondary);
-  background: var(--color-orange-50);
-  outline: var(--border-width-thin) solid var(--color-action-secondary);
 }

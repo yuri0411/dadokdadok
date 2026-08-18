@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaBookmark, FaCheck, FaQuoteLeft, FaRegBookmark } from "react-icons/fa";
 import { FaRepeat } from "react-icons/fa6";
 
-import { Button, Stack, Typography } from "@/components";
+import { Button, IconButton, Stack, Typography } from "@/components";
 import { useExampleSentenceQuery } from "@/services/word/queries.ts";
 import type { Word } from "@/services/word/types.ts";
 import { useWordReviewStore } from "@/store/useWordReviewStore.ts";
@@ -165,29 +165,21 @@ const WordCard = ({ level, word, onRepeatClick, onLearnedClick }: WordCardProps)
       </Stack>
 
       <div className={styles.cardToggles}>
-        <button
-          type="button"
-          className={cls(styles.iconToggle, { [styles.iconToggleActive]: isReviewWord })}
-          onClick={() => toggleReviewWord(level, word.id)}
+        <IconButton
           aria-label={isReviewWord ? "복습할 단어에서 제거" : "복습할 단어에 추가"}
-          aria-pressed={isReviewWord}
+          active={isReviewWord}
+          onClick={() => toggleReviewWord(level, word.id)}
         >
-          {isReviewWord ? (
-            <FaBookmark size={16} aria-hidden="true" />
-          ) : (
-            <FaRegBookmark size={16} aria-hidden="true" />
-          )}
-        </button>
+          {isReviewWord ? <FaBookmark size={16} /> : <FaRegBookmark size={16} />}
+        </IconButton>
 
-        <button
-          type="button"
-          className={cls(styles.iconToggle, { [styles.iconToggleActive]: showExample })}
-          onClick={() => setShowExample((prevState) => !prevState)}
+        <IconButton
           aria-label={showExample ? "예문 숨기기" : "예문 보기"}
-          aria-pressed={showExample}
+          active={showExample}
+          onClick={() => setShowExample((prevState) => !prevState)}
         >
-          <FaQuoteLeft size={16} aria-hidden="true" />
-        </button>
+          <FaQuoteLeft size={16} />
+        </IconButton>
       </div>
     </div>
   );

@@ -4,12 +4,11 @@ import { BiArrowBack } from "react-icons/bi";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-import { CircularLoader, ErrorFallback, Stack, Typography } from "@/components";
+import { CircularLoader, ErrorFallback, IconButton, Stack, Typography } from "@/components";
 import { PATHS } from "@/routes/paths.ts";
 import { useRandomWordsQuery } from "@/services/word/queries.ts";
 import type { Word } from "@/services/word/types.ts";
 import { useWordReviewStore } from "@/store/useWordReviewStore.ts";
-import { cls } from "@/utils";
 
 import styles from "./index.module.css";
 
@@ -90,15 +89,14 @@ const ReviewWordsPage = () => {
               <div className={styles.grid}>
                 {levelWords.map((word) => (
                   <div key={word.id} className={styles.item}>
-                    <button
-                      type="button"
-                      className={cls(styles.reviewToggle, styles.reviewToggleActive)}
-                      onClick={() => toggleReviewWord(String(level), word.id)}
+                    <IconButton
+                      className={styles.reviewToggle}
                       aria-label="복습할 단어에서 제거"
-                      aria-pressed={true}
+                      active
+                      onClick={() => toggleReviewWord(String(level), word.id)}
                     >
-                      <FaBookmark size={16} aria-hidden="true" />
-                    </button>
+                      <FaBookmark size={16} />
+                    </IconButton>
                     <Stack gap="var(--spacing-1)" align="center" className={styles.itemBody}>
                       <Typography
                         as="p"
