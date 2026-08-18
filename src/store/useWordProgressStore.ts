@@ -11,6 +11,7 @@ interface WordProgressState {
   ) => { repeatWords: number[]; learnedWords: number[] };
   getLearnedWordsByLevel: () => { [key: string]: number };
   setWordProgressReset: (level: string, unit: string) => void;
+  resetWordProgress: () => void;
   setWordProgress: ({
     level,
     unit,
@@ -53,6 +54,9 @@ export const useWordProgressStore = create<WordProgressState>()(
             [level]: { ...wordProgressMap[level], [unit]: { repeatWords: [], learnedWords: [] } },
           },
         });
+      },
+      resetWordProgress: () => {
+        setState({ wordProgressMap: {} });
       },
       setWordProgress: ({ level, unit, repeatWordIds, learnedWordIds }) => {
         const { wordProgressMap } = getState();

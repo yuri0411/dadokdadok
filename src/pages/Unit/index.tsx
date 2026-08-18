@@ -5,9 +5,9 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
 import { ErrorFallback, Stack, Typography } from "@/components";
-import { LIMIT } from "@/constants";
 import { PATHS } from "@/routes/paths.ts";
 import { useUnitsPerLevelQuery } from "@/services/unit/queries.ts";
+import { useSettingsStore } from "@/store/useSettingsStore.ts";
 import { useStudyStore } from "@/store/useStudyStore.ts";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
 
@@ -22,6 +22,7 @@ const UnitPage = () => {
 };
 const UnitPageInner = ({ level }: { level: string }) => {
   const navigate = useNavigate();
+  const wordsPerUnit = useSettingsStore((state) => state.wordsPerUnit);
   const wordProgressMap = useWordProgressStore((state) => state.wordProgressMap);
   const { lastStudy, reviewCountMap } = useStudyStore(
     useShallow((state) => ({
@@ -30,7 +31,7 @@ const UnitPageInner = ({ level }: { level: string }) => {
     }))
   );
 
-  const { data, isPending, isError, refetch } = useUnitsPerLevelQuery(level, LIMIT);
+  const { data, isPending, isError, refetch } = useUnitsPerLevelQuery(level, wordsPerUnit);
 
   const handleUnitNavigate = useCallback(
     (unit: number) => {

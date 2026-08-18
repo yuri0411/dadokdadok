@@ -1,14 +1,40 @@
 .wrapper {
-    padding: 0 var(--spacing-6) var(--spacing-6);
+  padding: 0 var(--spacing-6) var(--spacing-6);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4) var(--spacing-5);
+}
+
+.settingsButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  background: var(--color-surface-subtle);
+  transition:
+    color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard);
+}
+
+.settingsButton:hover {
+  color: var(--color-action-secondary);
 }
 
 .continue {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-3);
-    width: 100%;
-    margin-top: 28px;
-    padding: 10px var(--spacing-3);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  width: 100%;
+  margin-top: 28px;
+  padding: 10px var(--spacing-3);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
 }

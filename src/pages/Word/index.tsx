@@ -6,11 +6,11 @@ import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom"
 import { useShallow } from "zustand/react/shallow";
 
 import { ErrorFallback, Typography } from "@/components";
-import { LIMIT } from "@/constants";
 import { useTimer } from "@/hooks/useTimer.ts";
 import { StudyModals } from "@/pages/Word/components/StudyModals.tsx";
 import { useRandomWordsQuery, useWordsPerUnitQuery } from "@/services/word/queries.ts";
 import { useModalStore } from "@/store/useModalStore.ts";
+import { useSettingsStore } from "@/store/useSettingsStore.ts";
 import { useStudyStore } from "@/store/useStudyStore.ts";
 import { useTimerStore } from "@/store/useTimerStore.ts";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
@@ -31,6 +31,7 @@ const WordPage = () => {
 };
 const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
   const navigate = useNavigate();
+  const wordsPerUnit = useSettingsStore((state) => state.wordsPerUnit);
 
   const setSeconds = useTimerStore((state) => state.setSeconds);
   const { setWordProgress, setWordProgressReset, getWordProgressByUnit } = useWordProgressStore(
@@ -56,9 +57,13 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
   const [learnedWordIds, setLearnedWordIds] = useState<number[]>(learnedWords);
 
   const usesRandomWords =
-    !isEmpty(repeatWords) && repeatWords.length + learnedWords.length >= LIMIT;
+    !isEmpty(repeatWords) && repeatWords.length + learnedWords.length >= wordsPerUnit;
 
-  const { data = [], isPending, isError, refetch } = useWordsPerUnitQuery(level, LIMIT, Number(unit));
+  const { data = [], isPending, isError, refetch } = useWordsPerUnitQuery(
+    level,
+    wordsPerUnit,
+    Number(unit)
+  );
   const {
     data: randomWords = [],
     isPending: isPendingRandomWords,
@@ -78,9 +83,12 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
 
     return data.filter(
       (word) =>
-        ![...(learnedWords.length === LIMIT ? [] : learnedWords), ...repeatWords].includes(word.id)
+        ![
+          ...(learnedWords.length === wordsPerUnit ? [] : learnedWords),
+          ...repeatWords,
+        ].includes(word.id)
     );
-  }, [data, learnedWords, randomWords, repeatWords, usesRandomWords]);
+  }, [data, learnedWords, randomWords, repeatWords, usesRandomWords, wordsPerUnit]);
 
   const isLoading = usesRandomWords ? isPendingRandomWords : isPending;
   const isQueryError = usesRandomWords ? isErrorRandomWords : isError;

@@ -1,16 +1,19 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 import { isEmpty } from "lodash-es";
 import { AiOutlinePushpin } from "react-icons/ai";
 import { FaBookmark } from "react-icons/fa";
+import { IoSettingsOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
 import { ErrorFallback, Stack, Typography } from "@/components";
 import LevelListItem from "@/pages/Home/components/LevelListItem.tsx";
 import { LevelListSkeleton } from "@/pages/Home/components/LevelListSkeleton.tsx";
+import { SettingsModal } from "@/pages/Home/components/SettingsModal.tsx";
 import { PATHS } from "@/routes/paths.ts";
 import { useTotalByLevelQuery } from "@/services/home/queries.ts";
+import { useSettingsStore } from "@/store/useSettingsStore.ts";
 import { useStudyStore } from "@/store/useStudyStore.ts";
 import { useTimerStore } from "@/store/useTimerStore.ts";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
@@ -23,6 +26,8 @@ const LEVELS = [5, 4, 3, 2, 1];
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const wordsPerUnit = useSettingsStore((state) => state.wordsPerUnit);
   const { totalSeconds, totalSecondsByLevel } = useTimerStore(
     useShallow((state) => ({
       totalSeconds: state.totalSeconds,
@@ -73,10 +78,18 @@ const HomePage = () => {
 
   return (
     <div>
-      <header style={{ padding: "16px 20px" }}>
+      <header className={styles.header}>
         <Typography as="h1" variant="h2">
           다독다독
         </Typography>
+        <button
+          type="button"
+          className={styles.settingsButton}
+          onClick={() => setSettingsOpen(true)}
+          aria-label="설정"
+        >
+          <IoSettingsOutline size={22} aria-hidden="true" />
+        </button>
       </header>
 
       <Stack as="main" gap={24} className={styles.wrapper}>
@@ -111,7 +124,7 @@ const HomePage = () => {
                   이전 학습 위치에서 계속할까요?
                 </Typography>
                 <Typography as="p" variant="body" color="tertiary">
-                  N{level} Unit {unit}
+                  N{level} Unit {unit} · 단원당 {wordsPerUnit}단어
                 </Typography>
               </div>
             </button>
@@ -140,6 +153,10 @@ const HomePage = () => {
           </Stack>
         </Stack>
       </Stack>
+
+      {settingsOpen && (
+        <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
+      )}
     </div>
   );
 };

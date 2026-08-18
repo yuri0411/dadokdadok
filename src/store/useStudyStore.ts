@@ -6,6 +6,7 @@ interface StudyState {
   setLastStudy: (level: string, unit: string) => void;
   reviewCountMap: Record<string, Record<string, number>>;
   setReviewCount: (level: string, unit: string) => void;
+  resetStudyInfo: () => void;
 }
 export const useStudyStore = create<StudyState>()(
   persist(
@@ -26,6 +27,9 @@ export const useStudyStore = create<StudyState>()(
             },
           },
         });
+      },
+      resetStudyInfo: () => {
+        setState({ lastStudy: {}, reviewCountMap: {} });
       },
     }),
     {
