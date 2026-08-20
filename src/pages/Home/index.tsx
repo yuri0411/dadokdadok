@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { isEmpty } from "lodash-es";
 import { AiOutlinePushpin } from "react-icons/ai";
@@ -11,8 +11,10 @@ import { ErrorFallback, IconButton, Stack, Typography } from "@/components";
 import LevelListItem from "@/pages/Home/components/LevelListItem.tsx";
 import { LevelListSkeleton } from "@/pages/Home/components/LevelListSkeleton.tsx";
 import { SettingsModal } from "@/pages/Home/components/SettingsModal.tsx";
+import { StudyInsightCard } from "@/pages/Home/components/StudyInsightCard.tsx";
 import { PATHS } from "@/routes/paths.ts";
 import { useTotalByLevelQuery } from "@/services/home/queries.ts";
+import type { TodayStudyContext } from "@/services/studyInsight/types.ts";
 import { useSettingsStore } from "@/store/useSettingsStore.ts";
 import { useStudyStore } from "@/store/useStudyStore.ts";
 import { useTimerStore } from "@/store/useTimerStore.ts";
@@ -35,13 +37,39 @@ const HomePage = () => {
     }))
   );
 
-  const getLearnedWordsByLevel = useWordProgressStore((state) => state.getLearnedWordsByLevel);
-  const lastStudy = useStudyStore((state) => state.lastStudy);
+  const { getLearnedWordsByLevel, wordProgressMap } = useWordProgressStore(
+    useShallow((state) => ({
+      getLearnedWordsByLevel: state.getLearnedWordsByLevel,
+      wordProgressMap: state.wordProgressMap,
+    }))
+  );
+  const { lastStudy, reviewCountMap } = useStudyStore(
+    useShallow((state) => ({
+      lastStudy: state.lastStudy,
+      reviewCountMap: state.reviewCountMap,
+    }))
+  );
   const reviewWordCount = useWordReviewStore((state) =>
     Object.values(state.reviewWordIds).reduce((total, ids) => total + ids.length, 0)
   );
 
   const [level, unit] = Object.entries(lastStudy ?? {})[0] ?? [];
+
+  const studyContext = useMemo<TodayStudyContext | undefined>(() => {
+    if (!level || !unit) return undefined;
+
+    const progress = wordProgressMap[level]?.[unit];
+
+    return {
+      level: Number(level),
+      unit: Number(unit),
+      targetWordCount: wordsPerUnit,
+      learnedWordCount: progress?.learnedWords.length ?? 0,
+      repeatWordCount: progress?.repeatWords.length ?? 0,
+      reviewCount: reviewCountMap[level]?.[unit] ?? 0,
+      totalStudySeconds: totalSecondsByLevel[level] ?? 0,
+    };
+  }, [level, reviewCountMap, totalSecondsByLevel, unit, wordProgressMap, wordsPerUnit]);
 
   const { data: totalByLevel = {}, isPending, isError, refetch } = useTotalByLevelQuery();
 
@@ -111,6 +139,8 @@ const HomePage = () => {
               꾸준함이 힘이에요.
             </Typography>
           )}
+
+          {studyContext && <StudyInsightCard context={studyContext} />}
 
           {!isEmpty(lastStudy) && (
             <button
