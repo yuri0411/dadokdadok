@@ -1,7 +1,9 @@
 import { useState } from "react";
 
-import { FaBookmark, FaCheck, FaQuoteLeft, FaRegBookmark } from "react-icons/fa";
+import { BsChatQuote } from "react-icons/bs";
+import { FaCheck } from "react-icons/fa";
 import { FaRepeat } from "react-icons/fa6";
+import { RiBookmark3Line } from "react-icons/ri";
 
 import { Button, IconButton, Stack, Typography } from "@/components";
 import { useExampleSentenceQuery } from "@/services/word/queries.ts";
@@ -170,7 +172,7 @@ const WordCard = ({ level, word, onRepeatClick, onLearnedClick }: WordCardProps)
           active={isReviewWord}
           onClick={() => toggleReviewWord(level, word.id)}
         >
-          {isReviewWord ? <FaBookmark size={16} /> : <FaRegBookmark size={16} />}
+          <RiBookmark3Line size={18} />
         </IconButton>
 
         <IconButton
@@ -178,7 +180,7 @@ const WordCard = ({ level, word, onRepeatClick, onLearnedClick }: WordCardProps)
           active={showExample}
           onClick={() => setShowExample((prevState) => !prevState)}
         >
-          <FaQuoteLeft size={16} />
+          <BsChatQuote size={18} />
         </IconButton>
       </div>
     </div>

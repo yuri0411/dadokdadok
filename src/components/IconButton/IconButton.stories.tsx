@@ -1,5 +1,6 @@
-import { FaBookmark, FaQuoteLeft, FaRegBookmark } from "react-icons/fa";
+import { FaQuoteLeft } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
+import { RiBookmark3Line } from "react-icons/ri";
 import { fn } from "storybook/test";
 
 import { Stack } from "@/components";
@@ -65,10 +66,10 @@ export const Active: Story = {
   render: (args) => (
     <Stack direction="horizontal" gap="var(--spacing-3)" align="center">
       <IconButton {...args} aria-label="복습할 단어에 추가" active={false}>
-        <FaRegBookmark size={16} />
+        <RiBookmark3Line size={18} />
       </IconButton>
       <IconButton {...args} aria-label="복습할 단어에서 제거" active>
-        <FaBookmark size={16} />
+        <RiBookmark3Line size={18} />
       </IconButton>
       <IconButton {...args} aria-label="예문 보기" active>
         <FaQuoteLeft size={16} />

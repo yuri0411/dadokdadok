@@ -1,6 +1,7 @@
 import { type HTMLAttributes, useEffect, useState } from "react";
 
 import { Typography } from "@/components";
+import { cls } from "@/utils";
 
 import styles from "./ProgressBar.module.css";
 
@@ -8,11 +9,14 @@ export interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
   value: number;
   max: number;
   showLabel?: boolean;
+  color?: "default" | "strong";
 }
 export const ProgressBar = ({
   value,
   max,
   showLabel = true,
+  color = "default",
+  className,
   "aria-label": ariaLabel = "학습 진행률",
   ...progressBarProps
 }: ProgressBarProps) => {
@@ -30,7 +34,10 @@ export const ProgressBar = ({
   );
 
   return (
-    <div className={styles.progressbarWrapper} {...progressBarProps}>
+    <div
+      className={cls(styles.progressbarWrapper, styles[color], className)}
+      {...progressBarProps}
+    >
       <div
         className={styles.progressbar}
         role="progressbar"

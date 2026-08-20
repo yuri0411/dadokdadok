@@ -23,3 +23,7 @@
   will-change: transform;
   background: var(--color-action-primary);
 }
+
+.strong .progressbar {
+  background: var(--color-gray-200);
+}

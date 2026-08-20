@@ -2,8 +2,8 @@ import { useCallback, useMemo, useState } from "react";
 
 import { isEmpty } from "lodash-es";
 import { AiOutlinePushpin } from "react-icons/ai";
-import { FaBookmark } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
+import { RiBookmark3Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
@@ -20,7 +20,7 @@ import { useStudyStore } from "@/store/useStudyStore.ts";
 import { useTimerStore } from "@/store/useTimerStore.ts";
 import { useWordProgressStore } from "@/store/useWordProgressStore.ts";
 import { useWordReviewStore } from "@/store/useWordReviewStore.ts";
-import { formatTime } from "@/utils";
+import { cls } from "@/utils";
 
 import styles from "./index.module.css";
 
@@ -30,12 +30,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const wordsPerUnit = useSettingsStore((state) => state.wordsPerUnit);
-  const { totalSeconds, totalSecondsByLevel } = useTimerStore(
-    useShallow((state) => ({
-      totalSeconds: state.totalSeconds,
-      totalSecondsByLevel: state.totalSecondsByLevel,
-    }))
-  );
+  const totalSecondsByLevel = useTimerStore((state) => state.totalSecondsByLevel);
 
   const { getLearnedWordsByLevel, wordProgressMap } = useWordProgressStore(
     useShallow((state) => ({
@@ -54,6 +49,8 @@ const HomePage = () => {
   );
 
   const [level, unit] = Object.entries(lastStudy ?? {})[0] ?? [];
+  const hasLastStudy = !isEmpty(lastStudy);
+  const hasReviewWords = reviewWordCount > 0;
 
   const studyContext = useMemo<TodayStudyContext | undefined>(() => {
     if (!level || !unit) return undefined;
@@ -110,67 +107,53 @@ const HomePage = () => {
         <Typography as="h1" variant="h2">
           다독다독
         </Typography>
-        <IconButton
-          aria-label="설정"
-          size="lg"
-          onClick={() => setSettingsOpen(true)}
-        >
+        <IconButton aria-label="설정" size="lg" onClick={() => setSettingsOpen(true)}>
           <IoSettingsOutline size={22} />
         </IconButton>
       </header>
 
       <Stack as="main" gap={24} className={styles.wrapper}>
         <section>
-          {totalSeconds === 0 && (
-            <Typography as="h2" variant="h2">
-              아직 학습 기록이 없어요.
-              <br />
-              오늘부터 함께 쌓아가요!
-            </Typography>
-          )}
-          {totalSeconds > 0 && (
-            <Typography as="h2" variant="h2">
-              누적&nbsp;
-              <Typography as="span" variant="h2" color="secondary">
-                {formatTime(totalSeconds)}
-              </Typography>
-              &nbsp; 학습중!
-              <br />
-              꾸준함이 힘이에요.
-            </Typography>
-          )}
+          <StudyInsightCard context={studyContext} />
 
-          {studyContext && <StudyInsightCard context={studyContext} />}
-
-          {!isEmpty(lastStudy) && (
-            <button
-              className={styles.continue}
-              onClick={() => navigate(`${PATHS.WORD}/${unit}`, { state: { level } })}
+          {(hasLastStudy || hasReviewWords) && (
+            <div
+              className={cls(
+                styles.quickActions,
+                hasLastStudy && hasReviewWords && styles.twoColumns
+              )}
             >
-              <AiOutlinePushpin size={20} />
-              <div>
-                <Typography as="h6" variant="h6">
-                  이전 학습 위치에서 계속할까요?
-                </Typography>
-                <Typography as="p" variant="body" color="tertiary">
-                  N{level} Unit {unit} · 단원당 {wordsPerUnit}단어
-                </Typography>
-              </div>
-            </button>
-          )}
+              {hasLastStudy && (
+                <button
+                  className={styles.continue}
+                  onClick={() => navigate(`${PATHS.WORD}/${unit}`, { state: { level } })}
+                >
+                  <AiOutlinePushpin size={20} />
+                  <div>
+                    <Typography as="h6" variant="h6">
+                      학습 이어하기
+                    </Typography>
+                    <Typography as="p" variant="body" color="tertiary">
+                      N{level} Unit {unit}
+                    </Typography>
+                  </div>
+                </button>
+              )}
 
-          {reviewWordCount > 0 && (
-            <button className={styles.continue} onClick={() => navigate(PATHS.REVIEW_WORDS)}>
-              <FaBookmark size={18} />
-              <div>
-                <Typography as="h6" variant="h6">
-                  복습할 단어 보기
-                </Typography>
-                <Typography as="p" variant="body" color="tertiary">
-                  {reviewWordCount}개 저장됨
-                </Typography>
-              </div>
-            </button>
+              {hasReviewWords && (
+                <button className={styles.continue} onClick={() => navigate(PATHS.REVIEW_WORDS)}>
+                  <RiBookmark3Line size={18} />
+                  <div>
+                    <Typography as="h6" variant="h6">
+                      복습 단어
+                    </Typography>
+                    <Typography as="p" variant="body" color="tertiary">
+                      {reviewWordCount}개 저장
+                    </Typography>
+                  </div>
+                </button>
+              )}
+            </div>
           )}
         </section>
         <Stack as="section" gap={8}>
@@ -183,9 +166,7 @@ const HomePage = () => {
         </Stack>
       </Stack>
 
-      {settingsOpen && (
-        <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
-      )}
+      {settingsOpen && <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />}
     </div>
   );
 };

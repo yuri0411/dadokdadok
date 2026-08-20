@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import { BiArrowBack } from "react-icons/bi";
-import { FaBookmark, FaRegBookmark } from "react-icons/fa";
+import { RiBookmark3Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
 import { CircularLoader, ErrorFallback, IconButton, Stack, Typography } from "@/components";
@@ -19,10 +19,7 @@ const ReviewWordsPage = () => {
   const reviewWordIdsMap = useWordReviewStore((state) => state.reviewWordIds);
   const toggleReviewWord = useWordReviewStore((state) => state.toggleReviewWord);
 
-  const reviewWordIds = useMemo(
-    () => Object.values(reviewWordIdsMap).flat(),
-    [reviewWordIdsMap]
-  );
+  const reviewWordIds = useMemo(() => Object.values(reviewWordIdsMap).flat(), [reviewWordIdsMap]);
   const { data: words = [], isPending, isError, refetch } = useRandomWordsQuery(reviewWordIds);
 
   const wordsByLevel = useMemo(() => {
@@ -39,7 +36,7 @@ const ReviewWordsPage = () => {
     if (reviewWordIds.length === 0) {
       return (
         <Stack align="center" gap="var(--spacing-3)" className={styles.empty}>
-          <FaRegBookmark size={28} color="var(--color-text-muted)" />
+          <RiBookmark3Line size={28} color="var(--color-text-muted)" />
           <Typography as="p" variant="body" color="tertiary" align="center">
             아직 복습할 단어가 없어요.
             <br />
@@ -95,7 +92,7 @@ const ReviewWordsPage = () => {
                       active
                       onClick={() => toggleReviewWord(String(level), word.id)}
                     >
-                      <FaBookmark size={16} />
+                      <RiBookmark3Line size={18} />
                     </IconButton>
                     <Stack gap="var(--spacing-1)" align="center" className={styles.itemBody}>
                       <Typography
