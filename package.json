@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "api:generate": "orval --config orval.config.ts",
+    "api:generate:local": "OPENAPI_SCHEMA=../jlpt-voca-server/swagger.json orval --config orval.config.ts",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
@@ -39,6 +41,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "orval": "^8.27.0",
     "prettier": "3.7.4",
     "storybook": "^10.5.6",
     "typescript": "~5.9.3",

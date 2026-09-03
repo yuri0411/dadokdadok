@@ -43,7 +43,9 @@ const UnitPageInner = ({ level }: { level: string }) => {
   const units = useMemo(() => {
     if (!data) return [];
 
-    const { total, totalPages, limit } = data;
+    const { total, limit } = data;
+    const totalPages = data.totalPages ?? 0;
+    if (total === 0) return [];
     if (totalPages <= 1) return [total];
     const last = total % limit || limit;
 

@@ -59,6 +59,7 @@ Code Connect 없이 Figma 링크만 있는 경우, 아래를 텍스트로 함께
 
 1. 서버 응답인지 클라이언트 상태인지 구분한다.
 2. 서버 데이터면:
+   - 서버 OpenAPI가 변경된 경우 `yarn api:generate` 실행
    - `services/<domain>/types.ts`
    - `services/<domain>/api.ts`
    - `services/<domain>/queries.ts`

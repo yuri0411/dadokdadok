@@ -25,9 +25,10 @@ const ReviewWordsPage = () => {
   const wordsByLevel = useMemo(() => {
     const grouped = new Map<number, Word[]>();
     for (const word of words) {
-      const list = grouped.get(word.level) ?? [];
+      const level = Number(word.level);
+      const list = grouped.get(level) ?? [];
       list.push(word);
-      grouped.set(word.level, list);
+      grouped.set(level, list);
     }
     return grouped;
   }, [words]);

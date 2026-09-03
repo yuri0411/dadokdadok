@@ -73,9 +73,13 @@ services/<domain>/
 ├── api.ts       # axios 호출
 ├── queries.ts   # React Query hooks
 └── types.ts     # 도메인 타입
+
+services/generated/  # Orval이 OpenAPI에서 생성한 API 함수/훅/타입
 ```
 
 - HTTP 클라이언트는 `src/lib/api.ts`의 `api` 인스턴스를 사용한다.
+- `src/services/generated`는 직접 수정하지 않고 `yarn api:generate`로 갱신한다.
+- 화면에는 도메인별 `api.ts`, `queries.ts`, `types.ts`를 공개하고 내부에서 생성 코드를 사용한다.
 - 서버 상태는 React Query, 학습 진행/회독 같은 클라이언트 상태는 Zustand로 분리한다.
 
 ### store

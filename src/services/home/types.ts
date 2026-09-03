@@ -1,4 +1,1 @@
-export interface TotalByLevel {
-  total: number;
-  levels: { level: string; total: number }[];
-}
+export type { JlptVocaLevelsMetaResponseDto as TotalByLevel } from "@/services/generated/model";

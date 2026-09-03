@@ -1,15 +1,13 @@
-import { api } from "@/lib/api.ts";
-import type { UnitMeta } from "@/services/unit/types.ts";
-import type { ExampleSentence, Word } from "@/services/word/types.ts";
+import {
+  jlptVocaControllerCreateExampleSentence,
+  jlptVocaControllerList,
+  jlptVocaControllerRandomByIds,
+} from "@/services/generated/api.ts";
 
 export const getWordsPerUnit = (level: string, limit: number, page: number) =>
-  api.get<{
-    items: Word[];
-    meta: UnitMeta;
-  }>(`/jlpt-voca/search?level=${level}&limit=${limit}&page=${page}&onlyMeta=false`);
+  jlptVocaControllerList({ level, limit, page, onlyMeta: false });
 
-export const getRandomWords = (ids: number[]) =>
-  api.get<Word[]>(`/jlpt-voca/random/ids?ids=${ids}`);
+export const getRandomWords = (ids: number[]) => jlptVocaControllerRandomByIds({ ids });
 
 export const getExampleSentence = (word: string) =>
-  api.post<ExampleSentence>(`/jlpt-voca/examples`, { word });
+  jlptVocaControllerCreateExampleSentence({ word });

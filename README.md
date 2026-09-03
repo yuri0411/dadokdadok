@@ -26,6 +26,20 @@
 | Styling | CSS Module |
 | Build Tool | Vite |
 
+### OpenAPI 클라이언트 생성
+
+서버의 Swagger 문서를 기준으로 API 함수, React Query 훅, TypeScript 타입을 생성합니다.
+
+```bash
+# 배포된 서버의 /api/docs-json 기준
+yarn api:generate
+
+# 같은 상위 폴더의 jlpt-voca-server/swagger.json 기준
+yarn api:generate:local
+```
+
+생성 결과는 `src/services/generated`에 저장되며 직접 수정하지 않습니다.
+
 
 ### 프론트엔드 개발 환경 및 구조
 이 프로젝트는 React 기반 환경에서 컴포넌트 단위로 학습 UI를 구성하고,

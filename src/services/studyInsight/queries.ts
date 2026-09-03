@@ -9,8 +9,7 @@ export const useStudyInsightQuery = (context?: TodayStudyContext) =>
     queryFn: async () => {
       if (!context) throw new Error("학습 상태가 없습니다.");
 
-      const { data } = await createStudyInsight(context);
-      return data;
+      return createStudyInsight(context);
     },
     enabled: context != null,
     staleTime: Infinity,

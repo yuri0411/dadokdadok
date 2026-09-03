@@ -6,5 +6,5 @@ export const useUnitsPerLevelQuery = (level: string, limit: number) =>
   useQuery({
     queryKey: ["unitsPerLevel", level, limit],
     queryFn: () => getUnitsPerLevel(level, limit),
-    select: ({ data }) => data.meta,
+    select: (data) => data.meta,
   });

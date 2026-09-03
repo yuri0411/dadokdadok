@@ -1,6 +1,1 @@
-export interface UnitMeta {
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}
+export type { JlptVocaPaginationMetaResponseDto as UnitMeta } from "@/services/generated/model";

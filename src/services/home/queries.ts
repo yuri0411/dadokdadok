@@ -6,7 +6,7 @@ export const useTotalByLevelQuery = () =>
   useQuery({
     queryKey: ["totalByLevel"],
     queryFn: getTotalByLevel,
-    select: ({ data }) => {
+    select: (data) => {
       const totalLevelsMap = new Map<string, number>(
         data.levels.map((level) => [level.level, level.total])
       );
