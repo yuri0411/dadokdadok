@@ -52,6 +52,7 @@ UI 관련 작업을 끝낸 뒤, AI와 사람이 공통으로 사용하는 검증
 
 - [ ] `yarn test:run` 통과
 - [ ] `yarn lint` 통과
+- [ ] `yarn typecheck` 통과
 - [ ] `yarn build` 통과
 - [ ] Storybook 변경 시 `yarn build-storybook` 통과
 
@@ -69,6 +70,7 @@ Checklist gaps (if any):
 Commands:
 - yarn test:run: pass | fail
 - yarn lint: pass | fail
+- yarn typecheck: pass | fail
 - yarn build: pass | fail
 - yarn build-storybook: pass | fail | skipped
 ```

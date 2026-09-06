@@ -110,6 +110,7 @@ UI 작업 시에는 `docs/design-system/` 문서도 함께 확인한다.
 ```bash
 yarn test:run
 yarn lint
+yarn typecheck
 yarn build
 ```
 

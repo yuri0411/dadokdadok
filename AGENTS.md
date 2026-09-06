@@ -35,6 +35,7 @@ After UI or code changes, run:
 ```bash
 yarn test:run
 yarn lint
+yarn typecheck
 yarn build
 ```
 
@@ -43,6 +44,13 @@ If Storybook-related files changed, also run:
 ```bash
 yarn build-storybook
 ```
+
+## Pull requests and CI
+
+- Create changes on a branch and open a pull request instead of merging generated code directly into `main`.
+- GitHub Actions must pass `lint`, `typecheck`, `test`, and `build` before merge.
+- When a check fails, inspect its log, fix the cause, push the correction to the same pull request, and repeat until every required check passes.
+- Do not bypass, disable, or weaken a failing check to make a pull request mergeable.
 
 ## Report
 

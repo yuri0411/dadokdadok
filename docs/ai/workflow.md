@@ -23,7 +23,7 @@ AI와 사람이 기능을 구현하거나 수정할 때 따르는 공통 작업 
    - long content
 7. 사용 규칙 문서(`docs/design-system/components/*.md`)를 갱신한다.
 8. 공통 컴포넌트의 동작·접근성 테스트를 추가하거나 갱신한다.
-9. `yarn test:run`과 `yarn lint`를 실행한다. UI 구조 변경이 크면 `yarn build-storybook`도 실행한다.
+9. `yarn test:run`, `yarn lint`, `yarn typecheck`를 실행한다. UI 구조 변경이 크면 `yarn build-storybook`도 실행한다.
 
 ---
 
@@ -96,3 +96,20 @@ UI 작업은 `docs/ai/checklists/component-review.md`를 기준으로 자체 검
 - 추가/변경한 variant 또는 props
 - 실행한 검증 명령과 결과
 - 남은 리스크나 후속 작업
+
+---
+
+## 7. Pull Request와 CI
+
+1. AI가 생성한 코드는 작업 브랜치에서 커밋하고 Pull Request를 만든다.
+2. GitHub Actions에서 다음 검사를 독립적으로 실행한다.
+   - `yarn lint`
+   - `yarn typecheck`
+   - `yarn test:run`
+   - `yarn build`
+3. 하나라도 실패하면 해당 검사 로그에서 원인을 확인한다.
+4. 원인을 수정해 같은 Pull Request 브랜치에 푸시한다.
+5. 모든 필수 검사가 통과할 때까지 3~4단계를 반복한다.
+6. `lint`, `typecheck`, `test`, `build`가 모두 통과한 뒤에만 `main`에 merge한다.
+
+검사를 통과시키기 위해 테스트를 삭제하거나, 규칙을 비활성화하거나, 실패를 무시하도록 CI를 변경하지 않는다.
