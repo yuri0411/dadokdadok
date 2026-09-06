@@ -4,6 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "test": "vitest",
+    "test:run": "vitest run",
+    "typecheck": "tsc --noEmit",
     "api:generate": "orval --config orval.config.ts",
     "api:generate:local": "OPENAPI_SCHEMA=../jlpt-voca-server/swagger.json orval --config orval.config.ts",
     "dev": "vite",
@@ -28,6 +31,9 @@
     "@storybook/addon-a11y": "^10.5.6",
     "@storybook/addon-docs": "^10.5.6",
     "@storybook/react-vite": "^10.5.6",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
@@ -41,11 +47,13 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "jsdom": "^29.1.1",
     "orval": "^8.27.0",
     "prettier": "3.7.4",
     "storybook": "^10.5.6",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vitest": "^5.0.0"
   }
 }
