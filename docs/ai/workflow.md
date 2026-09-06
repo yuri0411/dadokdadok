@@ -22,7 +22,8 @@ AI와 사람이 기능을 구현하거나 수정할 때 따르는 공통 작업 
    - size / variant / color 조합
    - long content
 7. 사용 규칙 문서(`docs/design-system/components/*.md`)를 갱신한다.
-8. `yarn lint`를 실행한다. UI 구조 변경이 크면 `yarn build-storybook`도 실행한다.
+8. 공통 컴포넌트의 동작·접근성 테스트를 추가하거나 갱신한다.
+9. `yarn test:run`과 `yarn lint`를 실행한다. UI 구조 변경이 크면 `yarn build-storybook`도 실행한다.
 
 ---
 
@@ -80,6 +81,7 @@ UI 작업은 `docs/ai/checklists/component-review.md`를 기준으로 자체 검
 - [ ] 새 hard-coded 시각 값을 추가하지 않았는가?
 - [ ] props 이름이 기존 컨벤션/Figma mapping과 맞는가?
 - [ ] Storybook과 컴포넌트 문서를 갱신했는가? (공통 컴포넌트 변경 시)
+- [ ] 공통 컴포넌트 테스트가 통과하는가?
 - [ ] `yarn lint` / `yarn build`가 통과하는가?
 - [ ] 요청 범위를 넘는 리팩터링을 하지 않았는가?
 

@@ -43,7 +43,8 @@
 - 기존 공통 컴포넌트와 같은 UI를 페이지에서 다시 만들지 않는다.
 - 스타일은 디자인 토큰을 사용한다.
 - 새 variant는 Storybook + 사용 규칙 문서를 함께 추가한다.
-- 공통 컴포넌트를 새로 만들거나 수정하면 Storybook story와 사용 규칙 문서를 같은 작업에서 완료한다.
+- 공통 컴포넌트를 새로 만들거나 수정하면 Storybook story, 사용 규칙 문서, Vitest 테스트를 같은 작업에서 완료한다.
+- 테스트에는 해당되는 경우 variant, disabled/loading, keyboard interaction, `aria-*` 속성을 포함한다.
 - Input 공통 컴포넌트는 아직 없다. 폼 입력이 필요하면 추가 구현을 별도 작업으로 제안한다.
 
 ---

@@ -23,7 +23,8 @@ When creating or modifying a common component, finish all of the following in th
 1. Implement the component with token-based styles.
 2. Add or update the Storybook story.
 3. Add or update the usage doc under `docs/design-system/components/`.
-4. Check accessibility states.
+4. Add or update the Vitest test for behavior, interaction, and accessibility contracts.
+5. Check accessibility states.
 
 ## Validation
 
@@ -32,6 +33,7 @@ Before finishing UI work, self-review against `docs/ai/checklists/component-revi
 After UI or code changes, run:
 
 ```bash
+yarn test:run
 yarn lint
 yarn build
 ```

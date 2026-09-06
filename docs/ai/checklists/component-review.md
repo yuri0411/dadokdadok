@@ -3,7 +3,7 @@
 UI 관련 작업을 끝낸 뒤, AI와 사람이 공통으로 사용하는 검증 기준이다.
 
 코드를 생성했다고 끝내지 말고, 해당 항목을 확인한 뒤 결과를 보고한다.
-이 프로젝트에는 별도 test 스크립트가 없으므로 `yarn lint` / `yarn build` / 필요 시 `yarn build-storybook`으로 검증한다.
+공통 컴포넌트 변경 시 Vitest 테스트를 작성하고 `yarn test:run`으로 검증한다.
 
 ---
 
@@ -50,6 +50,7 @@ UI 관련 작업을 끝낸 뒤, AI와 사람이 공통으로 사용하는 검증
 
 ## 명령 검증
 
+- [ ] `yarn test:run` 통과
 - [ ] `yarn lint` 통과
 - [ ] `yarn build` 통과
 - [ ] Storybook 변경 시 `yarn build-storybook` 통과
@@ -66,6 +67,7 @@ Reused components:
 Added/updated variants or props:
 Checklist gaps (if any):
 Commands:
+- yarn test:run: pass | fail
 - yarn lint: pass | fail
 - yarn build: pass | fail
 - yarn build-storybook: pass | fail | skipped

@@ -26,6 +26,8 @@ UI 작업 시에는 `docs/design-system/` 문서도 함께 확인한다.
 - 스타일 값에는 디자인 토큰을 사용한다.
 - 컴포넌트 props는 Figma property / variant 이름과 대응시킨다.
 - 새로운 공통 컴포넌트 또는 variant·상태를 추가하면, 같은 작업에서 Storybook story와 `docs/design-system/components/*.md`를 함께 추가/갱신한다.
+- 공통 컴포넌트를 생성하거나 수정하면 같은 작업에서 Vitest 테스트를 추가/갱신한다.
+- 테스트는 구현 세부사항보다 공개 props, 사용자 interaction, keyboard 동작, loading/disabled 상태, `aria-*` 계약을 검증한다.
 - 화면 전용 UI는 `pages/` 하위에 두고, 2곳 이상 반복되면 공통으로 승격한다.
 
 상세 선택 기준은 `docs/ai/component-guidelines.md`와 `docs/design-system/component-guidelines.md`를 따른다.
@@ -106,6 +108,7 @@ UI 작업 시에는 `docs/design-system/` 문서도 함께 확인한다.
 변경 후 가능한 범위에서 아래를 실행한다.
 
 ```bash
+yarn test:run
 yarn lint
 yarn build
 ```
