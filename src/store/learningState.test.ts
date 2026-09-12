@@ -30,11 +30,13 @@ describe("학습 기록", () => {
     vi.resetModules();
     const { useStudyStore: restored } = await import("./useStudyStore");
     expect(restored.getState().lastStudy).toEqual({ N5: "2" });
+    expect(restored.getState().latestStudy).toEqual({ level: "N5", unit: "2" });
     expect(restored.getState().reviewCountMap).toEqual({ N5: { 2: 1 } });
     restored.getState().resetStudyInfo();
     vi.resetModules();
     const { useStudyStore: cleared } = await import("./useStudyStore");
     expect(cleared.getState().lastStudy).toEqual({});
+    expect(cleared.getState().latestStudy).toBeNull();
     expect(cleared.getState().reviewCountMap).toEqual({});
   });
 });
