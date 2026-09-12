@@ -41,6 +41,8 @@
 
 ## 규칙
 
+- `confirmLoading`은 기존 Button의 loading 계약을 따른다. 처리 중 확인 버튼은 `aria-busy="true"` 및 비활성 상태이며, 완료 후 라벨과 실행 가능 상태를 복원한다.
+- 내부 Button·Typography는 개별 모듈에서 import하여 Modal을 다시 export하는 `@/components`와의 순환 참조를 피한다. 화면에서는 기존처럼 `@/components`를 사용한다.
 - 확인과 취소처럼 선택이 필요한 대화에만 사용한다.
 - 한 시점에 Modal은 하나만 연다.
 - 파괴적이거나 되돌리기 어려운 액션의 확인 버튼 라벨은 동작을 명확히 쓴다.

@@ -72,6 +72,7 @@ primary보다 우선순위가 낮은 보조 액션에 사용한다.
 ## 규칙
 
 - 링크 이동이 목적이고 버튼 스타일이 필요 없으면 `Button` 대신 라우터 `Link`/`NavLink`를 사용한다.
+- `loading` 중에는 `aria-busy="true"`와 `disabled`가 적용되어 중복 실행을 막는다. 로딩 종료 후 busy 속성을 제거하고, 별도 `disabled`가 없으면 다시 실행할 수 있다.
 - 비동기 요청 중에는 `loading`을 사용한다. `disabled`만 켜서 로딩을 표현하지 않는다.
 - 아이콘은 `startIcon` / `endIcon`으로 전달한다.
 - 직접 `<button>`을 작성하지 않고 공통 `Button`을 사용한다.

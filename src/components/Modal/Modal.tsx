@@ -2,7 +2,8 @@ import { type HTMLAttributes, type PropsWithChildren, useEffect, useId } from "r
 
 import { createPortal } from "react-dom";
 
-import { Button, Typography } from "@/components";
+import { Button } from "@/components/Button/Button";
+import { Typography } from "@/components/Typography/Typography";
 
 import styles from "./Modal.module.css";
 
