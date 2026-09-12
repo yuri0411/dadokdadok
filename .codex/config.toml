@@ -1,0 +1,4 @@
+# Project-scoped Figma remote MCP. Authenticate locally with: codex mcp login figma
+# OAuth credentials are stored by Codex, never in this repository.
+[mcp_servers.figma]
+url = "https://mcp.figma.com/mcp"
