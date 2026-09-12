@@ -64,4 +64,22 @@ describe("Button", () => {
     render(<Button>저장</Button>);
     expect(screen.getByRole("button", { name: "저장" })).not.toHaveAttribute("aria-busy");
   });
+  it("loading 종료 후 busy를 해제하고 클릭을 다시 허용한다", async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    const { rerender } = render(
+      <Button loading onClick={onClick}>
+        저장
+      </Button>
+    );
+    await user.click(screen.getByRole("button", { name: "처리 중" }));
+    expect(onClick).not.toHaveBeenCalled();
+
+    rerender(<Button onClick={onClick}>저장</Button>);
+    const button = screen.getByRole("button", { name: "저장" });
+    expect(button).not.toHaveAttribute("aria-busy");
+    expect(button).toBeEnabled();
+    await user.click(button);
+    expect(onClick).toHaveBeenCalledOnce();
+  });
 });

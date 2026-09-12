@@ -61,4 +61,18 @@ describe("Modal", () => {
     expect(confirmButton).toBeDisabled();
     expect(confirmButton).toHaveAttribute("aria-busy", "true");
   });
+  it("확인 처리 중 중복 실행을 막고 완료 후 확인 동작을 복원한다", async () => {
+    const user = userEvent.setup();
+    const onConfirm = vi.fn();
+    const { rerender } = render(<Modal open title="저장" confirmLoading onConfirm={onConfirm} />);
+    await user.click(screen.getByRole("button", { name: "처리 중" }));
+    expect(onConfirm).not.toHaveBeenCalled();
+
+    rerender(<Modal open title="저장" onConfirm={onConfirm} />);
+    const button = screen.getByRole("button", { name: "확인" });
+    expect(button).not.toHaveAttribute("aria-busy");
+    expect(button).toBeEnabled();
+    await user.click(button);
+    expect(onConfirm).toHaveBeenCalledOnce();
+  });
 });

@@ -70,7 +70,17 @@ export const Sizes: Story = {
 };
 
 export const Disabled: Story = { args: { disabled: true } };
-export const Loading: Story = { args: { loading: true, loadingText: "저장 중" } };
+export const Loading: Story = {
+  args: { loading: true, loadingText: "저장 중" },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "loading 중에는 aria-busy=true와 disabled가 적용됩니다. Controls에서 loading을 끄면 원래 라벨과 클릭 가능 상태로 돌아옵니다.",
+      },
+    },
+  },
+};
 
 export const WithIcons: Story = {
   args: {

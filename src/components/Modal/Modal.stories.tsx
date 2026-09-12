@@ -32,6 +32,14 @@ export const Default: Story = {
 };
 
 export const ConfirmLoading: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "확인 버튼은 처리 중 aria-busy=true 및 disabled 상태입니다. confirmLoading을 끄면 확인 라벨과 클릭 가능 상태가 복원됩니다.",
+      },
+    },
+  },
   args: {
     confirmLoading: true,
     children: <Typography align="center">학습 결과를 저장하고 있습니다.</Typography>,
