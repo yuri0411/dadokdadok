@@ -113,3 +113,20 @@ UI 작업은 `docs/ai/checklists/component-review.md`를 기준으로 자체 검
 6. `lint`, `typecheck`, `test`, `build`가 모두 통과한 뒤에만 `main`에 merge한다.
 
 검사를 통과시키기 위해 테스트를 삭제하거나, 규칙을 비활성화하거나, 실패를 무시하도록 CI를 변경하지 않는다.
+
+## 8. 자동 검증 하네스
+
+로컬에서는 `yarn verify`로 lint → typecheck → test → build를 실행한다.
+CI는 기존 네 개 검사를 독립 실행해 실패 원인을 구분한다.
+Storybook 변경 시에는 별도로 `yarn build-storybook`도 실행한다.
+
+- ESLint는 UI·hooks·store·utils에서 HTTP 클라이언트와 생성 API를 직접 가져오는 것을 차단한다. alias와 상대 경로 모두 검사한다.
+- 위 계층의 axios import, 전역 fetch/XMLHttpRequest 및 window/globalThis/self를 통한 직접 호출을 차단한다.
+- 공통 컴포넌트에서 pages를 가져오면 실패한다.
+- 오류 메시지가 안내하는 도메인 service 경계로 코드를 이동한 뒤 다시 검사한다.
+- `scripts/architecture.test.mjs`는 금지 사례와 허용 사례로 검사 설정 자체를 검증한다.
+- `src/store/learningState.test.ts`는 레벨·단원별 기록, 회독, 초기화, 시간 누적, 복습 토글과 이전 데이터 이관을 검증한다. 각 테스트는 저장소를 비우고 모듈을 다시 로드하며, 복원 검증은 데이터를 저장한 뒤 새 store 인스턴스를 사용한다.
+
+버그 수정 시 먼저 사용자 동작을 나타내는 실패 테스트로 재현하고, 수정 후 해당 테스트와 전체 검증을 실행한다. API 경계 규칙은 정적 import와 명시적 전역 접근을 검사하는 개발 규칙이며, 임의 코드의 네트워크 접근을 막는 보안 경계는 아니다.
+
+현재 자동 검사 범위에 CSS 토큰, 인라인 스타일, 브라우저 전체 흐름은 포함되지 않는다. 기존 UI 검토 체크리스트는 계속 적용한다. 후속 확장은 기존 시각 값의 정리와 고정 API 데이터 기반 브라우저 검증을 별도 작업으로 진행한다.

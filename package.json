@@ -6,7 +6,7 @@
   "scripts": {
     "test": "vitest",
     "test:run": "vitest run",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit",
     "api:generate": "orval --config orval.config.ts",
     "api:generate:local": "OPENAPI_SCHEMA=../jlpt-voca-server/swagger.json orval --config orval.config.ts",
     "dev": "vite",
@@ -14,7 +14,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "verify": "yarn lint && yarn typecheck && yarn test:run && yarn build"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.17",

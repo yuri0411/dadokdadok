@@ -31,7 +31,7 @@ export const useWordProgressStore = create<WordProgressState>()(
       wordProgressMap: {},
       getWordProgressByUnit: (level, unit) => {
         const { wordProgressMap } = getState();
-        return wordProgressMap?.[level]?.[unit] ?? {};
+        return wordProgressMap?.[level]?.[unit] ?? { repeatWords: [], learnedWords: [] };
       },
       getLearnedWordsByLevel: () => {
         const { wordProgressMap } = getState();

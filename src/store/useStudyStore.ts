@@ -13,7 +13,7 @@ export const useStudyStore = create<StudyState>()(
     (setState, getState) => ({
       lastStudy: {},
       setLastStudy: (level, unit) => {
-        setState({ lastStudy: { [level]: unit } });
+        setState((state) => ({ lastStudy: { ...state.lastStudy, [level]: unit } }));
       },
       reviewCountMap: {},
       setReviewCount: (level, unit) => {
