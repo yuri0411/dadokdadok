@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { isEmpty } from "lodash-es";
 import { BiArrowBack } from "react-icons/bi";
@@ -27,7 +27,7 @@ const WordPage = () => {
 
   if (!unit || level == null) return <Navigate to="/" replace />;
 
-  return <WordPageInner unit={unit} level={level} />;
+  return <WordPageInner key={`${level}/${unit}`} unit={unit} level={level} />;
 };
 const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
   const navigate = useNavigate();
@@ -49,27 +49,32 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
     }))
   );
 
-  const { repeatWords = [], learnedWords = [] } = getWordProgressByUnit(level, unit);
+  // Keep this round stable while every answer is persisted immediately.
+  const [round, setRound] = useState(() => getWordProgressByUnit(level, unit));
+  const { repeatWords = [], learnedWords = [] } = round;
 
   const { seconds, time, pause: pauseTimer, resume: resumeTimer } = useTimer();
 
   const [repeatWordIds, setRepeatWordIds] = useState<number[]>(repeatWords);
   const [learnedWordIds, setLearnedWordIds] = useState<number[]>(learnedWords);
 
+  const {
+    data = [],
+    isPending,
+    isError,
+    refetch,
+  } = useWordsPerUnitQuery(level, wordsPerUnit, Number(unit));
   const usesRandomWords =
-    !isEmpty(repeatWords) && repeatWords.length + learnedWords.length >= wordsPerUnit;
+    !isEmpty(repeatWords) &&
+    data.length > 0 &&
+    repeatWords.length + learnedWords.length >= data.length;
 
-  const { data = [], isPending, isError, refetch } = useWordsPerUnitQuery(
-    level,
-    wordsPerUnit,
-    Number(unit)
-  );
   const {
     data: randomWords = [],
     isPending: isPendingRandomWords,
     isError: isErrorRandomWords,
     refetch: refetchRandomWords,
-  } = useRandomWordsQuery(usesRandomWords ? repeatWordIds : []);
+  } = useRandomWordsQuery(usesRandomWords ? repeatWords : []);
 
   const [currentCount, setCurrentCount] = useState(0);
   const [modalType, setModalType] = useState<"stop" | "repeat" | "complete">();
@@ -83,19 +88,30 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
 
     return data.filter(
       (word) =>
-        ![
-          ...(learnedWords.length === wordsPerUnit ? [] : learnedWords),
-          ...repeatWords,
-        ].includes(word.id)
+        ![...(learnedWords.length === data.length ? [] : learnedWords), ...repeatWords].includes(
+          word.id
+        )
     );
-  }, [data, learnedWords, randomWords, repeatWords, usesRandomWords, wordsPerUnit]);
+  }, [data, learnedWords, randomWords, repeatWords, usesRandomWords]);
 
   const isLoading = usesRandomWords ? isPendingRandomWords : isPending;
   const isQueryError = usesRandomWords ? isErrorRandomWords : isError;
   const currentWord = words[currentCount];
 
+  const savedSeconds = useRef(0);
+  useEffect(() => {
+    const delta = seconds - savedSeconds.current;
+    if (delta > 0) {
+      setSeconds({ level, seconds: delta });
+      savedSeconds.current = seconds;
+    }
+  }, [level, seconds, setSeconds]);
+
+  useEffect(() => {
+    setLastStudy(level, unit);
+  }, [level, unit, setLastStudy]);
+
   const exitStudy = () => {
-    setSeconds({ level, seconds });
     navigate(-1);
     setModalType(undefined);
     setWordProgress({ learnedWordIds, repeatWordIds, level, unit });
@@ -111,30 +127,39 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
   };
 
   const repeatStudy = () => {
-    refetchRandomWords().then(() => {
-      setCurrentCount(0);
-      setWordProgress({ learnedWordIds, repeatWordIds, level, unit });
-      closeModal();
-    });
+    setRound({ repeatWords: repeatWordIds, learnedWords: learnedWordIds });
+    setCurrentCount(0);
+    closeModal();
   };
 
   const completeStudy = () => {
-    refetch().then(() => {
-      setCurrentCount(0);
-      setWordProgressReset(level, unit);
-      setRepeatWordIds([]);
-      setLearnedWordIds([]);
-      closeModal();
-    });
+    setWordProgressReset(level, unit);
+    setRound({ repeatWords: [], learnedWords: [] });
+    setCurrentCount(0);
+    setRepeatWordIds([]);
+    setLearnedWordIds([]);
+    closeModal();
   };
 
-  const goNext = () => {
+  const answerWord = (wordId: number, repeat: boolean) => {
+    if (modalType || !currentWord) return;
+    const nextRepeatIds = repeat
+      ? [...new Set([...repeatWordIds, wordId])]
+      : repeatWordIds.filter((id) => id !== wordId);
+    const nextLearnedIds = repeat
+      ? learnedWordIds.filter((id) => id !== wordId)
+      : [...new Set([...learnedWordIds, wordId])];
+    setRepeatWordIds(nextRepeatIds);
+    setLearnedWordIds(nextLearnedIds);
+    setWordProgress({ level, unit, repeatWordIds: nextRepeatIds, learnedWordIds: nextLearnedIds });
+    setLastStudy(level, unit);
+
     if (currentCount < words.length - 1) {
       setCurrentCount((prevCount) => prevCount + 1);
       return;
     }
     pauseTimer();
-    if (repeatWordIds.length <= 1) {
+    if (nextRepeatIds.length === 0) {
       setModalType("complete");
       setReviewCount(level, unit);
     } else {
@@ -177,16 +202,8 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
         key={currentWord.id}
         level={level}
         word={currentWord}
-        onRepeatClick={(wordId: number) => {
-          setRepeatWordIds((ids) => [...new Set([...ids, wordId])]);
-          setLearnedWordIds((ids) => ids.filter((id) => id !== wordId));
-          goNext();
-        }}
-        onLearnedClick={(wordId: number) => {
-          setRepeatWordIds((ids) => ids.filter((id) => id !== wordId));
-          setLearnedWordIds((ids) => [...new Set([...ids, wordId])]);
-          goNext();
-        }}
+        onRepeatClick={(wordId) => answerWord(wordId, true)}
+        onLearnedClick={(wordId) => answerWord(wordId, false)}
       />
     );
   };

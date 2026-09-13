@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
 
-import { isEmpty } from "lodash-es";
 import { AiOutlinePushpin } from "react-icons/ai";
 import { IoSettingsOutline } from "react-icons/io5";
 import { RiBookmark3Line } from "react-icons/ri";
@@ -38,9 +37,10 @@ const HomePage = () => {
       wordProgressMap: state.wordProgressMap,
     }))
   );
-  const { lastStudy, reviewCountMap } = useStudyStore(
+  const { lastStudy, latestStudy, reviewCountMap } = useStudyStore(
     useShallow((state) => ({
       lastStudy: state.lastStudy,
+      latestStudy: state.latestStudy,
       reviewCountMap: state.reviewCountMap,
     }))
   );
@@ -48,8 +48,12 @@ const HomePage = () => {
     Object.values(state.reviewWordIds).reduce((total, ids) => total + ids.length, 0)
   );
 
-  const [level, unit] = Object.entries(lastStudy ?? {})[0] ?? [];
-  const hasLastStudy = !isEmpty(lastStudy);
+  // Legacy single-level records are unambiguous; multiple old levels have no timestamp.
+  const legacyEntries = Object.entries(lastStudy ?? {});
+  const legacyStudy = legacyEntries.length === 1 ? legacyEntries[0] : undefined;
+  const level = latestStudy?.level ?? legacyStudy?.[0];
+  const unit = latestStudy?.unit ?? legacyStudy?.[1];
+  const hasLastStudy = Boolean(level && unit);
   const hasReviewWords = reviewWordCount > 0;
 
   const studyContext = useMemo<TodayStudyContext | undefined>(() => {
