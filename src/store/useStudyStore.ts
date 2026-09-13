@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 
 interface StudyState {
   lastStudy: Record<string, string>;
+  latestStudy: { level: string; unit: string } | null;
   setLastStudy: (level: string, unit: string) => void;
   reviewCountMap: Record<string, Record<string, number>>;
   setReviewCount: (level: string, unit: string) => void;
@@ -12,8 +13,12 @@ export const useStudyStore = create<StudyState>()(
   persist(
     (setState, getState) => ({
       lastStudy: {},
+      latestStudy: null,
       setLastStudy: (level, unit) => {
-        setState((state) => ({ lastStudy: { ...state.lastStudy, [level]: unit } }));
+        setState((state) => ({
+          lastStudy: { ...state.lastStudy, [level]: unit },
+          latestStudy: { level, unit },
+        }));
       },
       reviewCountMap: {},
       setReviewCount: (level, unit) => {
@@ -29,7 +34,7 @@ export const useStudyStore = create<StudyState>()(
         });
       },
       resetStudyInfo: () => {
-        setState({ lastStudy: {}, reviewCountMap: {} });
+        setState({ lastStudy: {}, latestStudy: null, reviewCountMap: {} });
       },
     }),
     {
