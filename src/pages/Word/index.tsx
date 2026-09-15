@@ -5,7 +5,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
-import { ErrorFallback, Typography } from "@/components";
+import { Button, ErrorFallback, Typography } from "@/components";
 import { useTimer } from "@/hooks/useTimer.ts";
 import { StudyModals } from "@/pages/Word/components/StudyModals.tsx";
 import { useRandomWordsQuery, useWordsPerUnitQuery } from "@/services/word/queries.ts";
@@ -210,18 +210,22 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
 
   return (
     <div>
-      <header style={{ padding: "16px 20px" }}>
-        <Typography
-          as="a"
-          variant="h5"
+      <header className={styles.header}>
+        <Button
+          variant="ghost"
+          color="tertiary"
+          className={styles.backButton}
+          startIcon={<BiArrowBack />}
+          aria-label={`학습 중단 확인: N${level} Unit ${unit}`}
           onClick={() => {
             setModalType("stop");
             pauseTimer();
           }}
-          style={{ display: "flex", alignItems: "center", gap: "8px" }}
         >
-          <BiArrowBack /> N{level} Unit{unit}
-        </Typography>
+          <Typography as="span" variant="h5" color="inherit">
+            N{level} Unit{unit}
+          </Typography>
+        </Button>
       </header>
       <main>
         <section className={styles.time}>
@@ -229,7 +233,7 @@ const WordPageInner = ({ unit, level }: { unit: string; level: string }) => {
             현재 학습 중: {time}
           </Typography>
         </section>
-        <section style={{ padding: 20 }}>{renderWordContent()}</section>
+        <section className={styles.wordContent}>{renderWordContent()}</section>
       </main>
       <StudyModals
         modalType={modalType}

@@ -1,4 +1,4 @@
-import { type HTMLAttributes, type PropsWithChildren, useEffect, useId } from "react";
+import { type HTMLAttributes, type PropsWithChildren, useEffect, useId, useRef } from "react";
 
 import { createPortal } from "react-dom";
 
@@ -7,10 +7,13 @@ import { Typography } from "@/components/Typography/Typography";
 
 import styles from "./Modal.module.css";
 
-export type ModalProps = HTMLAttributes<HTMLDivElement> &
+type ModalAccessibleName =
+  | { title: string; "aria-label"?: string }
+  | { title?: string; "aria-label": string };
+
+export type ModalProps = Omit<HTMLAttributes<HTMLDivElement>, "title" | "aria-label"> &
   PropsWithChildren<{
     open: boolean;
-    title?: string;
     closeText?: string;
     confirmText?: string;
     onClose?: () => void;
@@ -18,11 +21,15 @@ export type ModalProps = HTMLAttributes<HTMLDivElement> &
     closeOnBackdrop?: boolean;
     closeOnEscape?: boolean;
     confirmLoading?: boolean;
-  }>;
+  } & ModalAccessibleName>;
+
+const FOCUSABLE =
+  'a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])';
 
 export const Modal = ({
   open,
   title,
+  "aria-label": ariaLabel,
   closeText = "취소",
   confirmText = "확인",
   onClose,
@@ -36,16 +43,76 @@ export const Modal = ({
 }: ModalProps) => {
   const portalRoot = document.getElementById("content-root");
   const titleId = useId();
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const onCloseRef = useRef(onClose);
 
   useEffect(() => {
-    if (!open || !closeOnEscape) return;
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose?.();
+  useEffect(() => {
+    if (!open || !portalRoot || !dialogRef.current) return;
+
+    const dialog = dialogRef.current;
+    const previouslyFocused = document.activeElement;
+    const background: Array<{ element: HTMLElement; wasInert: boolean }> = [];
+    let current: HTMLElement | null = portalRoot;
+    let child: HTMLElement = dialog.parentElement ?? portalRoot;
+
+    // The portal is inside the app layout, so disable siblings at every ancestor.
+    while (current) {
+      for (const sibling of current.children) {
+        if (sibling !== child && sibling instanceof HTMLElement) {
+          background.push({ element: sibling, wasInert: sibling.hasAttribute("inert") });
+          sibling.setAttribute("inert", "");
+        }
+      }
+      child = current;
+      current = current.parentElement;
+    }
+
+    const focusable = () => Array.from(dialog.querySelectorAll<HTMLElement>(FOCUSABLE));
+    (focusable()[0] ?? dialog).focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        if (closeOnEscape) onCloseRef.current?.();
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const elements = focusable();
+      const first = elements[0] ?? dialog;
+      const last = elements.at(-1) ?? dialog;
+      const active = document.activeElement;
+      if (elements.length === 0 || !dialog.contains(active)) {
+        event.preventDefault();
+        first.focus();
+      } else if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [closeOnEscape, onClose, open]);
+    const keepFocusInside = (event: FocusEvent) => {
+      if (!dialog.contains(event.target as Node)) (focusable()[0] ?? dialog).focus();
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("focusin", keepFocusInside);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("focusin", keepFocusInside);
+      for (const { element, wasInert } of background) {
+        if (!wasInert) element.removeAttribute("inert");
+      }
+      if (previouslyFocused instanceof HTMLElement && previouslyFocused.isConnected) {
+        previouslyFocused.focus();
+      }
+    };
+  }, [closeOnEscape, open, portalRoot]);
 
   if (!portalRoot) return null;
   if (!open) return null;
@@ -56,10 +123,13 @@ export const Modal = ({
       {...modalProps}
     >
       <div
+        ref={dialogRef}
         className={styles.modal}
         role="dialog"
+        tabIndex={-1}
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
+        aria-label={title ? undefined : ariaLabel}
         onClick={(event) => event.stopPropagation()}
       >
         {title && (

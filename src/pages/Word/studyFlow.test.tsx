@@ -206,4 +206,18 @@ describe("학습 페이지 흐름", () => {
     mount(true);
     expect(screen.queryByRole("button", { name: /학습 이어하기/ })).not.toBeInTheDocument();
   });
+
+  it("학습 중단을 키보드로 열고 취소하면 뒤로가기 버튼으로 포커스를 복원한다", async () => {
+    const user = userEvent.setup();
+    mount();
+    await screen.findByText("단어1");
+    const back = screen.getByRole("button", { name: "학습 중단 확인: N5 Unit 1" });
+    back.focus();
+    await user.keyboard("{Enter}");
+    expect(screen.getByRole("dialog", { name: "학습을 마치시겠어요?" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "취소" })).toHaveFocus();
+    await user.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog", { name: "학습을 마치시겠어요?" })).not.toBeInTheDocument();
+    expect(back).toHaveFocus();
+  });
 });

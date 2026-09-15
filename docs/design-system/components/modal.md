@@ -15,7 +15,8 @@
 | Prop | Type | Default | 설명 |
 |---|---|---|---|
 | `open` | `boolean` | - | 표시 여부 |
-| `title` | `string` | - | 상단 제목 |
+| `title` | `string` | - | 표시할 때 상단 제목이자 대화상자의 접근 가능한 이름 |
+| `aria-label` | `string` | - | `title`이 없을 때 필요한 대화상자의 접근 가능한 이름 |
 | `children` | `ReactNode` | - | 본문 콘텐츠 |
 | `closeText` | `string` | `"취소"` | 닫기/보조 버튼 라벨 |
 | `confirmText` | `string` | `"확인"` | 확인/주요 버튼 라벨 |
@@ -31,7 +32,7 @@
 
 ## 구조
 
-1. 제목 (`Typography` h3)
+1. 제목 (`Typography` h3, `title`이 있을 때)
 2. 본문 (`children`)
 3. 액션 영역
    - 닫기: `Button variant="outlined" color="tertiary"`
@@ -41,7 +42,10 @@
 
 ## 규칙
 
+- 확인/취소용 대화상자에는 `title` 또는 `aria-label`로 접근 가능한 이름을 제공한다. 시각적 제목을 표시하지 않는 경우 `aria-label`을 전달한다. 제목이 있으면 `aria-labelledby`로 연결한다.
 - `confirmLoading`은 기존 Button의 loading 계약을 따른다. 처리 중 확인 버튼은 `aria-busy="true"` 및 비활성 상태이며, 완료 후 라벨과 실행 가능 상태를 복원한다.
+- 열릴 때 모달의 첫 실행 가능 요소로 포커스를 옮긴다. Tab/Shift+Tab은 모달 안에서 순환하고, 배경은 `inert`로 비활성화한다. 닫을 때 이전 포커스를 복원한다. 실행 가능한 요소가 없으면 대화상자 자체에 포커스를 둔다.
+- Escape는 `closeOnEscape`가 켜져 있을 때만 `onClose`를 호출한다. `aria-modal`은 이 키보드 동작과 함께 유지한다.
 - 내부 Button·Typography는 개별 모듈에서 import하여 Modal을 다시 export하는 `@/components`와의 순환 참조를 피한다. 화면에서는 기존처럼 `@/components`를 사용한다.
 - 확인과 취소처럼 선택이 필요한 대화에만 사용한다.
 - 한 시점에 Modal은 하나만 연다.
@@ -67,6 +71,14 @@ import { Modal, Typography } from "@/components";
   onConfirm={onExit}
 >
   <Typography align="center">진행 중인 학습 내용은 모두 저장됩니다.</Typography>
+</Modal>
+```
+
+시각적 제목을 표시하지 않을 때는 대화상자 자체에 이름을 준다.
+
+```tsx
+<Modal open={open} aria-label="학습 종료 확인" onClose={onClose} onConfirm={onExit}>
+  <Typography align="center">학습을 종료하시겠어요?</Typography>
 </Modal>
 ```
 

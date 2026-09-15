@@ -1,3 +1,15 @@
+.header {
+  padding: var(--spacing-4) var(--spacing-5);
+}
+
+.backButton {
+  padding: var(--spacing-0);
+}
+
+.wordContent {
+  padding: var(--spacing-5);
+}
+
 .time {
   display: flex;
   flex-direction: column;
