@@ -59,4 +59,4 @@ When finished, report:
 - changed files
 - reused components
 - added or updated variants/props
-- validation results
+- validation evidence following [Workflow: 결과 보고 형식](docs/ai/workflow.md#6-결과-보고-형식)

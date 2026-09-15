@@ -4,10 +4,14 @@
 
 ## 검증
 
-- [ ] `yarn lint`
-- [ ] `yarn typecheck`
-- [ ] `yarn test:run`
-- [ ] `yarn build`
+[공통 결과 보고 형식](https://github.com/yuri0411/dadokdadok/blob/main/docs/ai/workflow.md#6-결과-보고-형식)에 따라 실제 실행 명령과 출력 요약을 함께 기록합니다. 로컬과 CI를 구분하고 미실행 이유, 실패 후 재실행 결과, 주요 경고를 남깁니다.
+
+| 실행 환경·코드 상태 | 실행 명령 | 결과(통과/실패/미실행) | 출력 요약·로그 링크 또는 미실행 이유 |
+|---|---|---|---|
+| | `yarn lint` | | |
+| | `yarn typecheck` | | |
+| | `yarn test:run` | | |
+| | `yarn build` | | |
 
 ## Merge 전 확인
 
