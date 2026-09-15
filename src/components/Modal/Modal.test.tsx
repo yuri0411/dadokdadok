@@ -75,4 +75,65 @@ describe("Modal", () => {
     await user.click(button);
     expect(onConfirm).toHaveBeenCalledOnce();
   });
+
+  it("열릴 때 포커스를 옮기고 Tab과 Shift+Tab을 모달 안에서 순환시킨다", async () => {
+    const user = userEvent.setup();
+    render(<Modal open title="학습 종료" />);
+    const close = screen.getByRole("button", { name: "취소" });
+    const confirm = screen.getByRole("button", { name: "확인" });
+    expect(close).toHaveFocus();
+    await user.tab();
+    expect(confirm).toHaveFocus();
+    await user.tab();
+    expect(close).toHaveFocus();
+    await user.tab({ shift: true });
+    expect(confirm).toHaveFocus();
+  });
+
+  it("배경을 비활성화하고 모달이 닫히면 이전 포커스를 복원한다", async () => {
+    const trigger = document.createElement("button");
+    trigger.textContent = "학습 종료 열기";
+    document.body.append(trigger);
+    trigger.focus();
+    const { rerender } = render(<Modal open title="학습 종료" />);
+    const dialog = screen.getByRole("dialog", { name: "학습 종료" });
+    expect(trigger).toHaveAttribute("inert");
+    trigger.focus();
+    expect(dialog).toContainElement(document.activeElement as HTMLElement);
+    rerender(<Modal open={false} title="학습 종료" />);
+    expect(trigger).not.toHaveAttribute("inert");
+    expect(trigger).toHaveFocus();
+    trigger.remove();
+  });
+
+  it("포털이 화면 레이아웃 안에 있어도 바깥 영역을 비활성화한다", () => {
+    const portal = document.getElementById("content-root")!;
+    const layout = document.createElement("div");
+    const sidebar = document.createElement("aside");
+    const page = document.createElement("main");
+    page.append(portal);
+    layout.append(sidebar, page);
+    document.body.append(layout);
+
+    const { rerender } = render(<Modal open title="학습 종료" />);
+    expect(sidebar).toHaveAttribute("inert");
+    rerender(<Modal open={false} title="학습 종료" />);
+    expect(sidebar).not.toHaveAttribute("inert");
+    layout.remove();
+  });
+
+  it("Escape 비활성화와 변경된 onClose 콜백을 존중한다", async () => {
+    const user = userEvent.setup();
+    const firstClose = vi.fn();
+    const latestClose = vi.fn();
+    const { rerender } = render(
+      <Modal open title="학습 종료" closeOnEscape={false} onClose={firstClose} />
+    );
+    await user.keyboard("{Escape}");
+    expect(firstClose).not.toHaveBeenCalled();
+    rerender(<Modal open title="학습 종료" onClose={latestClose} />);
+    await user.keyboard("{Escape}");
+    expect(latestClose).toHaveBeenCalledOnce();
+    expect(firstClose).not.toHaveBeenCalled();
+  });
 });

@@ -26,6 +26,14 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "모달을 열면 첫 버튼에 포커스가 이동합니다. Tab과 Shift+Tab은 모달 안에서 순환하며, Escape로 닫으면 이전 포커스가 복원됩니다.",
+      },
+    },
+  },
   args: {
     children: <Typography align="center">현재까지의 학습 내용은 저장됩니다.</Typography>,
   },
