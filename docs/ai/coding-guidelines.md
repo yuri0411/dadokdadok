@@ -79,7 +79,8 @@ UI 작업 시에는 `docs/design-system/` 문서도 함께 확인한다.
 - 버튼에는 접근 가능한 이름이 있어야 한다.
 - 아이콘 전용 버튼은 `aria-label`을 제공한다.
 - 로딩 표시에는 `aria-busy`, `role="status"`, `aria-label` 등을 적절히 사용한다.
-- 모달은 `role="dialog"` / `aria-modal` 또는 feedback용 `role="status"` 패턴을 유지한다.
+- 확인/취소용 `Modal`은 접근 가능한 제목과 `role="dialog"` / `aria-modal`을 제공한다. 열릴 때 포커스를 내부로 옮기고 Tab/Shift+Tab을 내부에서 순환시키며, 배경을 `inert`로 비활성화하고 닫을 때 이전 포커스를 복원한다. Escape 동작은 닫기 설정을 따른다.
+- 자동 닫힘 안내용 `FeedbackModal`은 `role="status"` 패턴을 유지한다. 확인/취소용 대화상자의 포커스 계약을 여기에 적용하지 않는다.
 - form field를 추가할 때는 label과 연결한다.
 
 ---

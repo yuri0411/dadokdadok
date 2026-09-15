@@ -10,7 +10,7 @@ import styles from "./Modal.module.css";
 export type ModalProps = HTMLAttributes<HTMLDivElement> &
   PropsWithChildren<{
     open: boolean;
-    title?: string;
+    title: string;
     closeText?: string;
     confirmText?: string;
     onClose?: () => void;
@@ -124,14 +124,12 @@ export const Modal = ({
         role="dialog"
         tabIndex={-1}
         aria-modal="true"
-        aria-labelledby={title ? titleId : undefined}
+        aria-labelledby={titleId}
         onClick={(event) => event.stopPropagation()}
       >
-        {title && (
-          <Typography id={titleId} as="h3" variant="h3" align="center">
-            {title}
-          </Typography>
-        )}
+        <Typography id={titleId} as="h3" variant="h3" align="center">
+          {title}
+        </Typography>
         <div className={styles.content}>{children}</div>
         <div className={styles.actionWrapper}>
           <Button variant="outlined" color="tertiary" onClick={onClose}>

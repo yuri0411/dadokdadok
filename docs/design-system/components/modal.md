@@ -15,7 +15,7 @@
 | Prop | Type | Default | 설명 |
 |---|---|---|---|
 | `open` | `boolean` | - | 표시 여부 |
-| `title` | `string` | - | 상단 제목 |
+| `title` | `string` (필수) | - | 상단 제목이자 대화상자의 접근 가능한 이름 |
 | `children` | `ReactNode` | - | 본문 콘텐츠 |
 | `closeText` | `string` | `"취소"` | 닫기/보조 버튼 라벨 |
 | `confirmText` | `string` | `"확인"` | 확인/주요 버튼 라벨 |
@@ -41,6 +41,7 @@
 
 ## 규칙
 
+- 확인/취소용 대화상자에는 `title`을 제공한다. 제목은 `aria-labelledby`로 대화상자의 접근 가능한 이름에 연결된다.
 - `confirmLoading`은 기존 Button의 loading 계약을 따른다. 처리 중 확인 버튼은 `aria-busy="true"` 및 비활성 상태이며, 완료 후 라벨과 실행 가능 상태를 복원한다.
 - 열릴 때 모달의 첫 실행 가능 요소로 포커스를 옮긴다. Tab/Shift+Tab은 모달 안에서 순환하고, 배경은 `inert`로 비활성화한다. 닫을 때 이전 포커스를 복원한다. 실행 가능한 요소가 없으면 대화상자 자체에 포커스를 둔다.
 - Escape는 `closeOnEscape`가 켜져 있을 때만 `onClose`를 호출한다. `aria-modal`은 이 키보드 동작과 함께 유지한다.
