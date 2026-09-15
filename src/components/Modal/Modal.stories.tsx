@@ -39,6 +39,14 @@ export const Default: Story = {
   },
 };
 
+export const WithoutTitle: Story = {
+  args: {
+    title: undefined,
+    "aria-label": "학습 종료 확인",
+    children: <Typography align="center">학습을 종료하시겠어요?</Typography>,
+  },
+};
+
 export const ConfirmLoading: Story = {
   parameters: {
     docs: {

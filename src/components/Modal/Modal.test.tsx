@@ -23,6 +23,19 @@ describe("Modal", () => {
     expect(dialog).toHaveAttribute("aria-labelledby", screen.getByRole("heading").id);
   });
 
+  it("시각적 제목 없이 aria-label로 대화상자 이름을 제공한다", () => {
+    render(
+      <Modal open aria-label="학습 종료 확인">
+        내용
+      </Modal>
+    );
+
+    const dialog = screen.getByRole("dialog", { name: "학습 종료 확인" });
+    expect(dialog).toHaveAttribute("aria-label", "학습 종료 확인");
+    expect(dialog).not.toHaveAttribute("aria-labelledby");
+    expect(screen.queryByRole("heading")).not.toBeInTheDocument();
+  });
+
   it("Escape와 배경 클릭으로 닫을 수 있다", async () => {
     const user = userEvent.setup();
     const onClose = vi.fn();

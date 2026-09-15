@@ -7,10 +7,13 @@ import { Typography } from "@/components/Typography/Typography";
 
 import styles from "./Modal.module.css";
 
-export type ModalProps = HTMLAttributes<HTMLDivElement> &
+type ModalAccessibleName =
+  | { title: string; "aria-label"?: string }
+  | { title?: string; "aria-label": string };
+
+export type ModalProps = Omit<HTMLAttributes<HTMLDivElement>, "title" | "aria-label"> &
   PropsWithChildren<{
     open: boolean;
-    title: string;
     closeText?: string;
     confirmText?: string;
     onClose?: () => void;
@@ -18,7 +21,7 @@ export type ModalProps = HTMLAttributes<HTMLDivElement> &
     closeOnBackdrop?: boolean;
     closeOnEscape?: boolean;
     confirmLoading?: boolean;
-  }>;
+  } & ModalAccessibleName>;
 
 const FOCUSABLE =
   'a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])';
@@ -26,6 +29,7 @@ const FOCUSABLE =
 export const Modal = ({
   open,
   title,
+  "aria-label": ariaLabel,
   closeText = "취소",
   confirmText = "확인",
   onClose,
@@ -124,12 +128,15 @@ export const Modal = ({
         role="dialog"
         tabIndex={-1}
         aria-modal="true"
-        aria-labelledby={titleId}
+        aria-labelledby={title ? titleId : undefined}
+        aria-label={title ? undefined : ariaLabel}
         onClick={(event) => event.stopPropagation()}
       >
-        <Typography id={titleId} as="h3" variant="h3" align="center">
-          {title}
-        </Typography>
+        {title && (
+          <Typography id={titleId} as="h3" variant="h3" align="center">
+            {title}
+          </Typography>
+        )}
         <div className={styles.content}>{children}</div>
         <div className={styles.actionWrapper}>
           <Button variant="outlined" color="tertiary" onClick={onClose}>
