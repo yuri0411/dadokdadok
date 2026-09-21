@@ -13,6 +13,14 @@
 | | `yarn test:run` | | |
 | | `yarn build` | | |
 
+## 하네스 지표
+
+- 첫 CI 실행: 통과 / 실패 / 미실행
+- 최초 실패 검사: 없음 / `lint` / `typecheck` / `test` / `build`
+- 수정 후 CI 재실행 횟수: 0회
+- 전체 테스트 수: 변경 전 → 변경 후
+- 자동 검사로 발견하고 수정한 회귀: 없음 / 내용
+
 ## Merge 전 확인
 
 - [ ] CI의 `lint`, `typecheck`, `test`, `build`가 모두 통과했다.
