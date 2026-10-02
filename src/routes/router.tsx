@@ -10,6 +10,8 @@ import { RootLayout } from "../layouts/RootLayout.tsx";
 import { PATHS } from "./paths.ts";
 
 const Home = lazy(() => import("../pages/Home"));
+const Login = lazy(() => import("../pages/Login"));
+const LoginCallback = lazy(() => import("../pages/Login/Callback"));
 const Unit = lazy(() => import("../pages/Unit"));
 const Word = lazy(() => import("../pages/Word"));
 const ReviewWords = lazy(() => import("../pages/ReviewWords"));
@@ -18,6 +20,22 @@ const routes: RouteObject[] = [
   {
     element: <RootLayout />,
     children: [
+      {
+        path: PATHS.LOGIN,
+        element: (
+          <Lazy>
+            <Login />
+          </Lazy>
+        ),
+      },
+      {
+        path: PATHS.AUTH_CALLBACK,
+        element: (
+          <Lazy>
+            <LoginCallback />
+          </Lazy>
+        ),
+      },
       {
         path: PATHS.ROOT,
         element: <Navigate to={PATHS.HOME} replace />,

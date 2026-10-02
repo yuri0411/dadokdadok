@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { supabase } from "./supabase";
+
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ?? "";
 
 export const api = axios.create({
@@ -13,6 +15,15 @@ export const api = axios.create({
   paramsSerializer: {
     indexes: null,
   },
+});
+
+api.interceptors.request.use(async (config) => {
+  if (supabase) {
+    const { data, error } = await supabase.auth.getSession();
+    if (error) throw error;
+    if (data.session) config.headers.set("Authorization", `Bearer ${data.session.access_token}`);
+  }
+  return config;
 });
 
 api.interceptors.response.use(

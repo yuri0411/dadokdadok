@@ -1,4 +1,8 @@
 :root {
+  /* Social login brand colors */
+  --color-brand-kakao-background: #fee500;
+  --color-brand-kakao-text: #191919;
+  --color-brand-naver-logo: #03c75a;
   /* Primitive */
   --color-white: #ffffff;
   --color-black: #000000;

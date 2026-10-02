@@ -18,6 +18,7 @@
     "verify": "yarn lint && yarn typecheck && yarn test:run && yarn build"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.117.2",
     "@tanstack/react-query": "^5.90.17",
     "axios": "^1.13.2",
     "lodash-es": "^4.17.22",
