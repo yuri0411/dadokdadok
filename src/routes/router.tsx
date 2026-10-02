@@ -38,7 +38,7 @@ const routes: RouteObject[] = [
       },
       {
         path: PATHS.ROOT,
-        element: <Navigate to={PATHS.HOME} replace />,
+        element: <Navigate to={PATHS.LOGIN} replace />,
       },
       {
         path: PATHS.HOME,
