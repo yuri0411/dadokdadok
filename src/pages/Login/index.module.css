@@ -1,0 +1,17 @@
+.page {
+  padding: var(--spacing-6);
+}
+
+.kakao:not(:disabled) {
+  background: var(--color-brand-kakao-background);
+  color: var(--color-brand-kakao-text);
+}
+
+.naver:not(:disabled) {
+  background: var(--color-surface-default);
+  color: var(--color-text-primary);
+}
+
+.naver:not(:disabled) svg {
+  color: var(--color-brand-naver-logo);
+}

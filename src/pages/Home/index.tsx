@@ -6,12 +6,13 @@ import { RiBookmark3Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
-import { ErrorFallback, IconButton, Stack, Typography } from "@/components";
+import { Button, ErrorFallback, IconButton, Stack, Typography } from "@/components";
 import LevelListItem from "@/pages/Home/components/LevelListItem.tsx";
 import { LevelListSkeleton } from "@/pages/Home/components/LevelListSkeleton.tsx";
 import { SettingsModal } from "@/pages/Home/components/SettingsModal.tsx";
 import { StudyInsightCard } from "@/pages/Home/components/StudyInsightCard.tsx";
 import { PATHS } from "@/routes/paths.ts";
+import { useAuthUser } from "@/services/auth/queries";
 import { useTotalByLevelQuery } from "@/services/home/queries.ts";
 import type { TodayStudyContext } from "@/services/studyInsight/types.ts";
 import { useSettingsStore } from "@/store/useSettingsStore.ts";
@@ -27,6 +28,7 @@ const LEVELS = [5, 4, 3, 2, 1];
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const authUser = useAuthUser();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const wordsPerUnit = useSettingsStore((state) => state.wordsPerUnit);
   const totalSecondsByLevel = useTimerStore((state) => state.totalSecondsByLevel);
@@ -111,9 +113,14 @@ const HomePage = () => {
         <Typography as="h1" variant="h2">
           다독다독
         </Typography>
-        <IconButton aria-label="설정" size="lg" onClick={() => setSettingsOpen(true)}>
-          <IoSettingsOutline size={22} />
-        </IconButton>
+        <Stack direction="horizontal" align="center" gap="var(--spacing-2)">
+          <Button variant="ghost" color="tertiary" size="sm" onClick={() => navigate(PATHS.LOGIN)}>
+            {authUser.data ? "내 계정" : "로그인"}
+          </Button>
+          <IconButton aria-label="설정" size="lg" onClick={() => setSettingsOpen(true)}>
+            <IoSettingsOutline size={22} />
+          </IconButton>
+        </Stack>
       </header>
 
       <Stack as="main" gap={24} className={styles.wrapper}>

@@ -725,3 +725,7 @@ Motion, z-index, Component Token은 실제 필요가 생길 때 점진적으로 
 - [ ] 다크 테마에서 Semantic Token이 올바르게 변경되는가?
 - [ ] 동일한 역할의 토큰이 중복 정의되지 않았는가?
 - [ ] 새로운 토큰을 추가한 이유가 명확한가?
+
+## 소셜 로그인 브랜드 토큰
+
+로그인 화면의 제공자 식별에 `--color-brand-kakao-background/text`, `--color-brand-naver-logo`를 사용한다. 공통 Button의 `startIcon`과 기존 props를 재사용한다. 네이버는 글자 대비를 확보하도록 흰 배경에 어두운 라벨과 초록 로고를 사용한다. 비활성/로딩 상태는 공통 Button의 토큰과 접근성 계약을 유지한다. 브랜드 색상은 테마와 무관하게 유지한다.
